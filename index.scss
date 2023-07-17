@@ -22,22 +22,27 @@ body {
 
     $color-danger: #cf6352;
     $color-info: #bad7e3;
+    $color-dark: #242526;
+
+    $query-phone-width: 400px;
+    $query-tablet-width: 800px;
+    $query-desktop-width: 1000px;
     
     display: block;
-    margin: 0px !important;
+    margin: 0px;
     width: 100%;
     height: 100vh;
 
     #navbar {
         display: grid;
-        grid-template-columns: 1fr 3fr 1fr;
+        grid-template-columns: 1fr 3fr;
         gap: 10px;
         justify-items: end;
         align-items: center;
         width: 100%;
         height: 60px;
         padding: 0 1%;
-        background: #242526;
+        background: $color-dark;
         font-family: Arial;
 
         .brand {
@@ -70,10 +75,29 @@ body {
                 padding: 0 20px;
                 height: 100%;
                 max-height: 100%;
+                
                 transition: .5s;
                 
                 &:hover {
                     background: $color5;
+                }
+            }
+            button {
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                padding: 0% 5%;
+                width: 70%;
+                max-width: 150px;
+                height: 60%;
+                background: $color2;
+                border: none;
+                border-radius: 20px;
+                transition: .5s;
+                cursor: pointer;
+                
+                &:hover {
+                    outline: 2px solid $color5;
                 }
             }
         }
@@ -82,24 +106,67 @@ body {
             display: inline-block;
             width: auto;
             text-decoration: none;
-
-        }
-        button {
-            display: flex;
-            justify-content: start;
-            align-items: center;
-            padding: 0% 5%;
-            width: 70%;
-            max-width: 300px;
-            height: 60%;
-            background: $color2;
-            border: none;
-            border-radius: 20px;
-            transition: .5s;
-            cursor: pointer;
             
-            &:hover {
-                outline: 2px solid $color5;
+        }
+
+        button.navbar-toggler {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+            aspect-ratio: 1/1;
+            border: none;
+            border-radius: 50%;
+            background: $color3;
+            cursor: pointer;
+        }
+        @media screen and (max-width : $query-phone-width) {
+            grid-template-columns: 4fr 1fr;
+            background: red;
+            .brand {
+                justify-self: start;
+                width: 90%;
+            }
+            button.navbar-toggler {
+                display: flex;
+                grid-column: 2 / 3;
+                border: 2px solid $color1;
+
+                &:focus {
+                    & + ul {
+                        left: 0;
+                    }
+                }
+            }
+            ul {
+                justify-self: center;
+                position: absolute;
+                top: 0;
+                left: -60vw;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto auto auto 70%;
+                gap: 5px;
+                padding-top: 10px;
+                background: $color3;
+                border: 3px solid $color-dark;
+                width: 60vw;
+                height: 100vh;
+                transition: .5s;
+
+                button {
+                    grid-row: 1 / 2;
+                    justify-self: center;
+                    height: 50px;
+                }
+                
+                li {
+                    max-height: 45px;
+                    height: 45px;
+                    a {
+                        color: #242526;
+                    }
+                }
             }
         }
     }

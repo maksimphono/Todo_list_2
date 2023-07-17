@@ -12,13 +12,13 @@ html {
 
 body {
   display: block;
-  margin: 0px !important;
+  margin: 0px;
   width: 100%;
   height: 100vh;
 }
 body #navbar {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 3fr;
   gap: 10px;
   justify-items: end;
   align-items: center;
@@ -60,19 +60,13 @@ body #navbar ul li {
 body #navbar ul li:hover {
   background: #52B2CF;
 }
-body #navbar a {
-  color: #D1CFE2;
-  display: inline-block;
-  width: auto;
-  text-decoration: none;
-}
-body #navbar button {
+body #navbar ul button {
   display: flex;
   justify-content: start;
   align-items: center;
   padding: 0% 5%;
   width: 70%;
-  max-width: 300px;
+  max-width: 150px;
   height: 60%;
   background: #D1CFE2;
   border: none;
@@ -80,8 +74,71 @@ body #navbar button {
   transition: 0.5s;
   cursor: pointer;
 }
-body #navbar button:hover {
+body #navbar ul button:hover {
   outline: 2px solid #52B2CF;
+}
+body #navbar a {
+  color: #D1CFE2;
+  display: inline-block;
+  width: auto;
+  text-decoration: none;
+}
+body #navbar button.navbar-toggler {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  aspect-ratio: 1/1;
+  border: none;
+  border-radius: 50%;
+  background: #9CADCE;
+  cursor: pointer;
+}
+@media screen and (max-width: 400px) {
+  body #navbar {
+    grid-template-columns: 4fr 1fr;
+    background: red;
+  }
+  body #navbar .brand {
+    justify-self: start;
+    width: 90%;
+  }
+  body #navbar button.navbar-toggler {
+    display: flex;
+    grid-column: 2/3;
+    border: 2px solid #D4AFB9;
+  }
+  body #navbar button.navbar-toggler:focus + ul {
+    left: 0;
+  }
+  body #navbar ul {
+    justify-self: center;
+    position: absolute;
+    top: 0;
+    left: -60vw;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto auto 70%;
+    gap: 5px;
+    padding-top: 10px;
+    background: #9CADCE;
+    border: 3px solid #242526;
+    width: 60vw;
+    height: 100vh;
+    transition: 0.5s;
+  }
+  body #navbar ul button {
+    grid-row: 1/2;
+    justify-self: center;
+    height: 50px;
+  }
+  body #navbar ul li {
+    max-height: 45px;
+    height: 45px;
+  }
+  body #navbar ul li a {
+    color: #242526;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */
