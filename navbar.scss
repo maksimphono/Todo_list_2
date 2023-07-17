@@ -9,6 +9,7 @@
     padding: 0 1%;
     background: $color-dark;
     font-family: Arial;
+    z-index: 99;
 
     .brand {
         justify-self: center;
@@ -30,7 +31,7 @@
         height: 60px;
         font-size: large;
         list-style-type: none;
-
+        z-index: 99;
 
         li {
             display: flex;
@@ -114,7 +115,7 @@
             grid-template-rows: 1fr auto auto auto 70%;
             gap: 5px;
             padding-top: 10px;
-            background: rgba(113, 171, 228, 0.5);
+            background: rgba(113, 171, 228, 0.7);
             border: 3px solid $color-dark;
             width: 60vw;
             height: 100vh;
