@@ -1,0 +1,108 @@
+#todo_records {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 2%;
+    width: 100%;
+    height: 100%;
+
+    .todo-record-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+        width: auto;
+        aspect-ratio: 16/8;
+        font-family: Arial, Helvetica, sans-serif;
+        background-image: linear-gradient(#e77e28, #ea924a, #ea924a, #ea924a, #eee);
+        border: none;
+        border-radius: 20px;
+        box-shadow: 2px 2px 9px $color-dark;
+        cursor: pointer;
+        transition: .5s;
+
+        &:hover {
+            transform: translateX(-4px) translateY(-4px);
+            box-shadow: 4px 4px 0px $color-dark;
+        }
+
+        .title {
+            font-size: larger;
+        }
+
+        ul.control-buttons {
+            display: flex;
+            width: 60%;
+            height: 40px;
+            border-radius: 15px;
+
+            * {
+                width: 33%;
+                height: 100%;
+
+                &:first-child {
+                    border-top-left-radius: 15px;
+                    border-bottom-left-radius: 15px;
+                }
+                &:last-child {
+                    border-top-right-radius: 15px;
+                    border-bottom-right-radius: 15px;
+                }
+            }
+        }
+
+        @keyframes todo-record-animation {
+
+        }
+    }
+}
+
+@mixin ui-button($maincolor) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    //animation: btn-hover .5s linear infinite alternate;
+    cursor: pointer;
+    
+    &:hover {
+        animation: btn-hover .5s ease infinite alternate;
+    }
+
+    @keyframes btn-hover {
+        50% {
+            border: 1px solid $color-dark;
+        }
+        
+        100% {
+            border: 2px solid $color-dark;
+            transform: translateY(-3px);
+            box-shadow: 0 3px 0 $color-dark;
+        }
+    }
+}
+
+.success-btn {
+    $maincolor: $color-success;
+    @include ui-button($color-success);
+    background: $maincolor;
+}
+
+.info-btn {
+    $maincolor: $color-info;
+    @include ui-button($maincolor);
+    background: $color-info;
+}
+
+.warning-btn {
+    $maincolor: $color-warning;
+    @include ui-button($maincolor);
+    background: $color-warning;
+}
+
+.danger-btn {
+    $maincolor: $color-danger;
+    @include ui-button($maincolor);
+    background: $color-danger;
+}
