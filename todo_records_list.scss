@@ -5,13 +5,14 @@
     padding: 2%;
     width: 100%;
     height: 100%;
+    background-image: linear-gradient($color3, $color2);
 
     .todo-record-card {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 3px;
+        gap: 5px;
         width: auto;
         aspect-ratio: 16/8;
         font-family: Arial, Helvetica, sans-serif;
@@ -20,20 +21,36 @@
         border-radius: 20px;
         box-shadow: 2px 2px 9px $color-dark;
         cursor: pointer;
+        position: relative;
         transition: .5s;
 
         &:hover {
             transform: translateX(-4px) translateY(-4px);
             box-shadow: 4px 4px 0px $color-dark;
+        
+            .title {
+                transform: 
+                    translateX(-120%) 
+                    translateY(-70%);
+            }
         }
 
         .title {
+            position: absolute;
+            left: 50%;
+            width: 50%;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(-50%) translateY(-60%);
+            transition: .5s;
             font-size: larger;
         }
 
         ul.control-buttons {
             display: flex;
-            width: 60%;
+            width: 70%;
             height: 40px;
             border-radius: 15px;
 
@@ -52,9 +69,7 @@
             }
         }
 
-        @keyframes todo-record-animation {
-
-        }
+        
     }
 }
 
@@ -63,6 +78,7 @@
     justify-content: center;
     align-items: center;
     border: none;
+    padding-inline: 5px;
     //animation: btn-hover .5s linear infinite alternate;
     cursor: pointer;
     
