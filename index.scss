@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+html {
+    
+    display: block;
+    width: 100%;
+    height: 100vh;
+}
+
+body {
+    $color1: #D4AFB9;
+    $color2: #D1CFE2;
+    $color3: #9CADCE;
+    $color4: #7EC4CF;
+    $color5: #52B2CF;
+
+    $color-danger: #cf6352;
+    $color-info: #bad7e3;
+    
+    display: block;
+    margin: 0px !important;
+    width: 100%;
+    height: 100vh;
+
+    #navbar {
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 10px;
+        justify-items: end;
+        align-items: center;
+        width: 100%;
+        height: 60px;
+        padding: 0 1%;
+        background: #242526;
+        font-family: Arial;
+
+        .brand {
+            justify-self: center;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            max-width: 200px;
+            background: $color2;
+            
+            cursor: pointer;
+        }
+
+        ul {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            gap: 5px;
+            width: 100%;
+            height: 60px;
+            font-size: large;
+            list-style-type: none;
+
+
+            li {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: max-content;
+                padding: 0 20px;
+                height: 100%;
+                max-height: 100%;
+                transition: .5s;
+                
+                &:hover {
+                    background: $color5;
+                }
+            }
+        }
+        a {
+            color: $color2;
+            display: inline-block;
+            width: auto;
+            text-decoration: none;
+
+        }
+        button {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            padding: 0% 5%;
+            width: 70%;
+            max-width: 300px;
+            height: 60%;
+            background: $color2;
+            border: none;
+            border-radius: 20px;
+            transition: .5s;
+            cursor: pointer;
+            
+            &:hover {
+                outline: 2px solid $color5;
+            }
+        }
+    }
+
+}

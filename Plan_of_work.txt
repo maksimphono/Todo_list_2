@@ -1,0 +1,17 @@
+Plan of work:
+
+1) Create basic CSS styles, define color paletes, layouts
+
+2) Create basic UI components: buttons, modals, links
+
+3) Add pagination:
+    Home page(will display all todo records with applied sorting and filters)
+    Todo record creation page. Will create new todo record and save it to the local storage (in future will use database on backend to store records)
+    Todo record alter page. Will alter todo record: its title, description, timeout date, attached image
+
+4) Create logic. Will use Redux-toolkit to manage Todo records. 
+    Main functions are:
+    Create todo record, each todo record belongs to a certain class, so records could be easily filtered by classes
+    Each record also contain creatinon timestamp and timeout timestamp, which can also be used for filtering and sorting records
+    Title and content of each record can also be used for filtering and sorting operations.
+    To acomplish this, I will be using Redux selectors.
