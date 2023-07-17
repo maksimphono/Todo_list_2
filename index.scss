@@ -110,19 +110,21 @@ body {
         }
 
         button.navbar-toggler {
+            $maincolor: $color3;
+            $secondary-color: $color4;
+
             display: none;
             justify-content: center;
             align-items: center;
             width: 70%;
             aspect-ratio: 1/1;
-            border: none;
+            border: 2px solid $secondary-color;
             border-radius: 50%;
-            background: $color3;
+            background: $maincolor;
             cursor: pointer;
         }
         @media screen and (max-width : $query-phone-width) {
             grid-template-columns: 4fr 1fr;
-            background: red;
             .brand {
                 justify-self: start;
                 width: 90%;
@@ -130,8 +132,7 @@ body {
             button.navbar-toggler {
                 display: flex;
                 grid-column: 2 / 3;
-                border: 2px solid $color1;
-
+                
                 &:focus {
                     & + ul {
                         left: 0;

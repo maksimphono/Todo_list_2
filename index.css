@@ -89,7 +89,7 @@ body #navbar button.navbar-toggler {
   align-items: center;
   width: 70%;
   aspect-ratio: 1/1;
-  border: none;
+  border: 2px solid #7EC4CF;
   border-radius: 50%;
   background: #9CADCE;
   cursor: pointer;
@@ -97,7 +97,6 @@ body #navbar button.navbar-toggler {
 @media screen and (max-width: 400px) {
   body #navbar {
     grid-template-columns: 4fr 1fr;
-    background: red;
   }
   body #navbar .brand {
     justify-self: start;
@@ -106,7 +105,6 @@ body #navbar button.navbar-toggler {
   body #navbar button.navbar-toggler {
     display: flex;
     grid-column: 2/3;
-    border: 2px solid #D4AFB9;
   }
   body #navbar button.navbar-toggler:focus + ul {
     left: 0;
