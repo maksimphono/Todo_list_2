@@ -28,7 +28,7 @@
             transform: translateX(-4px) translateY(-4px);
             box-shadow: 4px 4px 0px $color-dark;
         
-            .title {
+            .title { // title will move to the card left corner
                 transform: 
                     translateX(-120%) 
                     translateY(-70%);
