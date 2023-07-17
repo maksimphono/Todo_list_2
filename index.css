@@ -101,7 +101,7 @@
     grid-template-rows: 1fr auto auto auto 70%;
     gap: 5px;
     padding-top: 10px;
-    background: #9CADCE;
+    background: rgba(113, 171, 228, 0.5);
     border: 3px solid #242526;
     width: 60vw;
     height: 100vh;
