@@ -26,24 +26,13 @@
 
         &:hover {
             transform: translateX(-4px) translateY(-4px);
-            box-shadow: 4px 4px 0px $color-dark;
-        
-            .title { // title will move to the card left corner
-                transform: 
-                    translateX(-120%) 
-                    translateY(-70%);
-            }
+            box-shadow: 5px 5px 0px $color-dark;
         }
 
         .title {
-            position: absolute;
-            left: 50%;
-            width: 50%;
-            height: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            transform: translateX(-50%) translateY(-60%);
             transition: .5s;
             font-size: larger;
         }
@@ -69,7 +58,14 @@
             }
         }
 
-        
+    
+    }
+    @media screen and (max-width : $query-tablet-width) {
+        grid-template-columns: 1fr 1fr;
+    }
+    @media screen and (max-width : $query-phone-width) {
+        padding: 3%;
+        grid-template-columns: 1fr;
     }
 }
 
@@ -79,7 +75,6 @@
     align-items: center;
     border: none;
     padding-inline: 5px;
-    //animation: btn-hover .5s linear infinite alternate;
     cursor: pointer;
     
     &:hover {
@@ -87,10 +82,6 @@
     }
 
     @keyframes btn-hover {
-        50% {
-            border: 1px solid $color-dark;
-        }
-        
         100% {
             border: 2px solid $color-dark;
             transform: translateY(-3px);

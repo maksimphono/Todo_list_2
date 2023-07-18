@@ -1,4 +1,6 @@
 #navbar {
+  position: sticky;
+  top: 0;
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: 10px;
@@ -95,7 +97,7 @@
   }
   #navbar ul {
     justify-self: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: -60vw;
     display: grid;
@@ -106,7 +108,7 @@
     background: rgba(113, 171, 228, 0.7);
     border: 3px solid #242526;
     width: 60vw;
-    height: 100vh;
+    height: 100%;
     transition: 0.5s;
   }
   #navbar ul button {
@@ -151,20 +153,12 @@
 }
 #todo_records .todo-record-card:hover {
   transform: translateX(-4px) translateY(-4px);
-  box-shadow: 4px 4px 0px #242526;
-}
-#todo_records .todo-record-card:hover .title {
-  transform: translateX(-120%) translateY(-70%);
+  box-shadow: 5px 5px 0px #242526;
 }
 #todo_records .todo-record-card .title {
-  position: absolute;
-  left: 50%;
-  width: 50%;
-  height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateX(-50%) translateY(-60%);
   transition: 0.5s;
   font-size: larger;
 }
@@ -186,6 +180,17 @@
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+@media screen and (max-width: 800px) {
+  #todo_records {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 400px) {
+  #todo_records {
+    padding: 3%;
+    grid-template-columns: 1fr;
+  }
+}
 
 .success-btn {
   display: flex;
@@ -200,9 +205,6 @@
   animation: btn-hover 0.5s ease infinite alternate;
 }
 @keyframes btn-hover {
-  50% {
-    border: 1px solid #242526;
-  }
   100% {
     border: 2px solid #242526;
     transform: translateY(-3px);
@@ -223,9 +225,6 @@
   animation: btn-hover 0.5s ease infinite alternate;
 }
 @keyframes btn-hover {
-  50% {
-    border: 1px solid #242526;
-  }
   100% {
     border: 2px solid #242526;
     transform: translateY(-3px);
@@ -246,9 +245,6 @@
   animation: btn-hover 0.5s ease infinite alternate;
 }
 @keyframes btn-hover {
-  50% {
-    border: 1px solid #242526;
-  }
   100% {
     border: 2px solid #242526;
     transform: translateY(-3px);
@@ -269,9 +265,6 @@
   animation: btn-hover 0.5s ease infinite alternate;
 }
 @keyframes btn-hover {
-  50% {
-    border: 1px solid #242526;
-  }
   100% {
     border: 2px solid #242526;
     transform: translateY(-3px);
@@ -288,14 +281,14 @@
 html {
   display: block;
   width: 100%;
-  height: 100vh;
+  height: max-content;
 }
 
 body {
   display: block;
   margin: 0px;
   width: 100%;
-  height: 100vh;
+  height: max-content;
 }
 body #root {
   display: block;

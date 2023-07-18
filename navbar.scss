@@ -1,4 +1,6 @@
 #navbar {
+    position: sticky;
+    top: 0;
     display: grid;
     grid-template-columns: 1fr 3fr;
     gap: 10px;
@@ -107,7 +109,7 @@
         }
         ul {
             justify-self: center;
-            position: absolute;
+            position: fixed;
             top: 0;
             left: -60vw;
             display: grid;
@@ -118,7 +120,7 @@
             background: rgba(113, 171, 228, 0.7);
             border: 3px solid $color-dark;
             width: 60vw;
-            height: 100vh;
+            height: 100%;
             transition: .5s;
 
             button {

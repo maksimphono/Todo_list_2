@@ -11,14 +11,14 @@
 html {
     display: block;
     width: 100%;
-    height: 100vh;
+    height: max-content;
 }
 
 body {
     display: block;
     margin: 0px;
     width: 100%;
-    height: 100vh;
+    height: max-content;
 
     #root {
         display: block;
