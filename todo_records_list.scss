@@ -1,9 +1,10 @@
 @import "todo_record_card.scss";
 
 #todo_records {
-    display: grid;
-    grid-template-rows: 1fr auto;
-
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
     .tooltip {
         display: flex;
         justify-content: center;
@@ -122,18 +123,6 @@
     padding-inline: 5px;
     overflow: hidden;
     cursor: pointer;
-    
-    &:hover {
-        animation: btn-hover .5s ease infinite alternate;
-    }
-
-    @keyframes btn-hover {
-        100% {
-            border: 2px solid $color-dark;
-            transform: translateY(-3px);
-            box-shadow: 0 3px 0 $color-dark;
-        }
-    }
 }
 
 .success-btn {

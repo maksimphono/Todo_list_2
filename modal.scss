@@ -1,0 +1,84 @@
+.modal {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-rows: 20% 1fr 15%;
+    align-items: center;
+    gap: 5px;
+    width: 40vw;
+    height: auto;
+    padding: 10px 0;
+    min-height: 20vh;
+    background-color: #ddd;
+    box-shadow: 0 0 6px $color-dark;
+    border-radius: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    z-index: 199;
+
+    & > * {
+        padding-inline: 15px;
+    }
+
+    .title {
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        height: 100%;
+        width: 100%;
+        border-bottom: 1px solid #555;
+    }
+
+    .content {
+        padding: 5px 15px;
+    }
+
+    ul.buttons {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        width: 100%;
+        gap: 5px;
+        list-style-type: none;
+
+        button, a, input[type=button],input[type=submit]  {
+            min-width: 80px;
+            padding: 10px 13px;
+            border-radius: 10px;
+            outline-color: #0000;
+            transition: outline-color .5s ease-in-out;
+
+            &:hover {
+                outline: 2px solid #0000;
+                outline-color: #000;
+            }
+        }
+    }
+    
+    .cancel-X-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        aspect-ratio: 1/1;
+        background-color: #0000;
+        border: none;
+        border-radius: 50%;
+        transition: .5s;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #fff;
+        }
+    }
+
+    
+    @media screen and (max-width : $query-tablet-width) {
+        width: 60vw;
+    }
+    @media screen and (max-width : $query-phone-width) {
+        width: 90vw;
+    }
+}

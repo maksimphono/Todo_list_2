@@ -132,7 +132,6 @@
   padding: 2%;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(#9CADCE, #D1CFE2);
 }
 .cards .todo-record-card {
   display: flex;
@@ -213,6 +212,16 @@
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+.cards .todo-record-card ul.control-buttons > button:hover {
+  animation: btn-hover 0.5s ease infinite alternate;
+}
+@keyframes btn-hover {
+  100% {
+    border: 2px solid #242526;
+    transform: translateY(-3px);
+    box-shadow: 0 3px 0 #242526;
+  }
+}
 @media screen and (max-width: 800px) {
   .cards {
     grid-template-columns: 1fr 1fr;
@@ -229,8 +238,9 @@
 }
 
 #todo_records {
-  display: grid;
-  grid-template-rows: 1fr auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 #todo_records .tooltip {
   display: flex;
@@ -333,16 +343,6 @@
   cursor: pointer;
   background: #8fb866;
 }
-.success-btn:hover {
-  animation: btn-hover 0.5s ease infinite alternate;
-}
-@keyframes btn-hover {
-  100% {
-    border: 2px solid #242526;
-    transform: translateY(-3px);
-    box-shadow: 0 3px 0 #242526;
-  }
-}
 
 .info-btn {
   display: flex;
@@ -353,16 +353,6 @@
   overflow: hidden;
   cursor: pointer;
   background: #bad7e3;
-}
-.info-btn:hover {
-  animation: btn-hover 0.5s ease infinite alternate;
-}
-@keyframes btn-hover {
-  100% {
-    border: 2px solid #242526;
-    transform: translateY(-3px);
-    box-shadow: 0 3px 0 #242526;
-  }
 }
 
 .warning-btn {
@@ -375,16 +365,6 @@
   cursor: pointer;
   background: #d7bf77;
 }
-.warning-btn:hover {
-  animation: btn-hover 0.5s ease infinite alternate;
-}
-@keyframes btn-hover {
-  100% {
-    border: 2px solid #242526;
-    transform: translateY(-3px);
-    box-shadow: 0 3px 0 #242526;
-  }
-}
 
 .danger-btn {
   display: flex;
@@ -396,14 +376,83 @@
   cursor: pointer;
   background: #cf6352;
 }
-.danger-btn:hover {
-  animation: btn-hover 0.5s ease infinite alternate;
+
+.modal {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-rows: 20% 1fr 15%;
+  align-items: center;
+  gap: 5px;
+  width: 40vw;
+  height: auto;
+  padding: 10px 0;
+  min-height: 20vh;
+  background-color: #ddd;
+  box-shadow: 0 0 6px #242526;
+  border-radius: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  z-index: 199;
 }
-@keyframes btn-hover {
-  100% {
-    border: 2px solid #242526;
-    transform: translateY(-3px);
-    box-shadow: 0 3px 0 #242526;
+.modal > * {
+  padding-inline: 15px;
+}
+.modal .title {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  height: 100%;
+  width: 100%;
+  border-bottom: 1px solid #555;
+}
+.modal .content {
+  padding: 5px 15px;
+}
+.modal ul.buttons {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+  list-style-type: none;
+}
+.modal ul.buttons button, .modal ul.buttons a, .modal ul.buttons input[type=button], .modal ul.buttons input[type=submit] {
+  min-width: 80px;
+  padding: 10px 13px;
+  border-radius: 10px;
+  outline-color: rgba(0, 0, 0, 0);
+  transition: outline-color 0.5s ease-in-out;
+}
+.modal ul.buttons button:hover, .modal ul.buttons a:hover, .modal ul.buttons input[type=button]:hover, .modal ul.buttons input[type=submit]:hover {
+  outline: 2px solid rgba(0, 0, 0, 0);
+  outline-color: #000;
+}
+.modal .cancel-X-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  aspect-ratio: 1/1;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  border-radius: 50%;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.modal .cancel-X-btn:hover {
+  background-color: #fff;
+}
+@media screen and (max-width: 800px) {
+  .modal {
+    width: 60vw;
+  }
+}
+@media screen and (max-width: 400px) {
+  .modal {
+    width: 90vw;
   }
 }
 
@@ -416,18 +465,20 @@
 html {
   display: block;
   width: 100%;
-  height: max-content;
+  min-height: 97vh;
+  height: auto;
 }
 
 body {
   display: block;
   margin: 0px;
   width: 100%;
-  height: max-content;
+  height: 100vh;
 }
 body #root {
   display: block;
   height: 100%;
+  background-image: linear-gradient(#9CADCE, #D1CFE2);
 }
 
 /*# sourceMappingURL=index.css.map */

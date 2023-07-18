@@ -1,6 +1,7 @@
 @import "define.scss";
 @import "navbar.scss";
 @import "todo_records_list.scss";
+@import "modal.scss";
 
 * {
     margin: 0;
@@ -11,17 +12,20 @@
 html {
     display: block;
     width: 100%;
-    height: max-content;
+    min-height: 97vh;
+    height: auto;
 }
 
 body {
     display: block;
     margin: 0px;
     width: 100%;
-    height: max-content;
+    height: 100vh;
 
     #root {
         display: block;
         height: 100%;
+        background-image: linear-gradient($color3, $color2);
+
     }
 }
