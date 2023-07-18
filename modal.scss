@@ -9,9 +9,9 @@
     gap: 5px;
     width: 40vw;
     height: auto;
-    padding: 10px 0;
     min-height: 20vh;
-    background-color: #ddd;
+    max-height: 35vh;
+    background-color: #ccc;
     box-shadow: 0 0 6px $color-dark;
     border-radius: 15px;
     font-family: Arial, Helvetica, sans-serif;
@@ -25,11 +25,14 @@
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         height: 100%;
         width: 100%;
+        padding: 10px 20px;
         border-bottom: 1px solid #555;
+        color: $color-dark;
     }
 
     .content {
         padding: 5px 15px;
+        overflow: auto;
     }
 
     ul.buttons {
@@ -37,6 +40,7 @@
         justify-content: end;
         align-items: center;
         width: 100%;
+        padding-bottom: 10px;
         gap: 5px;
         list-style-type: none;
 

@@ -1,0 +1,67 @@
+.notification {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+    width: 40vw;
+    height: auto;
+    min-height: 10vh;
+    padding-inline: 3%;
+    background-color: #cccb;
+    box-shadow: 0 0 6px $color-dark;
+    border: 2px dashed $color-dark;
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    z-index: 199;
+    
+    .cancel-X-btn {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        aspect-ratio: 1/1;
+        background-color: #0000;
+        border: none;
+        border-radius: 50%;
+        transition: .5s;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #fff;
+        }
+    }
+
+    
+    @media screen and (max-width : $query-tablet-width) {
+        width: 60vw;
+    }
+    @media screen and (max-width : $query-phone-width) {
+        width: 90vw;
+    }
+}
+
+.notification.success {
+    background-color: $color-success;
+    opacity: .8;
+}
+
+.notification.warning {
+    background-color: $color-warning;
+    opacity: .8;
+}
+.notification.info {
+    background-color: $color-info;
+    opacity: .8;
+}
+.notification.danger {
+    background-color: $color-danger;
+    opacity: .8;
+}
