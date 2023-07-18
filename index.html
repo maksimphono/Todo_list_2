@@ -24,13 +24,12 @@
         
         <div id = "todo_records">
             <div class = "tooltip">
-                <details class = "tool">
-                    <summary>Sort</summary>
-                    <ul class = "options">
-                        <li>Option</li>
-                        <li>Option</li>
-                        <li>Option</li>
-                    </ul>
+                <details class = "tool" data-search>
+                    <summary>Search</summary>
+                    <div class = "options">
+                        <input type="text" />
+                        <button type="submit">Search</button>
+                    </div>
                 </details>
                 <details class = "tool">
                     <summary>Filter</summary>
@@ -41,13 +40,14 @@
                     </ul>
                 </details>
                 <details class = "tool">
-                    <summary>Search</summary>
+                    <summary>Sort</summary>
                     <ul class = "options">
                         <li>Option</li>
                         <li>Option</li>
                         <li>Option</li>
                     </ul>
                 </details>
+                
             </div>
             <div class = "cards">
                 <div tabindex = "0" class = "todo-record-card">
