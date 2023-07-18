@@ -52,7 +52,7 @@
                         height: 160%;
                         border-radius: 15px;
                         border: 2px solid $color-dark;
-                        box-shadow: 0 0 6px $color-dark;
+                        box-shadow: 0 0 4px $color-dark;
                     }
 
                     input[type=text] {
@@ -64,7 +64,7 @@
                     button[type=submit] {
                         border-width: 2px;
                         justify-content: center;
-                        background-color: #70afb4;
+                        background-color: $color2;//#85d6dc;
                         cursor: pointer;
                     }
                 }
@@ -120,6 +120,7 @@
     align-items: center;
     border: none;
     padding-inline: 5px;
+    overflow: hidden;
     cursor: pointer;
     
     &:hover {
