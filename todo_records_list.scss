@@ -1,71 +1,141 @@
 #todo_records {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    padding: 2%;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient($color3, $color2);
+    grid-template-rows: 1fr auto;
 
-    .todo-record-card {
+    .tooltip {
         display: flex;
-        flex-direction: column;
         justify-content: center;
-        align-items: center;
-        gap: 5px;
-        width: auto;
-        aspect-ratio: 16/8;
-        font-family: Arial, Helvetica, sans-serif;
-        background-image: linear-gradient(#e77e28, #ea924a, #ea924a, #ea924a, #eee);
-        border: none;
-        border-radius: 20px;
-        box-shadow: 2px 2px 9px $color-dark;
-        cursor: pointer;
-        position: relative;
-        transition: .5s;
+        width: 100%;
+        height: 40px;
+        background: #171515d2;
+        border-top: 2px solid #000;
+        border-bottom: 2px solid #000;
+        z-index: 9;
 
-        &:hover {
-            transform: translateX(-4px) translateY(-4px);
-            box-shadow: 5px 5px 0px $color-dark;
-        }
-
-        .title {
+        details.tool {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: .5s;
-            font-size: larger;
-        }
+            width: 100%;
+            height: 100%;
+            flex-basis: 1;
+            overflow: visible;
 
-        ul.control-buttons {
-            display: flex;
-            width: 70%;
-            height: 40px;
-            border-radius: 15px;
+            &:nth-child(2) {
+                border-right: 2px solid #000;
+                border-left: 2px solid #000;
+            }
 
-            * {
-                width: 33%;
+            summary {
+                display: flex;
+                width: 100%;
                 height: 100%;
+                justify-content: center;
+                align-items: center;
+                color: #eee;
+                cursor: pointer;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: large;
+            }
 
-                &:first-child {
-                    border-top-left-radius: 15px;
-                    border-bottom-left-radius: 15px;
-                }
-                &:last-child {
-                    border-top-right-radius: 15px;
-                    border-bottom-right-radius: 15px;
+            .options {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                gap: 5px;
+                height: max-content;
+                padding: 5% 0;
+                overflow: hidden;
+                list-style: none;
+                background: #92daecb5;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border: 2px solid #000;
+                font-family: Arial, Helvetica, sans-serif;
+                transition: .5s;
+
+                * {
+                    display: flex;
+                    justify-content: center;
+                    height: 30px;
+                    width: 100%;
                 }
             }
         }
 
-    
     }
-    @media screen and (max-width : $query-tablet-width) {
-        grid-template-columns: 1fr 1fr;
-    }
-    @media screen and (max-width : $query-phone-width) {
-        padding: 3%;
-        grid-template-columns: 1fr;
+
+    .cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        padding: 2%;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient($color3, $color2);
+
+        .todo-record-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: auto;
+            aspect-ratio: 16/8;
+            font-family: Arial, Helvetica, sans-serif;
+            background-image: linear-gradient(#e77e28, #ea924a, #ea924a, #ea924a, #eee);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 2px 2px 9px $color-dark;
+            cursor: pointer;
+            position: relative;
+            transition: .5s;
+            z-index: 1;
+
+            &:hover {
+                transform: translateX(-4px) translateY(-4px);
+                box-shadow: 5px 5px 0px $color-dark;
+            }
+
+            .title {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: .5s;
+                font-size: larger;
+            }
+
+            ul.control-buttons {
+                display: flex;
+                width: 70%;
+                height: 40px;
+                border-radius: 15px;
+
+                * {
+                    width: 33%;
+                    height: 100%;
+
+                    &:first-child {
+                        border-top-left-radius: 15px;
+                        border-bottom-left-radius: 15px;
+                    }
+                    &:last-child {
+                        border-top-right-radius: 15px;
+                        border-bottom-right-radius: 15px;
+                    }
+                }
+            }
+
+        
+        }
+        @media screen and (max-width : $query-tablet-width) {
+            grid-template-columns: 1fr 1fr;
+        }
+        @media screen and (max-width : $query-phone-width) {
+            padding: 3%;
+            grid-template-columns: 1fr;
+        }
     }
 }
 

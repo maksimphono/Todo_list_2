@@ -127,6 +127,67 @@
 
 #todo_records {
   display: grid;
+  grid-template-rows: 1fr auto;
+}
+#todo_records .tooltip {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  background: rgba(23, 21, 21, 0.8235294118);
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  z-index: 9;
+}
+#todo_records .tooltip details.tool {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-basis: 1;
+  overflow: visible;
+}
+#todo_records .tooltip details.tool:nth-child(2) {
+  border-right: 2px solid #000;
+  border-left: 2px solid #000;
+}
+#todo_records .tooltip details.tool summary {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  color: #eee;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: large;
+}
+#todo_records .tooltip details.tool .options {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  height: max-content;
+  padding: 5% 0;
+  overflow: hidden;
+  list-style: none;
+  background: rgba(146, 218, 236, 0.7098039216);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: 2px solid #000;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: 0.5s;
+}
+#todo_records .tooltip details.tool .options * {
+  display: flex;
+  justify-content: center;
+  height: 30px;
+  width: 100%;
+}
+#todo_records .cards {
+  display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
   padding: 2%;
@@ -134,7 +195,7 @@
   height: 100%;
   background-image: linear-gradient(#9CADCE, #D1CFE2);
 }
-#todo_records .todo-record-card {
+#todo_records .cards .todo-record-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -150,43 +211,44 @@
   cursor: pointer;
   position: relative;
   transition: 0.5s;
+  z-index: 1;
 }
-#todo_records .todo-record-card:hover {
+#todo_records .cards .todo-record-card:hover {
   transform: translateX(-4px) translateY(-4px);
   box-shadow: 5px 5px 0px #242526;
 }
-#todo_records .todo-record-card .title {
+#todo_records .cards .todo-record-card .title {
   display: flex;
   justify-content: center;
   align-items: center;
   transition: 0.5s;
   font-size: larger;
 }
-#todo_records .todo-record-card ul.control-buttons {
+#todo_records .cards .todo-record-card ul.control-buttons {
   display: flex;
   width: 70%;
   height: 40px;
   border-radius: 15px;
 }
-#todo_records .todo-record-card ul.control-buttons * {
+#todo_records .cards .todo-record-card ul.control-buttons * {
   width: 33%;
   height: 100%;
 }
-#todo_records .todo-record-card ul.control-buttons *:first-child {
+#todo_records .cards .todo-record-card ul.control-buttons *:first-child {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
-#todo_records .todo-record-card ul.control-buttons *:last-child {
+#todo_records .cards .todo-record-card ul.control-buttons *:last-child {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
 @media screen and (max-width: 800px) {
-  #todo_records {
+  #todo_records .cards {
     grid-template-columns: 1fr 1fr;
   }
 }
 @media screen and (max-width: 400px) {
-  #todo_records {
+  #todo_records .cards {
     padding: 3%;
     grid-template-columns: 1fr;
   }
