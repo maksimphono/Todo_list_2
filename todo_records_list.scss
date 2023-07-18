@@ -43,20 +43,20 @@
 
                 .options {
                     position: absolute;
-                    left: -201%;
+                    right: 0;
                     display: grid;
                     grid-template-columns: 4fr 1fr;
                     gap: 1px;
                     padding: 30px 20%; 
-                    width: 100vw;
-                    
+                    width: 60vw;
+                    max-width: 95vw;
 
                     * {
                         display: flex;
                         justify-content: start;
                         align-items: center;
                         height: 160%;
-                        border-radius: 15px;
+                        border-radius: 10px;
                         border: 2px solid $color-dark;
                         box-shadow: 0 0 4px $color-dark;
                     }
@@ -73,7 +73,16 @@
                         background-color: $color2;//#85d6dc;
                         cursor: pointer;
                     }
+                    
+                    @media screen and (max-width : $query-tablet-width) {
+                        width: 70vw;
+                    }
+                    @media screen and (max-width : $query-phone-width) {
+                        width: 95vw;
+                    }
                 }
+
+
             }
 
             &:nth-child(2) {

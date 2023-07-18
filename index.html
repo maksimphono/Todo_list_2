@@ -38,7 +38,62 @@
             </ul>            
         </nav>
         
-        <div id = "todo_records">
+        <div id = "new_todo_record">
+            <div class = "tooltip">
+                <form>
+                    <select name="font" id="">
+                        <option value="">Monospace</option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
+                    <select name="size" id="">
+                        <option value="">8</option>
+                        <option value="">9</option>
+                        <option value="">10</option>
+                        <option value="">12</option>
+                        <option value="">14</option>
+                        <option value="">16</option>
+                        <option value="">18</option>
+                        <option value="">20</option>
+                        <option value="">22</option>
+                    </select>
+                    <button name="font-size-up"></button>
+                    <button name="font-size-dn"></button>
+                    <input name="font-bold" type="checkbox">
+                    <input name="font-underline" type="checkbox">
+                    <input type="checkbox">
+                    <input type="checkbox">
+                    <details name="font-color">
+                        <summary>
+
+                        </summary>
+                        <input type="color">
+                    </details>
+                    <details name="mark-color">
+                        <summary>
+
+                        </summary>
+                        <input type="color">
+                    </details>
+                </form>
+                <button></button>
+                <button></button>
+            </div>
+
+            <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque, culpa natus porro blanditiis rerum quod quasi eaque iusto sequi tempora saepe, neque voluptate. Incidunt quam commodi adipisci voluptate, perferendis distinctio?
+            </p>
+
+            <button type = "submit">Craete record</button>
+        </div>
+
+        <div style = "display: none;" id = "todo_records">
             <div class = "tooltip">
                 <details class = "tool" data-search>
                     <summary>Search</summary>

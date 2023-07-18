@@ -1,0 +1,7 @@
+@import "./todo_record_tooltip.scss";
+
+#new_todo_record {
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+}
