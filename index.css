@@ -296,8 +296,43 @@
   height: 50px;
   padding: 0 1%;
   border-bottom: 1px solid #242526;
-  background-color: #bad7e3;
+  background-color: #242526;
   z-index: 99;
+  /*
+      @media screen and (max-width : $query-phone-width) {
+          grid-template-columns: repeat(3, 33%);
+          grid-template-rows: 50% 50%;
+          justify-items: center;
+          align-items: center;
+
+          form {
+              padding-inline: 5px;
+              grid-row: 1/2;
+              grid-column: 1/span 3;
+              gap: 0;
+
+              button, details, input[type=checkbox] {
+                  height: 20px;
+                  width: 20px;
+              }
+          }
+          & > button {
+              grid-row: 2/3;
+              height: 30px;
+              width: 30px;
+
+              &:nth-child(1) {
+                  grid-column: 1/2;
+              }
+              &:nth-child(2) {
+                  grid-column: 2/3;
+              }
+              &:nth-child(3) {
+                  grid-column: 3/4;
+              }
+          }
+      }
+  */
 }
 #new_todo_record .tooltip * {
   max-height: 100%;
@@ -305,7 +340,6 @@
 #new_todo_record .tooltip form {
   display: grid;
   grid-template-columns: repeat(11, 1fr);
-  grid-template-rows: 1fr;
   justify-items: center;
   align-items: center;
   height: 70%;
@@ -380,6 +414,7 @@
   background-color: #aaa;
 }
 #new_todo_record .tooltip form details summary {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -390,6 +425,7 @@
   border: none;
   transition: background-color 0.3s ease-in-out;
   cursor: pointer;
+  z-index: 0;
 }
 #new_todo_record .tooltip form details summary:hover {
   background-color: #d0d0d0;
@@ -398,7 +434,7 @@
   position: absolute;
   width: 100%;
 }
-#new_todo_record .tooltip button {
+#new_todo_record .tooltip > button {
   justify-self: start;
   display: flex;
   justify-content: center;
@@ -412,11 +448,84 @@
   transition: filter 0.3s;
   cursor: pointer;
 }
-#new_todo_record .tooltip button:nth-child(2) {
+#new_todo_record .tooltip > button:nth-child(2) {
   grid-column: 3/4;
 }
-#new_todo_record .tooltip button:hover {
+#new_todo_record .tooltip > button:hover {
   filter: brightness(80%);
+}
+#new_todo_record .tooltip details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+#new_todo_record .tooltip details summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #c3c3c3;
+  font-size: large;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+#new_todo_record .tooltip details.font-control form {
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 50% 50%;
+  gap: 5px;
+  width: 70vw;
+  height: max-content;
+  max-height: none;
+  padding: 10px;
+  background-color: #7EC4CF;
+  border: 2px solid #242526;
+  border-radius: 15px;
+}
+#new_todo_record .tooltip details.font-control form select[name=font] {
+  grid-column: 1/span 3;
+}
+#new_todo_record .tooltip details.font-control form select[name=size] {
+  grid-column: 4/span 1;
+}
+#new_todo_record .tooltip details.create-elements-btns .content {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  max-height: none;
+  background-color: #7EC4CF;
+  border: 2px solid #242526;
+  border-radius: 15px;
+  z-index: 99;
+}
+#new_todo_record .tooltip details.create-elements-btns .content button {
+  justify-self: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+  width: 40px;
+  border: 1px solid #242526;
+  border-radius: 5px;
+  filter: none;
+  background-color: #D1CFE2;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+#new_todo_record .tooltip details.create-elements-btns .content button:nth-child(2) {
+  grid-column: 3/4;
+}
+#new_todo_record .tooltip details.create-elements-btns .content button:hover {
+  filter: brightness(80%);
+}
+@media screen and (max-width: 400px) {
+  #new_todo_record .tooltip {
+    grid-template-columns: repeat(2, 50%);
+  }
 }
 #new_todo_record p {
   position: relative;
@@ -445,142 +554,6 @@
   border-radius: 20px;
   font-size: 20px;
 }
-@media screen and (max-width: 400px) {
-  #new_todo_record .tooltip {
-    position: fixed;
-    top: 60px;
-    display: grid;
-    grid-template-columns: auto 1fr auto auto auto;
-    grid-template-rows: 100%;
-    gap: 5px;
-    align-items: center;
-    width: 100%;
-    height: 80px;
-    padding: 0 1%;
-    border-bottom: 1px solid #242526;
-    background-color: #bad7e3;
-    z-index: 99;
-  }
-  #new_todo_record .tooltip * {
-    max-height: 100%;
-  }
-  #new_todo_record .tooltip form {
-    display: grid;
-    grid-template-columns: repeat(11, 1fr);
-    grid-template-rows: 1fr;
-    justify-items: center;
-    align-items: center;
-    height: 70%;
-    width: auto;
-    background-color: rgba(0, 0, 0, 0);
-  }
-  #new_todo_record .tooltip form * {
-    padding: 0;
-  }
-  #new_todo_record .tooltip form select[name=font],
-#new_todo_record .tooltip form select[name=size] {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    height: 100%;
-    padding-inline: 5px;
-    border-radius: 5px;
-    background-color: #ddd;
-    border: none;
-  }
-  #new_todo_record .tooltip form select[name=font] {
-    grid-column: 1/span 2;
-  }
-  #new_todo_record .tooltip form select[name=size] {
-    grid-column: 3/span 1;
-    height: 100%;
-  }
-  #new_todo_record .tooltip form button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 35px;
-    aspect-ratio: 1/1;
-    background-color: #eee;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    cursor: pointer;
-  }
-  #new_todo_record .tooltip form button:hover {
-    background-color: #aaa;
-  }
-  #new_todo_record .tooltip form input[type=checkbox] {
-    all: initial;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 31px;
-    aspect-ratio: 1/1;
-    background: rgba(0, 0, 0, 0);
-    outline: 2px solid #242526;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  #new_todo_record .tooltip form input[type=checkbox]:checked {
-    background-color: #aaa;
-  }
-  #new_todo_record .tooltip form input[type=checkbox]:hover {
-    background: #fff;
-  }
-  #new_todo_record .tooltip form details {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 35px;
-    aspect-ratio: 1/1;
-  }
-  #new_todo_record .tooltip form details[open] summary {
-    border: 2px dashed #242526;
-    background-color: #aaa;
-  }
-  #new_todo_record .tooltip form details summary {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: #eee;
-    border-radius: 5px;
-    border: none;
-    transition: background-color 0.3s ease-in-out;
-    cursor: pointer;
-  }
-  #new_todo_record .tooltip form details summary:hover {
-    background-color: #d0d0d0;
-  }
-  #new_todo_record .tooltip form details input {
-    position: absolute;
-    width: 100%;
-  }
-  #new_todo_record .tooltip button {
-    justify-self: start;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    aspect-ratio: 1/1;
-    width: 40px;
-    border: 1px solid #242526;
-    border-radius: 5px;
-    filter: none;
-    background-color: #7EC4CF;
-    transition: filter 0.3s;
-    cursor: pointer;
-  }
-  #new_todo_record .tooltip button:nth-child(2) {
-    grid-column: 3/4;
-  }
-  #new_todo_record .tooltip button:hover {
-    filter: brightness(80%);
-  }
-}
 
 * {
   margin: 0;
@@ -599,11 +572,12 @@ body {
   display: block;
   margin: 0px;
   width: 100%;
+  min-height: 100vh;
   height: max-content;
 }
 body #root {
   display: block;
-  height: 100%;
+  min-height: 100vh;
   background-image: linear-gradient(#9CADCE, #D1CFE2);
 }
 

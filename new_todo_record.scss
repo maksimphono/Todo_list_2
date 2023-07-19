@@ -38,10 +38,4 @@
         border-radius: 20px;
         font-size: 20px;
     }
-
-    @media screen and (max-width: $query-phone-width) {
-        $tooltip-height: 80px;
-
-        @include tooltip($tooltip-height);
-    }
 }

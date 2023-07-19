@@ -22,11 +22,13 @@ body {
     display: block;
     margin: 0px;
     width: 100%;
+    min-height: 100vh;
     height: max-content;
 
     #root {
         display: block;
-        height: 100%;
+        min-height: 100vh;
+        
         background-image: linear-gradient($color3, $color2);
 
     }
