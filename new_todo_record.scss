@@ -1,7 +1,47 @@
 @import "./todo_record_tooltip.scss";
 
 #new_todo_record {
+    $tooltip-height: 50px;
+
+    position: relative;
     display: flex;
     flex-direction: column;
     height: max-content;
+
+    @include tooltip($tooltip-height);
+
+    p {
+        position: relative;
+        top: $tooltip-height;
+        display: block;
+        height: max-content;
+        min-height: 80%;
+        margin: max(1%, 10px);
+        padding: 10px 20px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 28px;
+        color: $color-dark;
+        background-color: #ddd;
+        border: none;
+        border-radius: 15px;
+    }
+
+    button[type=submit] {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: max-content;
+        height: auto;
+        padding: 15px 25px;
+        background-color: $color4;
+        border: 2px solid $color5;
+        border-radius: 20px;
+        font-size: 20px;
+    }
+
+    @media screen and (max-width: $query-phone-width) {
+        $tooltip-height: 80px;
+
+        @include tooltip($tooltip-height);
+    }
 }

@@ -1,13 +1,19 @@
+@mixin tooltip($tooltip-height) {
+
 .tooltip {
-    position: sticky;
+    position: fixed;
+    top: 60px;
     display: grid;
     grid-template-columns: auto 1fr auto auto auto;
     grid-template-rows: 100%;
     gap: 5px;
     align-items: center;
-    height: 50px;
+    width: 100%;
+    height: $tooltip-height;
     padding: 0 1%;
+    border-bottom: 1px solid $color-dark;
     background-color: $color-info;
+    z-index: 99;
 
     * {
         max-height: 100%;
@@ -148,4 +154,5 @@
             filter: brightness(80%);
         }
     }
+}
 }
