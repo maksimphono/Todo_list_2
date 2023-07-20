@@ -1,5 +1,6 @@
 @import "../../define.scss";
-@mixin tooltip($tooltip-height) {
+@import "./variables.scss";
+//@mixin tooltip($tooltip-height) {
 
 .tooltip {
     position: fixed;
@@ -12,6 +13,7 @@
     width: 100%;
     height: $tooltip-height;
     padding: 0 1%;
+    border-top: 2px solid #000;
     border-bottom: 1px solid $color-dark;
     background-color: $color-dark;//$color-info;
     z-index: 99;
@@ -80,7 +82,7 @@
             width: 31px;
             aspect-ratio: 1/1;
             background: #0000;
-            outline: 2px solid $color-dark;
+            outline: 2px solid $color2;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color .3s;
@@ -239,5 +241,4 @@
         }
         
     }
-}
 }

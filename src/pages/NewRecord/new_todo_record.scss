@@ -1,7 +1,9 @@
-@import "./todo_record_tooltip.scss";
+@import "./variables.scss";
+@import "../../define.scss";
+//@import "./todo_record_tooltip.scss";
 
 #new_todo_record {
-    $tooltip-height: 50px;
+    
 
     //position: relative;
     display: grid;
@@ -14,7 +16,7 @@
     margin-top: $tooltip-height;
     padding-bottom: 30px;
 
-    @include tooltip($tooltip-height);
+//    @include tooltip($tooltip-height);
 
     & > *:not(.tooltip) {
         box-shadow: 0 0px 3px #000;
