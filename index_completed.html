@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo</title>
+  </head>
+  <body>
+    <div id="root">
+        <div style = "display: none;" class = "modal">
+            <h2 class = "title">Title</h2>
+            <p class = "content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa quidem assumenda quam voluptatibus mollitia. Fugit ea harum illo, culpa nemo sapiente temporibus ipsa eos doloremque itaque a eum debitis quidem?</p>
+            <ul class = "buttons">
+                <li><button class = "warning-btn">Cancel</button></li>
+                <li><button class = "success-btn">Submit</button></li>
+            </ul>
+            <button class = "cancel-X-btn">x</button>
+            
+        </div>
+        <div style = "display: none;" class = "notification danger">
+            <p>Success</p>
+            <button class = "cancel-X-btn">x</button>
+        </div>
+        
+
+        
+        
+        <div id = "new_todo_record">
+            <div class = "tooltip">
+                <details class = "font-control">
+                    <summary>
+                        Font
+                    </summary>
+                    <form>
+                        <select name="font" id="">
+                            <option value="">Monospace</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                        <select name="size" id="">
+                            <option value="">8</option>
+                            <option value="">9</option>
+                            <option value="">10</option>
+                            <option value="">12</option>
+                            <option value="">14</option>
+                            <option value="">16</option>
+                            <option value="">18</option>
+                            <option value="">20</option>
+                            <option value="">22</option>
+                        </select>
+                        <button name="font-size-up"></button>
+                        <button name="font-size-dn"></button>
+                        <input name="font-bold" type="checkbox">
+                        <input name="font-underline" type="checkbox">
+                        <input type="checkbox">
+                        <input type="checkbox">
+                        <details name="font-color">
+                            <summary>
+    
+                            </summary>
+                            <input type="color">
+                        </details>
+                        <details name="mark-color">
+                            <summary>
+    
+                            </summary>
+                            <input type="color">
+                        </details>
+                    </form>
+                </details>
+                <details class = "create-elements-btns">
+                    <summary>
+                        Add
+                    </summary>
+                    <div class = "content">
+                        <button></button>
+                        <button></button>
+                        <button></button>
+                    </div>
+                    
+                </details>
+                
+                
+            </div>
+            <div style = "display:none;" class = "tooltip">
+                <form>
+                    <select name="font" id="">
+                        <option value="">Monospace</option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
+                    <select name="size" id="">
+                        <option value="">8</option>
+                        <option value="">9</option>
+                        <option value="">10</option>
+                        <option value="">12</option>
+                        <option value="">14</option>
+                        <option value="">16</option>
+                        <option value="">18</option>
+                        <option value="">20</option>
+                        <option value="">22</option>
+                    </select>
+                    <button name="font-size-up"></button>
+                    <button name="font-size-dn"></button>
+                    <input name="font-bold" type="checkbox">
+                    <input name="font-underline" type="checkbox">
+                    <input type="checkbox">
+                    <input type="checkbox">
+                    <details name="font-color">
+                        <summary>
+
+                        </summary>
+                        <input type="color">
+                    </details>
+                    <details name="mark-color">
+                        <summary>
+
+                        </summary>
+                        <input type="color">
+                    </details>
+                </form>
+                <button></button>
+                <button></button>
+                <button></button>
+            </div>
+
+            <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque, culpa natus porro blanditiis rerum quod quasi eaque iusto sequi tempora saepe, neque voluptate. Incidunt quam commodi adipisci voluptate, perferendis distinctio?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim distinctio rem consequuntur, et id modi iste aperiam tempora illo dignissimos culpa, doloribus nobis eaque laboriosam cupiditate illum officiis tenetur laudantium!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore soluta, impedit omnis alias facere hic. Atque reprehenderit nam a impedit, voluptatibus quae nemo ad iure blanditiis voluptatem dolorem, aliquam iste?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, fugiat? Similique asperiores quia repellendus nulla voluptatem eos molestiae fugit, magnam architecto praesentium ipsa sequi dolorum autem consectetur atque eligendi adipisci.
+            </p>
+
+            <button class = "success-btn" type = "submit">Craete record</button>
+            <button class = "secondary-btn" name = 'cancel'>Cancel</button>
+        </div>
+
+        <div style="display: none" id = "todo_records">
+            <div class = "tooltip">
+                <details class = "tool" data-search>
+                    <summary>Search</summary>
+                    <div class = "options">
+                        <input type="text" />
+                        <button type="submit">Search</button>
+                    </div>
+                </details>
+                <details class = "tool">
+                    <summary>Filter</summary>
+                    <ul class = "options">
+                        <li>Option</li>
+                        <li>Option</li>
+                        <li>Option</li>
+                    </ul>
+                </details>
+                <details class = "tool">
+                    <summary>Sort</summary>
+                    <ul class = "options">
+                        <li>Option</li>
+                        <li>Option</li>
+                        <li>Option</li>
+                    </ul>
+                </details>
+                
+            </div>
+            <div class = "cards">
+                <div tabindex = "0" class = "todo-record-card">
+                    <h3 class = "title">Todo 1</h3>
+                    <span class = "date-stamp">13 Jan 2023</span>
+                    <span class = "type">Is type of Homework</span>
+                    <ul class = "control-buttons">
+                        <button class = "success-btn">Complete</button>
+                        <button class = "info-btn">Edit</button>
+                        <button class = "danger-btn">Delete</button>
+                    </ul>
+                </div>
+                <div class = "todo-record-card show-content">
+                    <h3 class = "title">Todo 2</h3>
+                    <span class = "date-stamp">13 Jan 2023</span>
+                    <span class = "type">Is type of Homework</span>
+                    <ul class = "control-buttons">
+                        <button class = "success-btn">Complete</button>
+                        <button class = "info-btn">Edit</button>
+                        <button class = "danger-btn">Delete</button>
+                    </ul>
+                    <p class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius labore obcaecati hic cum quia, aperiam dicta impedit dignissimos quis, accusantium ipsam illo vero voluptatem velit culpa enim aspernatur. Inventore, commodi?</p>
+                </div>
+                <div class = "todo-record-card">
+                    <h3 class = "title">Todo 3</h3>
+                    <span class = "date-stamp">13 Jan 2023</span>
+                    <span class = "type">Is type of Homework</span>
+                    <ul class = "control-buttons">
+                        <button class = "success-btn">Complete</button>
+                        <button class = "info-btn">Edit</button>
+                        <button class = "danger-btn">Delete</button>
+                    </ul>
+                </div>
+                <div class = "todo-record-card">
+                    <h3 class = "title">Todo 4</h3>
+                    <span class = "date-stamp">13 Jan 2023</span>
+                    <span class = "type">Is type of Homework</span>
+                    <ul class = "control-buttons">
+                        <button class = "success-btn">Complete</button>
+                        <button class = "info-btn">Edit</button>
+                        <button class = "danger-btn">Delete</button>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+  </body>
+</html>
