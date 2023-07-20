@@ -7,13 +7,13 @@ export default function Navbar() {
   return (
     <nav id = "navbar">
         <div className = "brand">
-            <Link href="" />
+            <Link to="/" />
         </div>
         <button className = "navbar-toggler"></button>
         <ul>
-            <li><Link href="">Home</Link></li>
-            <li><Link href="">About</Link></li>
-            <li><Link href="">Analize</Link></li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/NewTodoRecord">New</Link></li>
+            <li><Link to="/">Analize</Link></li>
             <button>P</button>
         </ul>            
     </nav>
