@@ -3,16 +3,27 @@
 #new_todo_record {
     $tooltip-height: 50px;
 
-    position: relative;
-    display: flex;
+    //position: relative;
+    display: grid;
     flex-direction: column;
+    align-items: center;
+    grid-template-columns: 1fr 20px 1fr;
+    grid-template-rows: 1fr auto;
+    gap: 10px;
     height: max-content;
+    margin-top: $tooltip-height;
+    padding-bottom: 30px;
 
     @include tooltip($tooltip-height);
 
+    & > *:not(.tooltip) {
+        box-shadow: 0 0px 3px #000;
+    }
+
     p {
-        position: relative;
-        top: $tooltip-height;
+        grid-column: 1/span 3;
+        grid-row: 1/2;
+        //position: relative;
         display: block;
         height: max-content;
         min-height: 80%;
@@ -26,16 +37,56 @@
         border-radius: 15px;
     }
 
-    button[type=submit] {
+    & > button {
+        grid-column: 2/span 1;
+        grid-row: 2/3;
         display: flex;
         justify-content: center;
         align-items: center;
-        width: max-content;
+        min-width: max-content;
+        width: 50%;
         height: auto;
-        padding: 15px 25px;
+        padding: 10px 20px;
         background-color: $color4;
         border: 2px solid $color5;
         border-radius: 20px;
         font-size: 20px;
+        transition: .5s;
+        cursor: pointer;
+        
+        &:hover {
+            filter: brightness(70%);
+            box-shadow: 0 0 7px $color-dark;
+        }
+
+        &[type=submit] {
+            justify-self: end;
+            grid-column: 1/span 1;
+        }
+        &[name='cancel']{
+            justify-self: start;
+            grid-column: 3/span 1;
+            border: 2px solid #7a7a7a;
+            background-color: #dbdbdb;
+        }
+        
     }
+
+    @media screen and (max-width : $query-phone-width) {
+        grid-template-rows: 1fr auto auto;
+
+        & > button {
+            &[type=submit] {
+                justify-self: center;
+                grid-column: 1/span 3;
+                grid-row: 2/3;
+            }
+            &[name='cancel']{
+                justify-self: center;
+                grid-column: 1/span 3;
+                grid-row: 3/4;
+            }
+        }
+    }
+    
 }
