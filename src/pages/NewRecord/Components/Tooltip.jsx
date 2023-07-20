@@ -1,5 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import "../todo_record_tooltip.scss";
+
+// <styles>
+import "../styles/Tooltip_wide.scss";
+import "../styles/Tooltip_narrow.scss";
+
+// </styles>
 
 const query_phone_width_px = 400;
 
@@ -7,28 +12,20 @@ function FontSettingsForm() {
   return (
     <>
       <form>
-                        <select name="font" id="">
-                            <option value="">Monospace</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                        </select>
-                        <select name="size" id="">
-                            <option value="">8</option>
-                            <option value="">9</option>
-                            <option value="">10</option>
-                            <option value="">12</option>
-                            <option value="">14</option>
-                            <option value="">16</option>
-                            <option value="">18</option>
-                            <option value="">20</option>
-                            <option value="">22</option>
-                        </select>
+        <select name="font" id="">
+            <option value="">Monospace</option>
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+        </select>
+        <select name="size" id="">
+            {[8, 9, 10, 12, 14, 16, 18, 20, 22].map(val => (<option key = {val}>{val}</option>))}
+        </select>
                         <button name="font-size-up"></button>
                         <button name="font-size-dn"></button>
                         <input name="font-bold" type="checkbox" />
