@@ -6,7 +6,7 @@ import EditableField from './Components/EditableField';
 // </components>
 
 // <styles>
-import "./styles/NewTodoRecord.scss";
+import "./styles/NewTodoRecord.module.scss";
 
 // </styles>
 

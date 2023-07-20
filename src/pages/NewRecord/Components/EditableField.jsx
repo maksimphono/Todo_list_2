@@ -1,14 +1,14 @@
 import React from 'react'
 
 // <styles>
-import "../styles/EditableField.scss";
+import style from  "../styles/EditableField.module.scss";
 
 // </styles>
 
 export default function EditableField() {
   return (
     <>
-        <p>
+        <p className = {style["editable-field"]}>
         </p>
     </>
   )

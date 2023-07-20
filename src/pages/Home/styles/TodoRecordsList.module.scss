@@ -1,0 +1,8 @@
+//@import "./todo_record_card.scss";
+@import "./variables.module.scss";
+
+#todo_records {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

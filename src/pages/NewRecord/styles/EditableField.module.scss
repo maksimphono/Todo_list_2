@@ -1,6 +1,6 @@
-@import "./variables.scss";
+@import "./variables.module.scss";
 
-p {
+p.editable-field {
     grid-column: 1/span 3;
     grid-row: 1/2;
     display: block;

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 // <styles>
-import "../styles/Tooltip_wide.scss";
-import "../styles/Tooltip_narrow.scss";
+import "../styles/Tooltip_wide.module.scss";
+import "../styles/Tooltip_narrow.module.scss";
 
 // </styles>
 

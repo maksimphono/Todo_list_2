@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import Navbar from "./Navbar"
 import Layout from "./Layout"
 import { Route, Routes, BrowserRouter } from 'react-router-dom'
-import TodoRecordsList from './pages/Home/Todo_records_list'
+import TodoRecordsList from './pages/Home/TodoRecordsList'
 import NewTodoRecord from "./pages/NewRecord/NewTodoRecord"
 
 function App() {
