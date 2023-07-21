@@ -6,20 +6,20 @@ import EditableField from './Components/EditableField';
 // </components>
 
 // <styles>
-import "./styles/NewTodoRecord.module.scss";
+import style from "./styles/NewTodoRecord.module.scss";
 
 // </styles>
 
 export default function NewTodoRecord() {
   return (
     <>
-      <div id = "new_todo_record">
+      <div id = {style["new_todo_record"]}>
             <Tooltip />
 
             <EditableField />
 
-            <button className = "success-btn" type = "submit">Craete record</button>
-            <button className = "secondary-btn" name = 'cancel'>Cancel</button>
+            <button className = {style["success-btn"]} type = "submit">Craete record</button>
+            <button className = {style["secondary-btn"]} name = 'cancel'>Cancel</button>
         </div>
 
     </>

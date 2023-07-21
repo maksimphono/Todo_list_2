@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 // <styles>
-import "../styles/Tooltip_wide.module.scss";
-import "../styles/Tooltip_narrow.module.scss";
+import style_wide from "../styles/Tooltip_wide.module.scss";
+import style_narrow from "../styles/Tooltip_narrow.module.scss";
 
 // </styles>
 
@@ -77,7 +77,7 @@ export default function Tooltip() {
   
     return (
     <>
-        <div className = "tooltip">
+        <div className = {style_wide["tooltip"]}>
             {(window.innerWidth <= query_phone_width_px)?
                 <>
                     <details className = "font-control">
