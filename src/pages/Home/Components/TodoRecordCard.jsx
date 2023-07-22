@@ -10,8 +10,7 @@ function CardControlBtns() {
       <>
       <ul className = {style["control-buttons"]}>
           <button className = {style["success-btn"]}>Complete</button>
-          <button className = {style["info-btn"]}>Edit</button>
-          <button className = {style["danger-btn"]}>Delete</button>
+          <button className = {style["info-btn"]}>Check out</button>
       </ul>
       </>
   )
