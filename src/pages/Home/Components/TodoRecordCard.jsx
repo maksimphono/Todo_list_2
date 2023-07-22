@@ -47,13 +47,6 @@ export default function TodoRecordCard({cardData}) {
   const componentMainBody = useRef();
 
   const handleBodyClick = (event) => {
-    console.dir($(componentMainBody.current))
-    if (contentVisiable) {
-      $(componentMainBody.current).removeClass(style["show-content"])
-    }
-    else {
-      $(componentMainBody.current).addClass(style["show-content"])
-    }
     startTransition(() => {
       setContentVisiable(val => !val);
     })
@@ -61,7 +54,13 @@ export default function TodoRecordCard({cardData}) {
 
   return (
     <>
-        <div ref = {componentMainBody} onClick = {handleBodyClick} className = {style["todo-record-card"]}>
+        <div 
+          ref = {componentMainBody} 
+          onClick = {handleBodyClick} 
+          className = {
+            [style["todo-record-card"], (contentVisiable?style["show-content"]:"")].join(" ").trim()
+          }
+          >
             <h3 className ={style["title"]}>{newCardData.title}</h3>
             <DateStamp date = {newCardData.dateEnd}/>
             <span className ={style["type"]}>Belongs to collection "{newCardData.collection}"</span>
