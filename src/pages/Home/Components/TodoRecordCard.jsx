@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useMemo } from 'react'
+import React, { useEffect, useRef, useMemo, useState, useTransition } from 'react'
+import $ from "jquery"
 
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
@@ -41,11 +42,21 @@ export default function TodoRecordCard({cardData}) {
       }
   }, [])
 
+  const [contentVisiable, setContentVisiable] = useState(false)
+  const [isPending, startTransition] = useTransition();
   const componentMainBody = useRef();
 
-
   const handleBodyClick = (event) => {
-    console.dir(componentMainBody.current)
+    console.dir($(componentMainBody.current))
+    if (contentVisiable) {
+      $(componentMainBody.current).removeClass(style["show-content"])
+    }
+    else {
+      $(componentMainBody.current).addClass(style["show-content"])
+    }
+    startTransition(() => {
+      setContentVisiable(val => !val);
+    })
   }
 
   return (
