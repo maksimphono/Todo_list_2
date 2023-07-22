@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
@@ -17,24 +17,40 @@ function CardControlBtns() {
   )
 }
 
-function DateStamp() {
+function DateStamp({date}) {
   return (
-    <span className ={style["date-stamp"]}>13 Jan 2023</span>
+    <span className ={style["date-stamp"]}>{Date(date).toString().slice(0, 19)}</span>
   )
 }
 
-export default function TodoRecordCard() {
-  useEffect(() => console.dir(style),[])
-  
+export default function TodoRecordCard({cardData}) {
+  const newCardData = useMemo(() => {
+    console.dir(cardData)
+    if (1) 
+      return {
+        title : cardData?.title || "Title",
+        dateEnd : cardData?.dateEnd && new Date(cardData.dateEnd).toString() || new Date().toString(),
+        collection : cardData?.collection || "Collection",
+        content : cardData?.content || "Lorem ipsum dolor sit amet consectetur adipisicing elit. At nisi facilis praesentium reprehenderit facere vero quis debitis iste, vel, accusantium sit velit non hic fugiat soluta nemo maxime impedit iure!"
+      }
+  }, [])
+
+  const componentMainBody = useRef();
+
+
+  const handleBodyClick = (event) => {
+    console.dir(componentMainBody.current)
+  }
+
   return (
     <>
-        <div className = {style["todo-record-card"]}>
-            <h3 className ={style["title"]}>Todo 1</h3>
-            <DateStamp />
-            <span className ={style["type"]}>Is type of Homework</span>
+        <div ref = {componentMainBody} onClick = {handleBodyClick} className = {style["todo-record-card"]}>
+            <h3 className ={style["title"]}>{newCardData.title}</h3>
+            <DateStamp date = {newCardData.dateEnd}/>
+            <span className ={style["type"]}>Belongs to collection "{newCardData.collection}"</span>
             <CardControlBtns />
-        </div>
-        
+            <p className={style["content"]}>{newCardData.content}</p>
+        </div>      
     </>
   )
 }

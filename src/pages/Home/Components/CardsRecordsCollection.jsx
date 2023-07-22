@@ -6,11 +6,28 @@ import style from "../styles/CardsRecordsCollection.module.scss";
 
 // </styles>
 
-export default function CardsRecordsCollection() {
-  return (
-    <>
-      <div className = {style["cards"]}>
-            <TodoRecordCard />
+const TodoRecordsJSON = [
+    {
+        title : "Todo 1",
+        dateEnd : "13.02.2022",
+        collection : "Hw",
+        content : "Qwertyasdfghzxcvbn"
+    },
+    {
+        title : "Second Todo",
+        dateEnd : "13.12.2023",
+        collection : "Study",
+        content : "Second Todo qwerftgvcxsaswderftghbvcfdxsa"
+    },
+    {
+        title : "Third Todo#3",
+        dateEnd : "19.02.2023",
+        collection : "Study",
+        content : "#3 todo Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae commodi, architecto saepe placeat ipsum quidem beatae cum soluta assumenda quia, vitae quod pariatur debitis nam. Eum voluptatibus sed unde adipisci."
+    }
+]
+
+/*
 
             <div className = {style["todo-record-card"] + " " + style["show-content"]}>
                 <h3 className = {style["title"]}>Todo 2</h3>
@@ -43,6 +60,13 @@ export default function CardsRecordsCollection() {
                     <button className = {style["danger-btn"]}>Delete</button>
                 </ul>
             </div>
+*/
+
+export default function CardsRecordsCollection() {
+  return (
+    <>
+      <div className = {style["cards"]}>
+            {TodoRecordsJSON.map(rec => <TodoRecordCard cardData = {rec}/>)}
         </div>
     </>
   )

@@ -11,7 +11,7 @@ import style from "./styles/TodoRecordsList.module.scss";
 export default function TodoRecordsList() {
   return (
     <>
-      <div id = {"todo_records"}>
+      <div id = {style["todo_records"]}>
         <Tooltip />
         <Cards />
       </div>

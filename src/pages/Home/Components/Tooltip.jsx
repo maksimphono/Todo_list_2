@@ -14,7 +14,10 @@ function DropdownTool({
 }) {
     
     
-    const newChildren = useMemo(() => {
+    const wrappedChild = useMemo(() => {
+        // that method is used when only one child was provided. That child will get className 'options'
+        // and then will be rendered
+        
         let classList = "";
         let newChild = null;
 
@@ -38,13 +41,13 @@ function DropdownTool({
                 {summary}
             </summary>
             {
-            (Array.isArray(children))?
+            (Array.isArray(children))? // render wrapped children if there are many of them
                 (<div className = {style["options"]}>
                     {children}
                 </div>
                 )
             :
-                newChildren
+                wrappedChild // render child with className 'options' if there is excatly one child
             }
             
         </details>
