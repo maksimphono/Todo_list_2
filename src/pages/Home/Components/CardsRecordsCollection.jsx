@@ -9,19 +9,19 @@ import style from "../styles/CardsRecordsCollection.module.scss";
 const TodoRecordsJSON = [
     {
         title : "Todo 1",
-        dateEnd : "13.02.2022",
+        dateEnd : "2022-02-03",
         collection : "Hw",
         content : "Qwertyasdfghzxcvbn"
     },
     {
         title : "Second Todo",
-        dateEnd : "13.12.2023",
+        dateEnd : "2023-12-10",
         collection : "Study",
         content : "Second Todo qwerftgvcxsaswderftghbvcfdxsa"
     },
     {
         title : "Third Todo#3",
-        dateEnd : "19.02.2023",
+        dateEnd : "2023-04-28",
         collection : "Study",
         content : "#3 todo Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae commodi, architecto saepe placeat ipsum quidem beatae cum soluta assumenda quia, vitae quod pariatur debitis nam. Eum voluptatibus sed unde adipisci."
     }

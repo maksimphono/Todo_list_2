@@ -18,18 +18,25 @@ function CardControlBtns() {
 }
 
 function DateStamp({date}) {
+  const newDate = useMemo(() => {
+    const dayOfWeeks = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    const convertedDate = new Date(date)
+    
+    return convertedDate.toString().slice(0, 15)
+  }, [])
+  
   return (
-    <span className ={style["date-stamp"]}>{Date(date).toString().slice(0, 19)}</span>
+    <span className ={style["date-stamp"]}>{newDate}</span>
   )
 }
 
 export default function TodoRecordCard({cardData}) {
   const newCardData = useMemo(() => {
     console.dir(cardData)
-    if (1) 
+    if (1)
       return {
         title : cardData?.title || "Title",
-        dateEnd : cardData?.dateEnd && new Date(cardData.dateEnd).toString() || new Date().toString(),
+        dateEnd : cardData?.dateEnd || new Date().toString(),
         collection : cardData?.collection || "Collection",
         content : cardData?.content || "Lorem ipsum dolor sit amet consectetur adipisicing elit. At nisi facilis praesentium reprehenderit facere vero quis debitis iste, vel, accusantium sit velit non hic fugiat soluta nemo maxime impedit iure!"
       }
