@@ -5,10 +5,11 @@ import style from  "../styles/EditableField.module.scss";
 
 // </styles>
 
-export default function EditableField() {
+export default function EditableField({HTMLcontent}) {
   return (
     <>
         <p className = {style["editable-field"]}>
+          {HTMLcontent}
         </p>
     </>
   )

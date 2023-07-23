@@ -124,6 +124,7 @@
             width: 60vw;
             height: 100%;
             transition: .5s;
+            z-index: 99;
 
             button {
                 grid-row: 1 / 2;

@@ -35,6 +35,7 @@ export default function TodoRecordCard({cardData}) {
     console.dir(cardData)
     if (1)
       return {
+        id : cardData.id,
         title : cardData?.title || "Title",
         dateEnd : cardData?.dateEnd || new Date().toString(),
         collection : cardData?.collection || "Collection",
@@ -55,6 +56,7 @@ export default function TodoRecordCard({cardData}) {
   return (
     <>
         <div 
+          key = {newCardData.id}
           ref = {componentMainBody} 
           onClick = {handleBodyClick} 
           className = {

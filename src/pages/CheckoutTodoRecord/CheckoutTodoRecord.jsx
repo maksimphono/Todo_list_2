@@ -1,7 +1,8 @@
 // <components>
-import React from 'react'
+import React, { useMemo } from 'react'
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
+import { useParams } from 'react-router-dom';
 
 // </components>
 
@@ -11,7 +12,9 @@ import style from "./styles/CheckoutTodoRecord.module.scss";
 // </styles>
 
 export default function CheckoutTodoRecord() {
-  return (
+    const params = useMemo(() => useParams(), [])
+  
+    return (
     <>
       <div id = {style["new_todo_record"]}>
         <Tooltip />

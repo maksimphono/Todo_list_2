@@ -8,18 +8,21 @@ import style from "../styles/CardsRecordsCollection.module.scss";
 
 const TodoRecordsJSON = [
     {
+        id : "1",
         title : "Todo 1",
         dateEnd : "2022-02-03",
         collection : "Hw",
         content : "Qwertyasdfghzxcvbn"
     },
     {
+        id : "2",
         title : "Second Todo",
         dateEnd : "2023-12-10",
         collection : "Study",
         content : "Second Todo qwerftgvcxsaswderftghbvcfdxsa"
     },
     {
+        id : "3",
         title : "Third Todo#3",
         dateEnd : "2023-04-28",
         collection : "Study",
@@ -27,45 +30,10 @@ const TodoRecordsJSON = [
     }
 ]
 
-/*
-
-            <div className = {style["todo-record-card"] + " " + style["show-content"]}>
-                <h3 className = {style["title"]}>Todo 2</h3>
-                <span className = {style["date-stamp"]}>13 Jan 2023</span>
-                <span className = {style["type"]}>Is type of Homework</span>
-                <ul className ={ style["control-buttons"]}>
-                    <button className ={ style["success-btn"]}>Complete</button>
-                    <button className ={ style["info-btn"]}>Edit</button>
-                    <button className ={ style["danger-btn"]}>Delete</button>
-                </ul>
-                <p className={style["content"]}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius labore obcaecati hic cum quia, aperiam dicta impedit dignissimos quis, accusantium ipsam illo vero voluptatem velit culpa enim aspernatur. Inventore, commodi?</p>
-            </div>
-            <div className ={ style["todo-record-card"]}>
-                <h3 className ={ style["title"]}>Todo 3</h3>
-                <span className ={ style["date-stamp"]}>13 Jan 2023</span>
-                <span className ={ style["type"]}>Is type of Homework</span>
-                <ul className ={ style["control-buttons"]}>
-                    <button className ={ style["success-btn"]}>Complete</button>
-                    <button className ={ style["info-btn"]}>Edit</button>
-                    <button className ={ style["danger-btn"]}>Delete</button>
-                </ul>
-            </div>
-            <div className ={ style["todo-record-card"]}>
-                <h3 className = {style["title"]}>Todo 4</h3>
-                <span className = {style["date-stamp"]}>13 Jan 2023</span>
-                <span className = {style["type"]}>Is type of Homework</span>
-                <ul className = {style["control-buttons"]}>
-                    <button className = {style["success-btn"]}>Complete</button>
-                    <button className = {style["info-btn"]}>Edit</button>
-                    <button className = {style["danger-btn"]}>Delete</button>
-                </ul>
-            </div>
-*/
-
 export default function CardsRecordsCollection() {
   return (
     <>
-      <div className = {style["cards"]}>
+        <div className = {style["cards"]}>
             {TodoRecordsJSON.map(rec => <TodoRecordCard cardData = {rec}/>)}
         </div>
     </>
