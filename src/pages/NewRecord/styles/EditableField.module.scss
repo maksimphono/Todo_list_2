@@ -2,11 +2,10 @@
 
 p.editable-field {
     grid-column: 1/span 3;
-    grid-row: 1/2;
+    grid-row: 2/span 1;
     display: block;
     height: max-content;
     min-height: 20vh;
-    margin: max(1%, 10px);
     padding: 10px 20px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 28px;

@@ -1,5 +1,5 @@
 // <components>
-import React, { useCallback, useReducer, useRef } from 'react'
+import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId } from 'react'
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
 
@@ -28,16 +28,38 @@ export default function NewTodoRecord() {
     dispatch(addOne(newTodoRecord))
     navigate("/")
   }, [])
-  
+
+  const titleInputId = useId()
+
   return (
     <>
+        
         <div id = {style["new_todo_record"]}>
             <Tooltip />
 
-            <EditableField id = {"qwer"} ref = {contentRef}/>
+            <form onSubmit={addNewTodoRecord}>
 
-            <button className = {style["success-btn"]} onClick = {addNewTodoRecord}>Create</button>
-            <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
+              <label className = {style["end-date"]}>
+                <h2>End date</h2>
+                <input type="date" />
+              </label>
+
+              <label className = {style["record-title"]}>
+                <h2>Title:</h2>
+                <input type="text" />
+              </label>
+
+              <label className = {style["record-content"]}>
+                <h2>Content:</h2>              
+                <EditableField ref = {contentRef}/>
+              </label>
+              
+              <button className = {style["success-btn"]} type = "submit">Create</button>
+              <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
+            </form>
+
+            
+            
         </div>
 
     </>

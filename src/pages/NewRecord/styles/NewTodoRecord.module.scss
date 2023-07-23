@@ -3,6 +3,7 @@
 #new_todo_record {
     display: grid;
     flex-direction: column;
+    //justify-content: center;
     align-items: center;
     grid-template-columns: 1fr 20px 1fr;
     grid-template-rows: 1fr auto;
@@ -11,46 +12,98 @@
     margin-top: $tooltip-height;
     padding-bottom: 30px;
 
-    & > *:not(.tooltip) {
-        box-shadow: 0 0px 3px #000;
-    }
+    
 
-    & > button, & > a {
-        grid-column: 2/span 1;
-        grid-row: 2/3;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-width: max-content;
-        width: 50%;
+    & > form {
+        grid-column: 1/span 3;
+        display: grid;
+        grid-template-columns: 1fr 20px 1fr;
         height: auto;
-        padding: 10px 20px;
-        background-color: $color4;
-        border: 2px solid $color5;
-        border-radius: 20px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        text-decoration: none;
-        color: $color-dark;
-        transition: .5s;
-        cursor: pointer;
-        
-        &:hover {
-            filter: brightness(70%);
-            box-shadow: 0 0 7px $color-dark;
+        width: 100%;
+        gap: 10px;
+        padding: max(1%, 10px);
+
+        & input, button, a, p {
+            box-shadow: 0 0px 3px #000;
+        }
+        /*
+        & > label {
+            display: flex;
+            justify-content: center;
+        }
+        */
+        & > .end-date {
+            grid-column: 2/span 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+
         }
 
-        &.success-btn {
-            justify-self: end;
-            grid-column: 1/span 1;
+        & > label.record-title,
+        & > label.record-content {
+            grid-column: 1/span 3;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: large;
+            & > h2 {
+                padding: 5px 10px;
+            }
         }
-        &[name='cancel']{
-            justify-self: start;
-            grid-column: 3/span 1;
-            border: 2px solid #7a7a7a;
-            background-color: #dbdbdb;
+        & > label.record-title {
+
+            & > input {
+                height: auto;
+                padding: 10px 20px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-size: 28px;
+                color: $color-dark;
+                background-color: #ddd;
+                border: none;
+                border-radius: 15px;
+            }
+            
         }
-        
+
+        & > button, & > a {
+            grid-column: 2/span 1;
+            //grid-row: 4/span 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: max-content;
+            width: 50%;
+            height: auto;
+            padding: 10px 20px;
+            background-color: $color4;
+            border: 2px solid $color5;
+            border-radius: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            text-decoration: none;
+            color: $color-dark;
+            transition: .5s;
+            cursor: pointer;
+            
+            &:hover {
+                filter: brightness(70%);
+                box-shadow: 0 0 7px $color-dark;
+            }
+
+            &.success-btn {
+                justify-self: end;
+                grid-column: 1/span 1;
+            }
+            &[name='cancel']{
+                justify-self: start;
+                grid-column: 3/span 1;
+                border: 2px solid #7a7a7a;
+                background-color: #dbdbdb;
+            }
+            
+        }
     }
 
     @media screen and (max-width : $query-phone-width) {
