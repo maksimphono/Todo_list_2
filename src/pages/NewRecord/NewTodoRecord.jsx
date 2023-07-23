@@ -21,7 +21,7 @@ export default function NewTodoRecord() {
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const newTodoRecord = {
-      id : "1",
+      id : new Date().toString().slice(0, 24),
       title : 'Todo Rec',
       content : contentRef.current.content()
     }
