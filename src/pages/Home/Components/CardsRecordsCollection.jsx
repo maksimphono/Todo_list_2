@@ -30,23 +30,18 @@ const TodoRecordsJSON = [
     }
 ]
 
-import { addOne } from '../todoRecordsSlice';
+import { addOne } from '../../../Context/Redux/todoRecordsSlice';
 import { useSelector, useDispatch } from "react-redux"
-import {selectAllTodoRecords} from "../todoRecordsSlice"
+import {selectAllTodoRecords} from "../../../Context/Redux/todoRecordsSlice"
 
 export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
-    useEffect(() => {
-        console.dir(selectAllTodoRecords)
-        dispatch(addOne({id : "2222", title : "zxcvbnm"}))
-    }, [])
-
     const TodoRecords = useSelector(selectAllTodoRecords)
 
     useEffect(() => {
         console.dir(TodoRecords)
-    }, [TodoRecords])
-//{TodoRecords.map(rec => <TodoRecordCard cardData = {rec}/>)}
+    }, [])
+
     return (
         <>
             <div className = {style["cards"]}>
