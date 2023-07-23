@@ -39,11 +39,6 @@ export default function NewTodoRecord() {
 
             <form onSubmit={addNewTodoRecord}>
 
-              <label className = {style["end-date"]}>
-                <h2>End date</h2>
-                <input type="date" />
-              </label>
-
               <label className = {style["record-title"]}>
                 <h2>Title:</h2>
                 <input type="text" />
@@ -52,6 +47,11 @@ export default function NewTodoRecord() {
               <label className = {style["record-content"]}>
                 <h2>Content:</h2>              
                 <EditableField ref = {contentRef}/>
+              </label>
+
+              <label className = {style["end-date"]}>
+                <h2>End date</h2>
+                <input type="date" />
               </label>
               
               <button className = {style["success-btn"]} type = "submit">Create</button>

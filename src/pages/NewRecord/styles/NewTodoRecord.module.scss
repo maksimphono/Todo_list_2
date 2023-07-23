@@ -26,18 +26,30 @@
         & input, button, a, p {
             box-shadow: 0 0px 3px #000;
         }
-        /*
+        
         & > label {
             display: flex;
             justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: large;
         }
-        */
+        
         & > .end-date {
-            grid-column: 2/span 1;
+            grid-column: 3/span 1;
             display: flex;
-            flex-direction: column;
+            gap: 10px;
+            justify-content: start;
             width: 100%;
             height: auto;
+
+            & > input {
+                display: block;
+                height: 35px;
+                background-color: #fff;
+                padding: 20px;
+                border: none;
+                border-radius: 15px;
+            }
 
         }
 
