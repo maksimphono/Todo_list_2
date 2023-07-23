@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TodoRecordCard from './TodoRecordCard';
 
 // <styles>
@@ -30,12 +30,28 @@ const TodoRecordsJSON = [
     }
 ]
 
+import { addOne } from '../todoRecordsSlice';
+import { useSelector, useDispatch } from "react-redux"
+import {selectAllTodoRecords} from "../todoRecordsSlice"
+
 export default function CardsRecordsCollection() {
-  return (
-    <>
-        <div className = {style["cards"]}>
-            {TodoRecordsJSON.map(rec => <TodoRecordCard cardData = {rec}/>)}
-        </div>
-    </>
-  )
+    const dispatch = useDispatch()
+    useEffect(() => {
+        console.dir(selectAllTodoRecords)
+        dispatch(addOne({id : "2222", title : "zxcvbnm"}))
+    }, [])
+
+    const TodoRecords = useSelector(selectAllTodoRecords)
+
+    useEffect(() => {
+        console.dir(TodoRecords)
+    }, [TodoRecords])
+//{TodoRecords.map(rec => <TodoRecordCard cardData = {rec}/>)}
+    return (
+        <>
+            <div className = {style["cards"]}>
+                {TodoRecords.map(rec => <TodoRecordCard cardData = {rec}/>)}
+            </div>
+        </>
+    )
 }

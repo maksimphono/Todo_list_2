@@ -7,11 +7,14 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom'
 import TodoRecordsList from './pages/Home/TodoRecordsList'
 import NewTodoRecord from "./pages/NewRecord/NewTodoRecord"
 import CheckoutTodoRecord from './pages/CheckoutTodoRecord/CheckoutTodoRecord'
+import { Provider } from 'react-redux'
+import { store } from './Context/Redux/store'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
+    <Provider store = {store}>
     <BrowserRouter>
       <Routes>
         <Route path = "/" element = {<Layout />}>
@@ -21,6 +24,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </Provider>
   )
 }
 
