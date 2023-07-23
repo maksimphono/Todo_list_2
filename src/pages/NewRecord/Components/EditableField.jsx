@@ -1,4 +1,4 @@
-import React, {forwardRef, useImperativeHandle} from 'react'
+import React, {forwardRef, useImperativeHandle, useRef} from 'react'
 
 // <styles>
 import style from  "../styles/EditableField.module.scss";
@@ -6,15 +6,16 @@ import style from  "../styles/EditableField.module.scss";
 // </styles>
 
 export default forwardRef(function EditableField(props, ref) {
+  const pRef = useRef(null);
   useImperativeHandle(ref, () => {
     return {
-      content : () => ref.current.innerHTML
+      content : () => pRef.current.innerHTML
     }
   })
   
   return (
     <>
-        <p ref = {ref} className = {style["editable-field"]} contentEditable = {true}>
+        <p ref = {pRef} className = {style["editable-field"]} contentEditable = {true}>
         </p>
     </>
   )

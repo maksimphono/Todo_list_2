@@ -23,7 +23,7 @@ export default function NewTodoRecord() {
     const newTodoRecord = {
       id : "1",
       title : 'Todo Rec',
-      content : "Qwerty"//contentRef.current.content
+      content : contentRef.current.content()
     }
     dispatch(addOne(newTodoRecord))
     navigate("/")
@@ -34,7 +34,7 @@ export default function NewTodoRecord() {
         <div id = {style["new_todo_record"]}>
             <Tooltip />
 
-            <EditableField ref = {contentRef}/>
+            <EditableField id = {"qwer"} ref = {contentRef}/>
 
             <button className = {style["success-btn"]} onClick = {addNewTodoRecord}>Create</button>
             <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
