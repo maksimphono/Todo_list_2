@@ -6,6 +6,7 @@ import Layout from "./Layout"
 import { Route, Routes, BrowserRouter } from 'react-router-dom'
 import TodoRecordsList from './pages/Home/TodoRecordsList'
 import NewTodoRecord from "./pages/NewRecord/NewTodoRecord"
+import CheckoutTodoRecord from './pages/CheckoutTodoRecord/CheckoutTodoRecord'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,7 +16,7 @@ function App() {
       <Routes>
         <Route path = "/" element = {<Layout />}>
           <Route index element = {<TodoRecordsList/>}/>
-          <Route path="NewTodoRecord" element = {<NewTodoRecord/>}/>
+          <Route path="NewTodoRecord" element = {<CheckoutTodoRecord/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
