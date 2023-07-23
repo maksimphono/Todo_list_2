@@ -53,7 +53,7 @@ function BtnCreationSettings() {
   return (
     <>
         {(window.innerWidth <= query_phone_width_px)?
-            <div className = "content">
+            <div className = {style_narrow["content"]}>
                 <button></button>
                 <button></button>
                 <button></button>
@@ -77,16 +77,16 @@ export default function Tooltip() {
   
     return (
     <>
-        <div className = {style_wide["tooltip"]}>
+        <div className = {style_narrow["tooltip"]}>
             {(window.innerWidth <= query_phone_width_px)?
                 <>
-                    <details className = {style_wide["font-control"]}>
+                    <details className = {style_narrow["font-control"]}>
                         <summary>
                             Font
                         </summary>
                         <FontSettingsForm />
                     </details>
-                    <details className = {style_wide["create-elements-btns"]}>
+                    <details className = {style_narrow["create-elements-btns"]}>
                     <summary>
                         Add
                     </summary>
