@@ -1,5 +1,5 @@
 // <components>
-import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId, useState } from 'react'
+import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId, useState, createContext, useContext } from 'react'
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
 import $ from "jquery"
@@ -15,13 +15,25 @@ import { useNavigate } from 'react-router-dom';
 
 // </styles>
 
-function CollectionOption() {
+const selectedTodosCollectionContext = createContext()
+
+function CollectionOption({title}) {
+  const context = useContext(selectedTodosCollectionContext);
+  const radioInput = useRef(null);
+
+  useEffect(() => {
+    console.dir(context.setSelectedTodosCollection)
+    //context.setSelectedTodosCollection("qwertyu");
+    //radioInput.current.onClick = () => context.setSelectedTodosCollection("qwertyu");
+    //console.dir(radioInput.current.onClick)
+  }, [])
+
   return (
     <>
       <li>
           <label>
-            Study
-            <input name = "select-collection-item" type="radio" />   
+            {title}
+            <input ref = {radioInput} name = "select-collection-item" type="radio" onClick = {event => context.setSelectedTodosCollection(title)} />
           </label>
                       
           <button className = {style["edit-collection"]} type = "button">Edit</button>
@@ -37,9 +49,9 @@ function SelectCollection() {
         <li className = {style["add-collection"]}>
           <button type = "button">Add</button>
         </li>
-        <CollectionOption />
-        <CollectionOption />
-        <CollectionOption />
+        <CollectionOption title = "qert"/>
+        <CollectionOption title = "asdfg"/>
+        <CollectionOption title = "lkmn "/>
     </ul>
     </>
   )
@@ -62,6 +74,8 @@ export default function NewTodoRecord() {
 
   const dateInputRef = useRef(null);
   const titleInputId = useId()
+
+  const [selectedTodosCollection, setSelectedTodosCollection] = useState("null")
 
   return (
     <>
@@ -86,8 +100,11 @@ export default function NewTodoRecord() {
                   Collection
                 </h2>
                 <details name="collection">
-                  <summary></summary>
-                  <SelectCollection />
+                  <selectedTodosCollectionContext.Provider value = {{setSelectedTodosCollection}}>
+                    <summary>{selectedTodosCollection}</summary>
+                    <SelectCollection />
+                  </selectedTodosCollectionContext.Provider>
+                  
                 </details>
               </label>
 
