@@ -3,15 +3,19 @@ import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId, useS
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
 import $ from "jquery"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import "./styles/ReactDatePicker.scss"
+
+import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addOne } from '../../Context/Redux/todoRecordsSlice';
+import { useNavigate } from 'react-router-dom';
 
 // </components>
 
 // <styles>
 import style from "./styles/NewTodoRecord.module.scss";
-import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { addOne } from '../../Context/Redux/todoRecordsSlice';
-import { useNavigate } from 'react-router-dom';
 
 // </styles>
 
@@ -75,7 +79,14 @@ export default function NewTodoRecord() {
   const dateInputRef = useRef(null);
   const titleInputId = useId()
 
+  const [selectedEndDate, setSelectedEndDate] = useState(null)
+
+  const hadleDateChange = (date) => {
+    setSelectedEndDate(date)
+  }
+
   const [selectedTodosCollection, setSelectedTodosCollection] = useState("null")
+
 
   return (
     <>
@@ -110,8 +121,13 @@ export default function NewTodoRecord() {
 
               <label className = {style["end-date"]}>
                 <h2>End date</h2>
-                <input ref = {dateInputRef} type="date" />
-                <span className='display-date'>{0}</span>
+                
+                <DatePicker
+                  selected = {selectedEndDate}
+                  onChange = {hadleDateChange}
+                  dateFormat = "dd/MM/yyyy"
+                  placeholderText='Select a Date'
+                ></DatePicker>  
               </label>
               
               <button className = {style["success-btn"]} type = "submit">Create</button>
