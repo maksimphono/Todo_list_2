@@ -1,7 +1,8 @@
 // <components>
-import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId } from 'react'
+import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId, useState } from 'react'
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
+import $ from "jquery"
 
 // </components>
 
@@ -13,6 +14,36 @@ import { addOne } from '../../Context/Redux/todoRecordsSlice';
 import { useNavigate } from 'react-router-dom';
 
 // </styles>
+
+function CollectionOption() {
+  return (
+    <>
+      <li>
+          <label>
+            Study
+            <input name = "select-collection-item" type="radio" />   
+          </label>
+                      
+          <button className = {style["edit-collection"]} type = "button">Edit</button>
+        </li>
+    </>
+  )
+}
+
+function SelectCollection() {
+  return (
+    <>
+    <ul>
+        <li className = {style["add-collection"]}>
+          <button type = "button">Add</button>
+        </li>
+        <CollectionOption />
+        <CollectionOption />
+        <CollectionOption />
+    </ul>
+    </>
+  )
+}
 
 export default function NewTodoRecord() {
   const navigate = useNavigate();
@@ -29,6 +60,7 @@ export default function NewTodoRecord() {
     navigate("/")
   }, [])
 
+  const dateInputRef = useRef(null);
   const titleInputId = useId()
 
   return (
@@ -49,9 +81,20 @@ export default function NewTodoRecord() {
                 <EditableField ref = {contentRef}/>
               </label>
 
+              <label className = {style["select-collection"]}>
+                <h2>
+                  Collection
+                </h2>
+                <details name="collection">
+                  <summary></summary>
+                  <SelectCollection />
+                </details>
+              </label>
+
               <label className = {style["end-date"]}>
                 <h2>End date</h2>
-                <input type="date" />
+                <input ref = {dateInputRef} type="date" />
+                <span className='display-date'>{0}</span>
               </label>
               
               <button className = {style["success-btn"]} type = "submit">Create</button>
