@@ -26,12 +26,16 @@ function CollectionOption({title}) {
 import {addOne} from "../../../Context/Redux/todoCollectionsSlice.js"
 import { store } from "../../../Context/Redux/store.js";
 
+import modalContext from "../../../Context/modalContext.js";
+
 export default function SelectCollection() {
+    const {modalRef} = useContext(modalContext)
+    
     return (
       <>
       <ul className = {style["select-collection-list"]}>
           <li className = {style["add-collection"]}>
-            <button type = "button" onClick = {() => {store.dispatch(addOne()); console.dir(store.getState())}}>Add</button>
+            <button type = "button" onClick = {() => modalRef.current.alert("qwerty")}>Add</button>
           </li>
           <CollectionOption title = "qert"/>
           <CollectionOption title = "asdfg"/>
