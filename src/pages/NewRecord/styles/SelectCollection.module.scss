@@ -10,6 +10,7 @@ ul.select-collection-list {
     height: auto;
     border-radius: 15px;
     overflow: hidden;
+    z-index: 9;
 
     li {
         display: grid;

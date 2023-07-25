@@ -73,7 +73,6 @@
             width: 100%;
             min-width: 20%;
             height: auto;
-            z-index: 2;
             
             @media screen and (max-width : $query-phone-width) {
                 grid-column: 1/span 3;
@@ -113,12 +112,12 @@
             width: 100%;
             min-width: 20%;
             height: auto;
-            z-index: 2;
+            z-index: 0;
         }
 
         & > .end-date {
             grid-column: 3/span 1;
-            z-index: 1;
+            z-index: 0;
 
 
             @media screen and (max-width : $query-phone-width) {
@@ -138,9 +137,7 @@
             width: 50%;
             height: auto;
             padding: 10px 20px;
-            background-color: $color4;
-            border: 2px solid $color5;
-            border-radius: 20px;
+            border-radius: 15px;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 20px;
             text-decoration: none;
@@ -156,11 +153,13 @@
             &.success-btn {
                 justify-self: end;
                 grid-column: 1/span 1;
+                background-color: $color4;
+                border: 2px solid $color4;
             }
             &[name='cancel']{
                 justify-self: start;
                 grid-column: 3/span 1;
-                border: 2px solid #7a7a7a;
+                border: 2px solid #dbdbdb;
                 background-color: #dbdbdb;
             }
             
