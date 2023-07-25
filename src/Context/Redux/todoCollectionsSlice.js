@@ -26,4 +26,13 @@ const todoRecordsCollection = createSlice({
 
 export const {addOne, removeOne, updateOne} = todoRecordsCollection.actions
 
+
+export const {
+    selectAll : selectAllCollectionRecords, 
+    selectById : selectCollectionRecordsById,
+    selectIds : selectCollectionRecordsIds,
+    selectEntities : selectCollectionRecordsEntries,
+} = todoCollectionAdapter.getSelectors(state => state.todoRecordsCollection)
+
+
 export default todoRecordsCollection.reducer
