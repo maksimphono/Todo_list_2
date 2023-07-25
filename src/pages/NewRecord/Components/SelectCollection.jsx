@@ -8,11 +8,7 @@ import style from "../styles/SelectCollection.module.scss"//"../styles/SelectCol
 function CollectionOption({title}) {
     const context = useContext(selectedTodosCollectionContext);
     const radioInput = useRef(null);
-  
-    useEffect(() => {
-      console.dir(context.setSelectedTodosCollection)
-    }, [])
-  
+
     return (
       <>
         <li>
@@ -27,12 +23,15 @@ function CollectionOption({title}) {
     )
   }
   
+import {addOne} from "../../../Context/Redux/todoCollectionsSlice.js"
+import { store } from "../../../Context/Redux/store.js";
+
 export default function SelectCollection() {
     return (
       <>
       <ul className = {style["select-collection-list"]}>
           <li className = {style["add-collection"]}>
-            <button type = "button">Add</button>
+            <button type = "button" onClick = {() => {store.dispatch(addOne()); console.dir(store.getState())}}>Add</button>
           </li>
           <CollectionOption title = "qert"/>
           <CollectionOption title = "asdfg"/>

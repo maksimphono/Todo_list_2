@@ -8,7 +8,7 @@ import style from  "../styles/EditableField.module.scss";
 export default function EditableField({HTMLcontent}) {
   return (
     <>
-        <p className = {style["editable-field"]}>
+        <p className = {style["editable-field"]} contentEditable = {true}>
           {HTMLcontent}
         </p>
     </>
