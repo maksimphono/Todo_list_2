@@ -1,10 +1,17 @@
 // <components>
-import React, { useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId, useState, createContext, useContext } from 'react'
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectTodoRecordsById } from '../../Context/Redux/todoRecordsSlice';
+import $ from "jquery"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import "./styles/ReactDatePicker.scss"
+import SelectCollection from './Components/SelectCollection';
+
+import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addOne } from '../../Context/Redux/todoRecordsSlice';
+import { useNavigate } from 'react-router-dom';
 
 // </components>
 
@@ -13,26 +20,85 @@ import style from "./styles/CheckoutTodoRecord.module.scss";
 
 // </styles>
 
-export default function CheckoutTodoRecord() {
-    const params = useMemo(() => useParams(), [])
-    
-    const thatTodoRecord = useSelector(selectTodoRecordsById)
+export const selectedTodosCollectionContext = createContext()
 
-    useEffect(() => {
-        console.dir(thatTodoRecord)
-    })
+export default function NewTodoRecord() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const contentRef = useRef(null);
+  const addNewTodoRecord = useCallback(event => {
+    event.preventDefault()
+    const newTodoRecord = {
+      id : new Date().toString().slice(0, 24),
+      title : 'Todo Rec',
+      content : contentRef.current.content()
+    }
+    dispatch(addOne(newTodoRecord))
+    navigate("/")
+  }, [])
 
-    return (
+  const dateInputRef = useRef(null);
+  const titleInputId = useId()
+
+  const [selectedEndDate, setSelectedEndDate] = useState(null)
+
+  const hadleDateChange = (date) => {
+    setSelectedEndDate(date)
+  }
+
+  const [selectedTodosCollection, setSelectedTodosCollection] = useState("null")
+
+
+  return (
     <>
-      <div id = {style["new_todo_record"]}>
-        <Tooltip />
+        
+        <div id = {style["new_todo_record"]}>
+            <Tooltip />
 
-        <EditableField />
+            <form onSubmit={addNewTodoRecord}>
 
-        <button className = {style["success"]} type = "submit">Save</button>
-        <button className = {style["delete-btn"]}>Delete</button>
-        <button className = {style["secondary-btn"]} name = 'cancel'>Cancel</button>
-      </div>
+              <label className = {style["record-title"]}>
+                <h2>Title:</h2>
+                <input type="text" />
+              </label>
+
+              <label className = {style["record-content"]}>
+                <h2>Content:</h2>              
+                <EditableField ref = {contentRef}/>
+              </label>
+
+              <label className = {style["select-collection"]}>
+                <h2>
+                  Collection
+                </h2>
+                <details name="collection">
+                  <selectedTodosCollectionContext.Provider value = {{setSelectedTodosCollection}}>
+                    <summary>{selectedTodosCollection}</summary>
+                    <SelectCollection />
+                  </selectedTodosCollectionContext.Provider>
+                  
+                </details>
+              </label>
+
+              <label className = {style["end-date"]}>
+                <h2>End date</h2>
+                
+                <DatePicker
+                  selected = {selectedEndDate}
+                  onChange = {hadleDateChange}
+                  dateFormat = "dd/MM/yyyy"
+                  placeholderText='Select a Date'
+                ></DatePicker>  
+              </label>
+              
+              <button className = {style["success-btn"]} type = "submit">Create</button>
+              <button className = {style["delete-btn"]}>Delete</button>
+              <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
+            </form>
+
+            
+            
+        </div>
 
     </>
   )

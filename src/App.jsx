@@ -20,7 +20,7 @@ function App() {
         <Route path = "/" element = {<Layout />}>
           <Route index element = {<TodoRecordsList/>}/>
           <Route path="NewTodoRecord" element = {<NewTodoRecord/>}/>
-          <Route path = "CheckoutRecord/:id" element = {<CheckoutTodoRecord />}/>
+          <Route path = "CheckoutRecord" element = {<CheckoutTodoRecord />}/>
         </Route>
       </Routes>
     </BrowserRouter>
