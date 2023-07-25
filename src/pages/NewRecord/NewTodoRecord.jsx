@@ -6,6 +6,7 @@ import $ from "jquery"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import "./styles/ReactDatePicker.scss"
+import SelectCollection from './Components/SelectCollection';
 
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -19,47 +20,7 @@ import style from "./styles/NewTodoRecord.module.scss";
 
 // </styles>
 
-const selectedTodosCollectionContext = createContext()
-
-function CollectionOption({title}) {
-  const context = useContext(selectedTodosCollectionContext);
-  const radioInput = useRef(null);
-
-  useEffect(() => {
-    console.dir(context.setSelectedTodosCollection)
-    //context.setSelectedTodosCollection("qwertyu");
-    //radioInput.current.onClick = () => context.setSelectedTodosCollection("qwertyu");
-    //console.dir(radioInput.current.onClick)
-  }, [])
-
-  return (
-    <>
-      <li>
-          <label>
-            {title}
-            <input ref = {radioInput} name = "select-collection-item" type="radio" onClick = {event => context.setSelectedTodosCollection(title)} />
-          </label>
-                      
-          <button className = {style["edit-collection"]} type = "button">Edit</button>
-        </li>
-    </>
-  )
-}
-
-function SelectCollection() {
-  return (
-    <>
-    <ul>
-        <li className = {style["add-collection"]}>
-          <button type = "button">Add</button>
-        </li>
-        <CollectionOption title = "qert"/>
-        <CollectionOption title = "asdfg"/>
-        <CollectionOption title = "lkmn "/>
-    </ul>
-    </>
-  )
-}
+export const selectedTodosCollectionContext = createContext()
 
 export default function NewTodoRecord() {
   const navigate = useNavigate();
