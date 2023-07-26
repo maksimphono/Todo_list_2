@@ -7,28 +7,31 @@ import styles_buttons from "../../../buttons.module.scss"
 export default forwardRef(function Modal(props, ref) {
     const [title, setTitle] = useState("Title")
     const [body, setBody] = useState(<i>Body</i>)
+    const [footer, setFooter] = useState([])
     const dialogRef = useRef(null)
 
     useImperativeHandle(ref, () => {
         return {
             showModal : () => dialogRef.current.showModal(),
+            close : () => dialogRef.current.close(),
             setTitle,
-            setBody
+            setBody,
+            setFooter
         }
     })
   
     return (
     <>
         <dialog ref = {dialogRef} id = {"modal-dialog"} className = {style.modal} open = {false}>
-            <form method = "dialog">
+            <div>
                 <h2 className = {style["title"]}>{title}</h2>
-                <p className = {style["content"]}>{body}</p>
+                <div className = {style["content"]}>{body}</div>
                 <ul className = {style["buttons"]}>
-                    <li><button className = {styles_buttons["warning-btn"]} value = {"cancel"} formMethod={"dialog"} onClick={() => dialogRef.current.close()}>Cancel</button></li>
-                    <li><button className = {styles_buttons["success-btn"]} type = "button">Submit</button></li>
+                    {footer.map((item, key) => <li key = {key}>{item}</li>)}
+                    <li><form method = "dialog"><button className = {styles_buttons["secondary-btn"]} value = {"cancel"} formMethod={"dialog"} onClick={() => dialogRef.current.close()}>Cancel</button></form></li>
                 </ul>
                 <button className = {style["cancel-X-btn"]}>x</button>
-            </form>
+            </div>
         </dialog>
     </>
   )

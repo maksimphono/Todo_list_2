@@ -16,6 +16,12 @@
     background: $maincolor;
 }
 
+.secondary-btn {
+    $maincolor: $color-success;
+    @include ui-button($color-success);
+    background: #bbb;
+}
+
 .info-btn {
     $maincolor: $color-info;
     @include ui-button($maincolor);
