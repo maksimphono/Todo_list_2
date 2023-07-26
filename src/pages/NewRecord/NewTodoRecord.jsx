@@ -71,7 +71,14 @@ export default function NewTodoRecord() {
                 </h2>
                 <details name="collection">
                   <selectedTodosCollectionContext.Provider value = {{setSelectedTodosCollection}}>
-                    <summary>{selectedTodosCollection.title}</summary>
+                    <summary 
+                      style = {{
+                        background : selectedTodosCollection.color, 
+                        color: selectedTodosCollection.textColor
+                      }}
+                    >
+                      {selectedTodosCollection.title}
+                    </summary>
                     <SelectCollection />
                   </selectedTodosCollectionContext.Provider>
                   

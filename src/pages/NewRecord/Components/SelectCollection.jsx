@@ -11,12 +11,24 @@ import styled_buttons from "../../../buttons.module.scss";
 import { selectAllCollectionRecords } from "../../../Context/Redux/todoCollectionsSlice";
 import { useSelector } from "react-redux";
 
+import EditCollectionForm from "./EditCollectionForm";
+
 
 function CollectionOption({id, title, color}) {
     const context = useContext(selectedTodosCollectionContext);
+    const {modalRef} = useContext(modalContext)
+
+    const editCollectionFormId = useId()
     const radioInput = useRef(null);
     const textColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [])
     const borderColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [])
+
+    const startEditCollectionRecord = useCallback(event => {
+      modalRef.current.setTitle("Edit collection");
+      modalRef.current.setBody(<EditCollectionForm id = {editCollectionFormId} CollectionId = {id} closeModal = {modalRef.current.close} />);
+      modalRef.current.setFooter([<button form = {editCollectionFormId} className = {styled_buttons["warning-btn"]} type = "submit">Edit</button>]);
+      modalRef.current.showModal()
+    })
 
     return (
       <>
@@ -31,11 +43,11 @@ function CollectionOption({id, title, color}) {
                 }}
                 name = "select-collection-item" 
                 type="radio" 
-                onClick = {event => context.setSelectedTodosCollection({id, title, color})} 
+                onClick = {event => context.setSelectedTodosCollection({id, title, color, textColor})} 
               />
             </label>
-                        
-            <button className = {style["edit-collection"]} type = "button">Edit</button>
+   
+            <button className = {style["edit-collection"]} type = "button" onClick={startEditCollectionRecord}>Edit</button>
           </li>
       </>
     )
