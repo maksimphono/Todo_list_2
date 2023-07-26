@@ -22,6 +22,7 @@ import style from "./styles/NewTodoRecord.module.scss";
 
 export const selectedTodosCollectionContext = createContext()
 
+
 export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -29,12 +30,15 @@ export default function NewTodoRecord() {
 
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
+    const formDate = new FormData(event.target)
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
-      title : 'Todo Rec',
-      content : contentRef.current.content()
+      title : formDate.get("title"),
+      content : contentRef.current.content(),
+      collection : selectedTodosCollection.id
     }
     dispatch(addOne(newTodoRecord))
+
     navigate("/")
   }, [])
 
@@ -44,8 +48,7 @@ export default function NewTodoRecord() {
     setSelectedEndDate(date)
   }
 
-  const [selectedTodosCollection, setSelectedTodosCollection] = useState({})
-
+  const [selectedTodosCollection, setSelectedTodosCollection] = useState({id : "", name : "", color : "#fff"})
 
   return (
     <>

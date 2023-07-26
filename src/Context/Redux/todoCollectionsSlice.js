@@ -2,6 +2,14 @@ import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
 const todoCollectionAdapter = createEntityAdapter()
 
+export const {
+    selectAll : selectAllCollectionRecords, 
+    selectById : selectCollectionRecordsById,
+    selectIds : selectCollectionRecordsIds,
+    selectEntities : selectCollectionRecordsEntries,
+} = todoCollectionAdapter.getSelectors(state => state.todoRecordsCollection)
+
+
 const todoRecordsCollection = createSlice({
     name : "todoRecordsCollection",
     initialState : todoCollectionAdapter.getInitialState(),
@@ -34,19 +42,23 @@ const todoRecordsCollection = createSlice({
             reducer : (state, action) => todoCollectionAdapter.updateOne(state, action.payload)
         },
         removeOne : todoCollectionAdapter.removeOne,
-        updateOne : todoCollectionAdapter.updateOne
+        addOneTodoRecord : (state, action) => {
+            const id = action.payload.id;
+            const options = {
+                id : id,
+                changes : {
+                    todoRecordsIds : [action.payload.todoRecordId, ...selectCollectionRecordsById(state, id).todoRecordsIds]
+                }
+            }
+            console.dir(options)
+            //todoCollectionAdapter.updateOne(state, options)
+        }
     }
 })
 
 export const {addOne, removeOne, updateOne, updateNameAndColor} = todoRecordsCollection.actions
 
 
-export const {
-    selectAll : selectAllCollectionRecords, 
-    selectById : selectCollectionRecordsById,
-    selectIds : selectCollectionRecordsIds,
-    selectEntities : selectCollectionRecordsEntries,
-} = todoCollectionAdapter.getSelectors(state => state.todoRecordsCollection)
 
 
 export default todoRecordsCollection.reducer
