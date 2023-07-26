@@ -1,10 +1,18 @@
 import { useRef, useEffect, useContext, useCallback, forwardRef, useImperativeHandle, useId } from "react";
 
+
 import {selectedTodosCollectionContext} from "../NewTodoRecord.jsx"
+import modalContext from "../../../Context/modalContext.js";
+
+import {addOne} from "../../../Context/Redux/todoCollectionsSlice.js"
+import { store } from "../../../Context/Redux/store.js";
+
 
 // styles
 import style from "../styles/SelectCollection.module.scss"//"../styles/SelectCollection.module.scss"
 import style_NewCollectionForm from "../styles/NewCollectionForm.module.scss"
+import styled_buttons from "../../../buttons.module.scss";
+
 
 function CollectionOption({title}) {
     const context = useContext(selectedTodosCollectionContext);
@@ -23,11 +31,6 @@ function CollectionOption({title}) {
       </>
     )
   }
-  
-import {addOne} from "../../../Context/Redux/todoCollectionsSlice.js"
-import { store } from "../../../Context/Redux/store.js";
-
-import modalContext from "../../../Context/modalContext.js";
 
 function NewCollectionForm({id, closeModal}) {
   const handleSubmit = useCallback(event => {
@@ -54,8 +57,6 @@ function NewCollectionForm({id, closeModal}) {
     </form>
   )
 }
-
-import styled_buttons from "../../../buttons.module.scss";
 
 export default function SelectCollection() {
     const {modalRef} = useContext(modalContext)
