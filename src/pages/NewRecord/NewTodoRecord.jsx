@@ -26,6 +26,7 @@ export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
+
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const newTodoRecord = {
@@ -37,16 +38,13 @@ export default function NewTodoRecord() {
     navigate("/")
   }, [])
 
-  const dateInputRef = useRef(null);
-  const titleInputId = useId()
-
   const [selectedEndDate, setSelectedEndDate] = useState(null)
 
   const hadleDateChange = (date) => {
     setSelectedEndDate(date)
   }
 
-  const [selectedTodosCollection, setSelectedTodosCollection] = useState("null")
+  const [selectedTodosCollection, setSelectedTodosCollection] = useState({})
 
 
   return (
@@ -73,7 +71,7 @@ export default function NewTodoRecord() {
                 </h2>
                 <details name="collection">
                   <selectedTodosCollectionContext.Provider value = {{setSelectedTodosCollection}}>
-                    <summary>{selectedTodosCollection}</summary>
+                    <summary>{selectedTodosCollection.title}</summary>
                     <SelectCollection />
                   </selectedTodosCollectionContext.Provider>
                   

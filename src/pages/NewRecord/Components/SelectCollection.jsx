@@ -12,7 +12,7 @@ import { selectAllCollectionRecords } from "../../../Context/Redux/todoCollectio
 import { useSelector } from "react-redux";
 
 
-function CollectionOption({title, color}) {
+function CollectionOption({id, title, color}) {
     const context = useContext(selectedTodosCollectionContext);
     const radioInput = useRef(null);
     const textColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [])
@@ -31,7 +31,7 @@ function CollectionOption({title, color}) {
                 }}
                 name = "select-collection-item" 
                 type="radio" 
-                onClick = {event => context.setSelectedTodosCollection(title)} 
+                onClick = {event => context.setSelectedTodosCollection({id, title, color})} 
               />
             </label>
                         
@@ -45,14 +45,13 @@ export default function SelectCollection() {
     const {modalRef} = useContext(modalContext)
     const newCollectionFormId = useId();
     const allColection = useSelector(selectAllCollectionRecords)
+    
     const showNewCollectionDialog = useCallback(() => {
       modalRef.current.setTitle("New collection");
-      modalRef.current.setBody(<NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />); 
+      modalRef.current.setBody(<NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />);
       modalRef.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons["success-btn"]} type = "submit">Create</button>]);
       modalRef.current.showModal()
     }, [])
-
-    useEffect(() => console.dir(allColection), [])
 
     return (
       <>
@@ -61,7 +60,7 @@ export default function SelectCollection() {
             <button type = "button" onClick = {() => {showNewCollectionDialog()}}>Add</button>
           </li>
           {allColection.map((item) => 
-            <CollectionOption key = {item.id} title = {item.name} color = {item.color}/>
+            <CollectionOption key = {item.id} id = {item.id} title = {item.name} color = {item.color}/>
           )}
           
       </ul>
