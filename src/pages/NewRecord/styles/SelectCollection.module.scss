@@ -37,7 +37,11 @@ ul.select-collection-list {
             height: 100%;
             width: 100%;
 
-            
+            span {
+                padding-inline: 10px;
+                overflow: hidden;
+                z-index: 2;
+            }
 
             input {
                 appearance: none;
@@ -48,8 +52,8 @@ ul.select-collection-list {
                 border: none;
                 box-shadow: unset;
                 cursor: pointer;
+                z-index: 1;
 
-                
                 
                 &:checked, &:hover {
                     background-color: #5555;
