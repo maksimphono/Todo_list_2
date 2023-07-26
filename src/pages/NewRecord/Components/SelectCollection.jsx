@@ -35,7 +35,7 @@ export default function SelectCollection() {
       <>
       <ul className = {style["select-collection-list"]}>
           <li className = {style["add-collection"]}>
-            <button type = "button" onClick = {() => modalRef.current.showModal()}>Add</button>
+            <button type = "button" onClick = {() => {modalRef.current.setBody("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi non consectetur pariatur vitae quis ipsum quae incidunt sapiente, quod, eaque molestias explicabo nam ad architecto ratione deserunt aliquid ducimus expedita.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi non consectetur pariatur vitae quis ipsum quae incidunt sapiente, quod, eaque molestias explicabo nam ad architecto ratione deserunt aliquid ducimus expedita."); modalRef.current.showModal()}}>Add</button>
           </li>
           <CollectionOption title = "qert"/>
           <CollectionOption title = "asdfg"/>

@@ -1,0 +1,35 @@
+@import "./define.scss";
+
+@mixin ui-button($maincolor) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding-inline: 5px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.success-btn {
+    $maincolor: $color-success;
+    @include ui-button($color-success);
+    background: $maincolor;
+}
+
+.info-btn {
+    $maincolor: $color-info;
+    @include ui-button($maincolor);
+    background: $color-info;
+}
+
+.warning-btn {
+    $maincolor: $color-warning;
+    @include ui-button($maincolor);
+    background: $color-warning;
+}
+
+.danger-btn {
+    $maincolor: $color-danger;
+    @include ui-button($maincolor);
+    background: $color-danger;
+}
