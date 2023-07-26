@@ -1,17 +1,14 @@
 import { useRef, useEffect, useContext, useCallback, forwardRef, useImperativeHandle, useId } from "react";
 
+import NewCollectionForm from "./NewCollectionForm";
 
 import {selectedTodosCollectionContext} from "../NewTodoRecord.jsx"
 import modalContext from "../../../Context/modalContext.js";
 
-import {addOne} from "../../../Context/Redux/todoCollectionsSlice.js"
-import { store } from "../../../Context/Redux/store.js";
-
-
 // styles
 import style from "../styles/SelectCollection.module.scss"//"../styles/SelectCollection.module.scss"
-import style_NewCollectionForm from "../styles/NewCollectionForm.module.scss"
 import styled_buttons from "../../../buttons.module.scss";
+import { useSelector } from "react-redux";
 
 
 function CollectionOption({title}) {
@@ -31,32 +28,6 @@ function CollectionOption({title}) {
       </>
     )
   }
-
-function NewCollectionForm({id, closeModal}) {
-  const handleSubmit = useCallback(event => {
-    event.preventDefault()
-    const formDate = new FormData(event.target)
-    console.log(formDate.get("name"), formDate.get("color"))
-    closeModal();
-  })
-
-  return (
-    <form 
-      id = {id}
-      className = {style_NewCollectionForm["new_collection_modal_form"]} 
-      onSubmit = {handleSubmit}
-    >
-      <label>
-        <h3>Collection name</h3>
-        <input name = "name" type="text" />
-      </label>
-      <label className = {style_NewCollectionForm["color-picker"]}>
-        <h3>Collection color</h3>
-        <input name = "color" type="color" />
-      </label>      
-    </form>
-  )
-}
 
 export default function SelectCollection() {
     const {modalRef} = useContext(modalContext)
