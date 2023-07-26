@@ -19,12 +19,26 @@ const todoRecordsCollection = createSlice({
             },
             reducer : (state, action) => todoCollectionAdapter.addOne(state, action.payload)
         },
+        updateNameAndColor : {
+            prepare : (action) => {
+                return {
+                    payload : {
+                        id : action.id,
+                        changes : {
+                            color: action.color,
+                            name : action.name
+                        }                        
+                    }
+                }
+            },
+            reducer : (state, action) => todoCollectionAdapter.updateOne(state, action.payload)
+        },
         removeOne : todoCollectionAdapter.removeOne,
         updateOne : todoCollectionAdapter.updateOne
     }
 })
 
-export const {addOne, removeOne, updateOne} = todoRecordsCollection.actions
+export const {addOne, removeOne, updateOne, updateNameAndColor} = todoRecordsCollection.actions
 
 
 export const {

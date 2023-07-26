@@ -2,7 +2,8 @@ import {useCallback, useContext, useEffect} from "react"
 
 import modalContext from "../../../Context/modalContext.js";
 
-import {addOne} from "../../../Context/Redux/todoCollectionsSlice.js"
+
+import {addOne, updateNameAndColor} from "../../../Context/Redux/todoCollectionsSlice.js"
 import { store } from "../../../Context/Redux/store.js";
 
 
@@ -20,12 +21,13 @@ export default function EditCollectionForm({id, closeModal, CollectionId}) {
       const formDate = new FormData(event.target)
       console.log(formDate.get("name"), formDate.get("color"))
       
-      /*
-      dispatch(addOne({
+      
+      dispatch(updateNameAndColor({
+        id : CollectionId,
         name : formDate.get("name"), 
         color : formDate.get("color")
       }))
-      */
+      
       event.target.reset()
       closeModal();
     })
