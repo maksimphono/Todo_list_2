@@ -42,12 +42,12 @@ export default function EditCollectionForm({id, closeModal, CollectionId}) {
       >
         <label>
           <h3>Collection name</h3>
-          <input name = "name" type="text" defaultValue={collectionRecord.name} />
+          <input name = "name" type="text" defaultValue={collectionRecord?.name || ""} />
         </label>
         <label className = {style_NewCollectionForm["color-picker"]}>
           <h3>Collection color</h3>
-          <input name = "color" type="color" defaultValue={collectionRecord.color} />
-        </label>      
+          <input name = "color" type="color" defaultValue={collectionRecord?.color || "#000"} />
+        </label>
       </form>
     )
   }

@@ -32,10 +32,12 @@
     $maincolor: $color-warning;
     @include ui-button($maincolor);
     background: $color-warning;
+    //color: #ddd;
 }
 
 .danger-btn {
     $maincolor: $color-danger;
     @include ui-button($maincolor);
     background: $color-danger;
+    //color: #ddd;
 }

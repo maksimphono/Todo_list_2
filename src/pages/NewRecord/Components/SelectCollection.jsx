@@ -8,13 +8,14 @@ import modalContext from "../../../Context/modalContext.js";
 // styles
 import style from "../styles/SelectCollection.module.scss"//"../styles/SelectCollection.module.scss"
 import styled_buttons from "../../../buttons.module.scss";
-import { selectAllCollectionRecords } from "../../../Context/Redux/todoCollectionsSlice";
-import { useSelector } from "react-redux";
+import { selectAllCollectionRecords, removeOne } from "../../../Context/Redux/todoCollectionsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 import EditCollectionForm from "./EditCollectionForm";
 
 
 function CollectionOption({id, title, color}) {
+    const dispatch = useDispatch();
     const context = useContext(selectedTodosCollectionContext);
     const {modalRef} = useContext(modalContext)
 
@@ -23,10 +24,18 @@ function CollectionOption({id, title, color}) {
     const textColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [])
     const borderColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [])
 
+    const handleRemoveCollection = useCallback((collectionId) => {
+      modalRef.current.close()
+      dispatch(removeOne(collectionId))
+    })
+
     const startEditCollectionRecord = useCallback(event => {
       modalRef.current.setTitle("Edit collection");
       modalRef.current.setBody(<EditCollectionForm id = {editCollectionFormId} CollectionId = {id} closeModal = {modalRef.current.close} />);
-      modalRef.current.setFooter([<button form = {editCollectionFormId} className = {styled_buttons["warning-btn"]} type = "submit">Edit</button>]);
+      modalRef.current.setFooter([
+        <button form = {editCollectionFormId} className = {styled_buttons["warning-btn"]} type = "submit">Edit</button>,
+        <button className = {styled_buttons["danger-btn"]} type = "button" onClick = {() => handleRemoveCollection(id)}>Delete</button>
+      ]);
       modalRef.current.showModal()
     })
 
