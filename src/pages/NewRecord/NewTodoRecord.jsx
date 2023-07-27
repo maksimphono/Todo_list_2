@@ -9,7 +9,7 @@ import "./styles/ReactDatePicker.scss"
 import SelectCollection from './Components/SelectCollection';
 
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addOne } from '../../Context/Redux/todoRecordsSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ import style from "./styles/NewTodoRecord.module.scss";
 
 export const selectedTodosCollectionContext = createContext()
 
-import { addOneTodoRecord } from "../../Context/Redux/todoCollectionsSlice"
+import { addOneTodoRecord, selectAllCollectionRecords } from "../../Context/Redux/todoCollectionsSlice"
 import { store } from '../../Context/Redux/store';
 
 export default function NewTodoRecord() {
@@ -32,6 +32,7 @@ export default function NewTodoRecord() {
 
   const [selectedTodosCollection, setSelectedTodosCollection] = useState({id : "", name : "", color : "#fff"})
 
+  const collections = useSelector(selectAllCollectionRecords)
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const formDate = new FormData(event.target)
@@ -43,7 +44,7 @@ export default function NewTodoRecord() {
     }
     dispatch(addOne(newTodoRecord))
 
-    console.dir(selectedTodosCollection)
+    //console.dir(selectedTodosCollection)
     dispatch(addOneTodoRecord({id : selectedTodosCollection.id, todoRecordId : newTodoRecord.id})) // selectedTodosCollection.id
 
     navigate("/")
@@ -54,6 +55,8 @@ export default function NewTodoRecord() {
   const hadleDateChange = (date) => {
     setSelectedEndDate(date)
   }
+
+  useEffect(() => {console.log("Collections: "); console.dir(collections)}, [collections])
 
   return (
     <>

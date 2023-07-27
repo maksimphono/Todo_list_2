@@ -2,6 +2,8 @@ import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
 const todoCollectionAdapter = createEntityAdapter()
 
+import { store } from "./store";
+
 export const {
     selectAll : selectAllCollectionRecords, 
     selectById : selectCollectionRecordsById,
@@ -26,7 +28,9 @@ const todoRecordsCollection = createSlice({
                     }
                 }
             },
-            reducer : (state, action) => todoCollectionAdapter.addOne(state, action.payload)
+            reducer : (state, action) => {
+                todoCollectionAdapter.addOne(state, action.payload)
+            }
         },
         updateNameAndColor : {
             prepare : (action) => {
@@ -50,23 +54,19 @@ const todoRecordsCollection = createSlice({
                 console.dir(action)
                 return {
                     payload : {
-                        id : action.id,
-                        changes : {
-                            todoRecordsIds : ["New list"]
-                        }
-                        
+                        id : action.id
                     }
                 }
             },
-            reducer : (state, action) => todoCollectionAdapter.updateOne(state, action.payload)
+            reducer : (state, action) => {
+                return todoCollectionAdapter.updateOne(state, {id : action.payload.id, changes : {todoRecordsIds : ["New todo id", ...selectCollectionRecordsById(store.getState(), action.payload.id).todoRecordsIds]}})
+            }
+            
         }
             
     }
 })
 
 export const {addOne, removeOne, updateOne, updateNameAndColor, addOneTodoRecord} = todoRecordsCollection.actions
-
-
-
 
 export default todoRecordsCollection.reducer
