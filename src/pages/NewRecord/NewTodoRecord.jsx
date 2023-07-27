@@ -45,7 +45,7 @@ export default function NewTodoRecord() {
     dispatch(addOne(newTodoRecord))
 
     //console.dir(selectedTodosCollection)
-    dispatch(addOneTodoRecord({id : selectedTodosCollection.id, todoRecordId : newTodoRecord.id})) // selectedTodosCollection.id
+    dispatch(addOneTodoRecord({id : selectedTodosCollection.id, todoRecordId : newTodoRecord.id, state : store.getState()})) // selectedTodosCollection.id
 
     navigate("/")
   }, [selectedTodosCollection, contentRef])
@@ -55,8 +55,6 @@ export default function NewTodoRecord() {
   const hadleDateChange = (date) => {
     setSelectedEndDate(date)
   }
-
-  useEffect(() => {console.log("Collections: "); console.dir(collections)}, [collections])
 
   return (
     <>
