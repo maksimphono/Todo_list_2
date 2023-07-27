@@ -36,7 +36,7 @@ import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollecti
 
 export default function TodoRecordCard({cardData}) {
   const todoCollection = useSelector(() => selectCollectionRecordsById(store.getState(), cardData.collection))
-  const textColor = useMemo(() => ((parseInt(todoCollection.color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [todoCollection])
+  const textColor = useMemo(() => ((parseInt(todoCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [todoCollection])
 
   const newCardData = useMemo(() => {
     console.dir(cardData)
@@ -73,7 +73,7 @@ export default function TodoRecordCard({cardData}) {
           >
             <h3 className ={style["title"]}>{newCardData.title}</h3>
             <DateStamp date = {newCardData.dateEnd}/>
-            <span className ={style["type"]}>Belongs to collection "{todoCollection.name}"</span>
+            <span className ={style["type"]}>Belongs to collection "<b>{todoCollection.name}</b>"</span>
             <CardControlBtns />
             <p className={style["content"]}>{newCardData.content}</p>
         </div>      

@@ -2,7 +2,7 @@
 
 .todo-record-card {
     --bg-main-color: #e77e28;
-    --text-color: #222;
+    --text-color: #000;
     
     display: flex;
     flex-direction: column;
@@ -10,7 +10,8 @@
     align-items: center;
     gap: 5px;
     width: auto;
-    aspect-ratio: 16/8;
+    aspect-ratio: 16/10;
+    padding: 10px;
     font-family: Arial, Helvetica, sans-serif;
     background-image: linear-gradient(var(--bg-main-color), var(--bg-main-color), var(--bg-main-color), var(--bg-main-color), #eee);
     border: none;
@@ -23,6 +24,7 @@
     z-index: 1;
 
     .title,
+    .type,
     .date-stamp,
     .content {
         color: var(--text-color);
@@ -39,6 +41,10 @@
         gap: 0;
         overflow: hidden;
 
+        .type {
+            display: flex;
+            justify-content: center;
+        }
 
         .title {
             grid-row: 1 / 2;
