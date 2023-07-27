@@ -25,8 +25,7 @@
 
     .title,
     .type,
-    .date-stamp,
-    .content {
+    .date-stamp {
         color: var(--text-color);
     }
 
@@ -66,7 +65,11 @@
             display: flex;
             height: 100%;
             padding: 3%;
-            background: $color2;
+            color: $color-dark;
+
+            background: linear-gradient(-60deg,
+                $color2 0% 5%,#fff 5% 10%,$color2 10% 15%,#fff 15% 20%,$color2 20% 25%,#fff 25% 30%,$color2 30% 35%,#fff 35% 40%,$color2 40% 45%,#fff 45% 50%,$color2 50% 55%,#fff 55% 60%,$color2 60% 65%,#fff 65% 70%,$color2 70% 75%,#fff 75% 80%,$color2 80% 85%,#fff 85% 90%,$color2 90% 95%,#fff 95% 100%,
+            );
         }
         
         *:not(.title, .content, .date-stamp) {

@@ -6,7 +6,7 @@ import $ from "jquery"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import "./styles/ReactDatePicker.scss"
-import SelectCollection from './Components/SelectCollection';
+import SelectCollectionDropdown from './Components/SelectCollectionDropdown';
 
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,12 +35,15 @@ export default function NewTodoRecord() {
   const dispatch = useDispatch()
   const contentRef = useRef(null);
 
-  const [selectedTodosCollection, setSelectedTodosCollection] = useState({id : "", name : "", color : "#fff"})
-
+  const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
+  
+  const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), selectedTodosCollectionId))
+  const selectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
 
+  const [openedSelectCollectionDropdown, setOpenedSelectCollectionDropdown] = useState(false)
+  const collectionSelectionDropdown = useRef(null);
 
-  const collections = useSelector(selectAllCollectionRecords)
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const formData = new FormData(event.target)
@@ -50,24 +53,16 @@ export default function NewTodoRecord() {
       title : formData.get("title"),
       dateEnd : new Date(selectedEndDate).toString().slice(0, 15),
       content : contentRef.current.content(),
-      collection : selectedTodosCollection.id
+      collection : selectedTodosCollectionId
     }
-     // selectedTodosCollection.id
-    createTodoRecord(dispatch, newTodoRecord, selectedTodosCollection.id)
+
+    createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
 
     navigate("/")
-  }, [selectedTodosCollection, contentRef, selectedEndDate])
-
-  const hadleDateChange = (date) => {
-    setSelectedEndDate(date)
-  }
-
-  const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), selectedTodosCollection.id))
-  const slectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
+  }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   return (
     <>
-        
         <div id = {style["new_todo_record"]}>
             <Tooltip />
 
@@ -87,19 +82,18 @@ export default function NewTodoRecord() {
                 <h2>
                   Collection
                 </h2>
-                <details name="collection">
-                  <selectedTodosCollectionContext.Provider value = {{setSelectedTodosCollection}}>
+                <details name="collection" ref = {collectionSelectionDropdown}>
+                  <selectedTodosCollectionContext.Provider value = {{setSelectedTodosCollectionId}}>
                     <summary 
                       style = {{
-                        background : selectedCollection?.color || "#000", 
-                        color: slectedCollectionTextColor
+                      background : selectedCollection?.color || "#000", 
+                      color: selectedCollectionTextColor
                       }}
                     >
                       {selectedCollection?.name || ""}
                     </summary>
-                    <SelectCollection />
+                    <SelectCollectionDropdown />
                   </selectedTodosCollectionContext.Provider>
-                  
                 </details>
               </label>
 
@@ -108,7 +102,7 @@ export default function NewTodoRecord() {
                 
                 <DatePicker
                   selected = {selectedEndDate}
-                  onChange = {hadleDateChange}
+                  onChange = {setSelectedEndDate}
                   dateFormat = "dd/MM/yyyy"
                   placeholderText='Select a Date'
                 ></DatePicker>  

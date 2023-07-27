@@ -15,7 +15,7 @@ import EditCollectionForm from "./EditCollectionForm";
 import { store } from "../../../Context/Redux/store";
 
 
-function CollectionOption({id, title, color}) {
+function CollectionOption({id}) {
     const dispatch = useDispatch();
     const context = useContext(selectedTodosCollectionContext);
     const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), id))
@@ -23,13 +23,13 @@ function CollectionOption({id, title, color}) {
 
     const editCollectionFormId = useId()
     const radioInput = useRef(null);
-    const textColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
-    const borderColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
+    const textColor = useMemo(() => ((parseInt(selectedCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
+    const borderColor = useMemo(() => ((parseInt(selectedCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
 
     const handleRemoveCollection = useCallback((collectionId) => {
       modalRef.current.close()
       dispatch(removeOne(collectionId))
-    })
+    }, [modalRef])
 
     const startEditCollectionRecord = useCallback(event => {
       modalRef.current.setTitle("Edit collection");
@@ -39,7 +39,7 @@ function CollectionOption({id, title, color}) {
         <button className = {styled_buttons["danger-btn"]} type = "button" onClick = {() => handleRemoveCollection(id)}>Delete</button>
       ]);
       modalRef.current.showModal()
-    })
+    }, [id, modalRef, editCollectionFormId])
 
     return (
       <>
@@ -54,7 +54,7 @@ function CollectionOption({id, title, color}) {
                 }}
                 name = "select-collection-item" 
                 type="radio" 
-                onClick = {event => context.setSelectedTodosCollection({id, title, color, textColor})} 
+                onClick = {event => context.setSelectedTodosCollectionId(id)} 
               />
             </label>
 
@@ -74,18 +74,22 @@ export default function SelectCollection() {
       modalRef.current.setBody(<NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />);
       modalRef.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons["success-btn"]} type = "submit">Create</button>]);
       modalRef.current.showModal()
-    }, [])
+    }, [modalRef, newCollectionFormId])
 
     return (
       <>
       <ul className = {style["select-collection-list"]}>
           <li className = {style["add-collection"]}>
-            <button type = "button" onClick = {() => {showNewCollectionDialog()}}>Add</button>
+            <button 
+              type = "button" 
+              onClick = {() => {showNewCollectionDialog()}}
+            >
+              Add
+            </button>
           </li>
           {allColection.map((item) => 
-            <CollectionOption key = {item.id} id = {item.id} title = {item.name} color = {item.color}/>
+            <CollectionOption key = {item.id} id = {item.id} />
           )}
-          
       </ul>
       </>
     )
