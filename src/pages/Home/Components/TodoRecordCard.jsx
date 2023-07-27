@@ -65,12 +65,11 @@ export default function TodoRecordCard({cardData}) {
         <div 
           key = {newCardData.id}
           ref = {componentMainBody} 
-          onClick = {handleBodyClick} 
+          onClick = {handleBodyClick}
+          data-show-content = {contentVisiable}
           style = {{"--bg-main-color" : todoCollection.color, "--text-color" : textColor}}
-          className = {
-            [style["todo-record-card"], (contentVisiable?style["show-content"]:"")].join(" ").trim()
-          }
-          >
+          className = {style["todo-record-card"]}
+        >
             <h3 className ={style["title"]}>{newCardData.title}</h3>
             <DateStamp date = {newCardData.dateEnd}/>
             <span className ={style["type"]}>Belongs to collection "<b>{todoCollection.name}</b>"</span>

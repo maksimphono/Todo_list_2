@@ -37,13 +37,18 @@ export default function NewTodoRecord() {
 
   const [selectedTodosCollection, setSelectedTodosCollection] = useState({id : "", name : "", color : "#fff"})
 
+  const [selectedEndDate, setSelectedEndDate] = useState(null)
+
+
   const collections = useSelector(selectAllCollectionRecords)
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const formData = new FormData(event.target)
+    console.log(selectedEndDate)
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
       title : formData.get("title"),
+      dateEnd : new Date(selectedEndDate).toString().slice(0, 15),
       content : contentRef.current.content(),
       collection : selectedTodosCollection.id
     }
@@ -51,9 +56,7 @@ export default function NewTodoRecord() {
     createTodoRecord(dispatch, newTodoRecord, selectedTodosCollection.id)
 
     navigate("/")
-  }, [selectedTodosCollection, contentRef])
-
-  const [selectedEndDate, setSelectedEndDate] = useState(null)
+  }, [selectedTodosCollection, contentRef, selectedEndDate])
 
   const hadleDateChange = (date) => {
     setSelectedEndDate(date)

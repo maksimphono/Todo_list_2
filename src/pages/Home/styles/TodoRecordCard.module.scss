@@ -30,7 +30,7 @@
         color: var(--text-color);
     }
 
-    &.show-content {
+    &[data-show-content='true'] {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 
@@ -39,6 +39,7 @@
         align-items: center;
         color: #eee;
         gap: 0;
+        padding: 0;
         overflow: hidden;
 
         .type {
