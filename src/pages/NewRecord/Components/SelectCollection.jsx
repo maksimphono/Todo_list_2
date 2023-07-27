@@ -8,21 +8,23 @@ import modalContext from "../../../Context/modalContext.js";
 // styles
 import style from "../styles/SelectCollection.module.scss"//"../styles/SelectCollection.module.scss"
 import styled_buttons from "../../../buttons.module.scss";
-import { selectAllCollectionRecords, removeOne } from "../../../Context/Redux/todoCollectionsSlice";
+import { selectAllCollectionRecords, removeOne, selectCollectionRecordsById } from "../../../Context/Redux/todoCollectionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import EditCollectionForm from "./EditCollectionForm";
+import { store } from "../../../Context/Redux/store";
 
 
 function CollectionOption({id, title, color}) {
     const dispatch = useDispatch();
     const context = useContext(selectedTodosCollectionContext);
+    const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), id))
     const {modalRef} = useContext(modalContext)
 
     const editCollectionFormId = useId()
     const radioInput = useRef(null);
-    const textColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [])
-    const borderColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [])
+    const textColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
+    const borderColor = useMemo(() => ((parseInt(color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
 
     const handleRemoveCollection = useCallback((collectionId) => {
       modalRef.current.close()
@@ -43,11 +45,11 @@ function CollectionOption({id, title, color}) {
       <>
         <li>
             <label>
-              <span style = {{color : textColor}}>{title}</span>
+              <span style = {{color : textColor}}>{selectedCollection?.name || ""}</span>
               <input 
                 ref = {radioInput} 
                 style = {{
-                  background : color,
+                  background : selectedCollection?.color || "#000",
                   borderTop: `1px solid #fff`
                 }}
                 name = "select-collection-item" 
@@ -55,7 +57,7 @@ function CollectionOption({id, title, color}) {
                 onClick = {event => context.setSelectedTodosCollection({id, title, color, textColor})} 
               />
             </label>
-   
+
             <button className = {style["edit-collection"]} type = "button" onClick={startEditCollectionRecord}>Edit</button>
           </li>
       </>

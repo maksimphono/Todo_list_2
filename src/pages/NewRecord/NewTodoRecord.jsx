@@ -22,7 +22,7 @@ import style from "./styles/NewTodoRecord.module.scss";
 
 export const selectedTodosCollectionContext = createContext()
 
-import { addOneTodoRecord, selectAllCollectionRecords } from "../../Context/Redux/todoCollectionsSlice"
+import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
 import { store } from '../../Context/Redux/store';
 
 function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
@@ -62,6 +62,9 @@ export default function NewTodoRecord() {
     setSelectedEndDate(date)
   }
 
+  const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), selectedTodosCollection.id))
+  const slectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
+
   return (
     <>
         
@@ -88,11 +91,11 @@ export default function NewTodoRecord() {
                   <selectedTodosCollectionContext.Provider value = {{setSelectedTodosCollection}}>
                     <summary 
                       style = {{
-                        background : selectedTodosCollection.color, 
-                        color: selectedTodosCollection.textColor
+                        background : selectedCollection?.color || "#000", 
+                        color: slectedCollectionTextColor
                       }}
                     >
-                      {selectedTodosCollection.title}
+                      {selectedCollection?.name || ""}
                     </summary>
                     <SelectCollection />
                   </selectedTodosCollectionContext.Provider>
