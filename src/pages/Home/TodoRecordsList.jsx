@@ -1,6 +1,6 @@
 import React from 'react'
 import Tooltip from './Components/Tooltip';
-import Cards from './Components/CardsRecordsCollection.jsx';
+import Cards from './Components/CardsRecordsList.jsx';
 
 // <styles>
 import style from "./styles/TodoRecordsList.module.scss";

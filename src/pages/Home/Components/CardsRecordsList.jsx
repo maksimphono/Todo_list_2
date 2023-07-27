@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import TodoRecordCard from './TodoRecordCard';
 
 // <styles>
-import style from "../styles/CardsRecordsCollection.module.scss";
+import style from "../styles/CardsRecordsList.module.scss";
 
 // </styles>
 

@@ -3,6 +3,7 @@ import $ from "jquery"
 
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
+import { useSelector } from 'react-redux';
 
 // </styles>
 
@@ -30,7 +31,13 @@ function DateStamp({date}) {
   )
 }
 
+import { store } from '../../../Context/Redux/store';
+import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice';
+
 export default function TodoRecordCard({cardData}) {
+  const todoCollection = useSelector(() => selectCollectionRecordsById(store.getState(), cardData.collection))
+  const textColor = useMemo(() => ((parseInt(todoCollection.color.slice(1, 7), 16) > 0x7fffff)?"#333":"#ddd"), [todoCollection])
+
   const newCardData = useMemo(() => {
     console.dir(cardData)
     if (1)
@@ -59,13 +66,14 @@ export default function TodoRecordCard({cardData}) {
           key = {newCardData.id}
           ref = {componentMainBody} 
           onClick = {handleBodyClick} 
+          style = {{"--bg-main-color" : todoCollection.color, "--text-color" : textColor}}
           className = {
             [style["todo-record-card"], (contentVisiable?style["show-content"]:"")].join(" ").trim()
           }
           >
             <h3 className ={style["title"]}>{newCardData.title}</h3>
             <DateStamp date = {newCardData.dateEnd}/>
-            <span className ={style["type"]}>Belongs to collection "{newCardData.collection}"</span>
+            <span className ={style["type"]}>Belongs to collection "{todoCollection.name}"</span>
             <CardControlBtns />
             <p className={style["content"]}>{newCardData.content}</p>
         </div>      

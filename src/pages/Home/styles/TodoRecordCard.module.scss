@@ -1,6 +1,9 @@
 @import "./variables.module.scss";
 
 .todo-record-card {
+    --bg-main-color: #e77e28;
+    --text-color: #222;
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,14 +12,21 @@
     width: auto;
     aspect-ratio: 16/8;
     font-family: Arial, Helvetica, sans-serif;
-    background-image: linear-gradient(#e77e28, #ea924a, #ea924a, #ea924a, #eee);
+    background-image: linear-gradient(var(--bg-main-color), var(--bg-main-color), var(--bg-main-color), var(--bg-main-color), #eee);
     border: none;
     border-radius: 20px;
     box-shadow: 2px 2px 9px $color-dark;
     cursor: pointer;
+    color: var(--text-color);
     position: relative;
     transition: .5s;
     z-index: 1;
+
+    .title,
+    .date-stamp,
+    .content {
+        color: var(--text-color);
+    }
 
     &.show-content {
         display: grid;
@@ -25,6 +35,7 @@
             22% 
             1fr;
         align-items: center;
+        color: #eee;
         gap: 0;
         overflow: hidden;
 
@@ -38,6 +49,7 @@
         .date-stamp {
             grid-row: 1 / 2;
             grid-column: 2 / 3;
+
         }
 
         .content {
