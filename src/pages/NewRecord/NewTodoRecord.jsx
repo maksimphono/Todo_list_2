@@ -25,6 +25,11 @@ export const selectedTodosCollectionContext = createContext()
 import { addOneTodoRecord, selectAllCollectionRecords } from "../../Context/Redux/todoCollectionsSlice"
 import { store } from '../../Context/Redux/store';
 
+function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
+  dispatch(addOne(todoRecord))
+  dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord, state : store.getState()}))
+}
+
 export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -35,17 +40,15 @@ export default function NewTodoRecord() {
   const collections = useSelector(selectAllCollectionRecords)
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
-    const formDate = new FormData(event.target)
+    const formData = new FormData(event.target)
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
-      title : formDate.get("title"),
+      title : formData.get("title"),
       content : contentRef.current.content(),
       collection : selectedTodosCollection.id
     }
-    dispatch(addOne(newTodoRecord))
-
-    //console.dir(selectedTodosCollection)
-    dispatch(addOneTodoRecord({id : selectedTodosCollection.id, todoRecordId : newTodoRecord.id, state : store.getState()})) // selectedTodosCollection.id
+     // selectedTodosCollection.id
+    createTodoRecord(dispatch, newTodoRecord, selectedTodosCollection.id)
 
     navigate("/")
   }, [selectedTodosCollection, contentRef])
@@ -66,7 +69,7 @@ export default function NewTodoRecord() {
 
               <label className = {style["record-title"]}>
                 <h2>Title:</h2>
-                <input type="text" />
+                <input name = "title" type="text" />
               </label>
 
               <label className = {style["record-content"]}>

@@ -46,37 +46,23 @@ const todoRecordsCollection = createSlice({
             reducer : (state, action) => todoCollectionAdapter.updateOne(state, action.payload)
         },
         removeOne : todoCollectionAdapter.removeOne,
-    },
-    extraReducers : (builder) => {
-        builder.addCase(addOneTodoRecord, (state, action) => {
-            console.log("Collection record:")
-            //console.dir(state)
-            console.dir(selectCollectionRecordsById(action.payload.state, action.payload.id))
-            return todoCollectionAdapter.updateOne(state, {id : action.payload.id, changes : {todoRecordsIds : [action.payload.todoRecordId, ...selectCollectionRecordsById(action.payload.state, action.payload.id).todoRecordsIds]}})
-        })
-    }
-})
-
-/*
-    reducer : (state, action) => {
-                return todoCollectionAdapter.updateOne(state, {id : action.payload.id, changes : {todoRecordsIds : ["New todo id", ...selectCollectionRecordsById(store.getState(), action.payload.id).todoRecordsIds]}})
+        addOneTodoRecord : {
+            prepare : action => {
+                return {
+                    payload : {
+                        id : action.id,
+                        state : action.state,
+                        todoRecordId : action.todoRecordId
+                    }
+                }
+            },
+            reducer : (state, action) => {
+                return todoCollectionAdapter.updateOne(state, {id : action.payload.id, changes : {todoRecordsIds : [action.payload.todoRecordId, ...selectCollectionRecordsById(action.payload.state, action.payload.id).todoRecordsIds]}})
             }
-            
-        }
-*/
-
-export const addOneTodoRecord = createAction("todoRecordsCollection/addOneTodoRecord", (action) => {
-    console.log("Add todo record : ")
-    console.dir(action)
-    return {
-        payload : {
-            id : action.id,
-            state : action.state,
-            todoRecordId : action.todoRecordId
         }
     }
 })
 
-export const {addOne, removeOne, updateOne, updateNameAndColor} = todoRecordsCollection.actions
+export const {addOne, removeOne, updateOne, updateNameAndColor, addOneTodoRecord} = todoRecordsCollection.actions
 
 export default todoRecordsCollection.reducer
