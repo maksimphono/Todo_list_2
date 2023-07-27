@@ -22,11 +22,15 @@ import style from "./styles/NewTodoRecord.module.scss";
 
 export const selectedTodosCollectionContext = createContext()
 
+import { addOneTodoRecord } from "../../Context/Redux/todoCollectionsSlice"
+import { store } from '../../Context/Redux/store';
 
 export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
+
+  const [selectedTodosCollection, setSelectedTodosCollection] = useState({id : "", name : "", color : "#fff"})
 
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
@@ -39,16 +43,17 @@ export default function NewTodoRecord() {
     }
     dispatch(addOne(newTodoRecord))
 
+    console.dir(selectedTodosCollection)
+    dispatch(addOneTodoRecord({id : selectedTodosCollection.id, todoRecordId : newTodoRecord.id})) // selectedTodosCollection.id
+
     navigate("/")
-  }, [])
+  }, [selectedTodosCollection, contentRef])
 
   const [selectedEndDate, setSelectedEndDate] = useState(null)
 
   const hadleDateChange = (date) => {
     setSelectedEndDate(date)
   }
-
-  const [selectedTodosCollection, setSelectedTodosCollection] = useState({id : "", name : "", color : "#fff"})
 
   return (
     <>

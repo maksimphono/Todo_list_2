@@ -16,6 +16,7 @@ const todoRecordsCollection = createSlice({
     reducers : {
         addOne : {
             prepare : (action) => {
+                console.dir(action)
                 return {
                     payload : {
                         id : new Date().toString().slice(4, 24),
@@ -29,6 +30,7 @@ const todoRecordsCollection = createSlice({
         },
         updateNameAndColor : {
             prepare : (action) => {
+                
                 return {
                     payload : {
                         id : action.id,
@@ -42,21 +44,27 @@ const todoRecordsCollection = createSlice({
             reducer : (state, action) => todoCollectionAdapter.updateOne(state, action.payload)
         },
         removeOne : todoCollectionAdapter.removeOne,
-        addOneTodoRecord : (state, action) => {
-            const id = action.payload.id;
-            const options = {
-                id : id,
-                changes : {
-                    todoRecordsIds : [action.payload.todoRecordId, ...selectCollectionRecordsById(state, id).todoRecordsIds]
+        addOneTodoRecord : {
+            prepare : (action) => {
+                console.log("Add todo record : ")
+                console.dir(action)
+                return {
+                    payload : {
+                        id : action.id,
+                        changes : {
+                            todoRecordsIds : ["New list"]
+                        }
+                        
+                    }
                 }
-            }
-            console.dir(options)
-            //todoCollectionAdapter.updateOne(state, options)
+            },
+            reducer : (state, action) => todoCollectionAdapter.updateOne(state, action.payload)
         }
+            
     }
 })
 
-export const {addOne, removeOne, updateOne, updateNameAndColor} = todoRecordsCollection.actions
+export const {addOne, removeOne, updateOne, updateNameAndColor, addOneTodoRecord} = todoRecordsCollection.actions
 
 
 
