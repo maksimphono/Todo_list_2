@@ -3,9 +3,10 @@
 #new_todo_record {
     display: grid;
     flex-direction: column;
-    //justify-content: center;
+    justify-items: center;
+
     align-items: center;
-    grid-template-columns: 1fr 20px 1fr;
+    grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr auto;
     gap: 10px;
     height: max-content;
@@ -13,9 +14,9 @@
     padding-bottom: 30px;
 
     & > form {
-        grid-column: 1/span 3;
+        grid-column: 1/span 6;
         display: grid;
-        grid-template-columns: 1fr 20px 1fr;
+        grid-template-columns: repeat(6, 1fr);
         height: auto;
         width: 100%;
         gap: 10px;
@@ -32,7 +33,7 @@
 
         & > label.record-title,
         & > label.record-content {
-            grid-column: 1/span 3;
+            grid-column: 1/span 6;
             display: flex;
             flex-direction: column;
             font-family: Arial, Helvetica, sans-serif;
@@ -57,7 +58,7 @@
         }
 
         & > .end-date {
-            grid-column: 3/span 1;
+            grid-column: 4/span 3;
             position: relative;
             display: grid;
             grid-template-columns: max-content 1fr;
@@ -87,7 +88,7 @@
                 }
             }
             @media screen and (max-width : $query-phone-width) {
-                grid-column: 1/span 3;
+                grid-column: 1/span 6;
             }
 
             
@@ -99,7 +100,7 @@
             justify-content: center;
             align-items: center;
             min-width: max-content;
-            width: 50%;
+            width: 150%;
             height: auto;
             padding: 10px 20px;
             border-radius: 15px;
@@ -117,13 +118,13 @@
 
             &.success-btn {
                 justify-self: end;
-                grid-column: 1/span 1;
+                grid-column: 3/span 1;
                 background-color: $color4;
                 border: 2px solid $color4;
             }
             &[name='cancel']{
                 justify-self: start;
-                grid-column: 3/span 1;
+                grid-column: 4/span 1;
                 border: 2px solid #dbdbdb;
                 background-color: #dbdbdb;
             }
@@ -140,12 +141,12 @@
 
                 &.success-btn {
                     justify-self: center;
-                    grid-column: 1/span 3;
+                    grid-column: 1/span 6;
                     //grid-row: 2/3;
                 }
                 &.secondary-btn {
                     justify-self: center;
-                    grid-column: 1/span 3;
+                    grid-column: 1/span 6;
                     //grid-row: 3/4;
                 }
             }

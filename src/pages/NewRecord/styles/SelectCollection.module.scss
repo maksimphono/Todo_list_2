@@ -75,11 +75,4 @@ ul.select-collection-list {
             
         }
     }
-    @media screen and (max-width : $query-tablet-width) {
-        min-width: 50vw;
-    }
-    @media screen and (max-width : $query-phone-width) {
-        min-width: 90vw;
-    }
-    
 }
