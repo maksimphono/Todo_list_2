@@ -12,7 +12,7 @@ import style from "../styles/CollectionSelect.module.scss"
 import SelectCollectionDropdown from './SelectCollectionDropdown';
 import modalContext from '../../../Context/modalContext';
 
-export default function CollectionSelect() {
+export default function CollectionSelect({defaultValue}) {
   const {selectedTodosCollectionId} = useContext(selectedTodosCollectionContext)
   const {modalRef} = useContext(modalContext)
 

@@ -1,18 +1,27 @@
 import React, { useEffect, useRef, useMemo, useState, useTransition } from 'react'
 import $ from "jquery"
 
+import { removeOne } from '../../../Context/Redux/todoRecordsSlice';
+
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // </styles>
 
-function CardControlBtns() {
+function CardControlBtns({todoRecordId, collectionId}) {
+  const dispatch = useDispatch();
+  
+  const handleComplete = (event) => {
+    console.log("Remove", todoRecordId)
+    dispatch(removeOne(todoRecordId))
+  }
+  
   return (
       <>
       <ul className = {style["control-buttons"]}>
-          <button className = {style["success-btn"]}>Complete</button>
-          <button className = {style["info-btn"]}>Check out</button>
+          <button className = {style["success-btn"]} onClick = {handleComplete}>Complete</button>
+          <NavLink className = {style["info-btn"]} to = {`/CheckoutRecord/${todoRecordId}`}>Check out</NavLink>
       </ul>
       </>
   )
@@ -33,6 +42,7 @@ function DateStamp({date}) {
 
 import { store } from '../../../Context/Redux/store';
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice';
+import { NavLink } from 'react-router-dom';
 
 export default function TodoRecordCard({cardData}) {
   const todoCollection = useSelector(() => selectCollectionRecordsById(store.getState(), cardData.collection))
@@ -73,7 +83,7 @@ export default function TodoRecordCard({cardData}) {
             <h3 className ={style["title"]}>{newCardData.title}</h3>
             <DateStamp date = {newCardData.dateEnd}/>
             <span className ={style["type"]}>Belongs to collection "<b>{todoCollection.name}</b>"</span>
-            <CardControlBtns />
+            <CardControlBtns todoRecordId = {cardData.id}/>
             <p className={style["content"]}>{newCardData.content}</p>
         </div>      
     </>

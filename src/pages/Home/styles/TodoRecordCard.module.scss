@@ -105,6 +105,8 @@
             width: 66%;
             height: 100%;
             font-size: 1rem;
+            text-decoration: none;
+            color: $color-dark;
 
             &:first-child {
                 border-top-left-radius: 15px;
@@ -116,7 +118,7 @@
             }
         }
 
-        & > button:hover {
+        & > button:hover, & > a:hover {
             animation: btn-hover .5s ease infinite alternate;
         }
     

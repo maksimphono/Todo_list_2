@@ -2,7 +2,7 @@ import {useCallback, useContext} from "react"
 
 import modalContext from "../../../Context/modalContext.js";
 
-import {addOne} from "../../../Context/Redux/todoCollectionsSlice.js"
+import {addOneCollection} from "../../../Context/Redux/todoCollectionsSlice.js"
 import { store } from "../../../Context/Redux/store.js";
 
 
@@ -19,7 +19,7 @@ export default function NewCollectionForm({id, closeModal}) {
       const formDate = new FormData(event.target)
       console.log(formDate.get("name"), formDate.get("color"))
       
-      dispatch(addOne({
+      dispatch(addOneCollection({
         name : formDate.get("name"), 
         color : formDate.get("color")
       }))

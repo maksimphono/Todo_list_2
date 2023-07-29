@@ -3,7 +3,7 @@ import {useCallback, useContext, useEffect} from "react"
 import modalContext from "../../../Context/modalContext.js";
 
 
-import {addOne, updateNameAndColor} from "../../../Context/Redux/todoCollectionsSlice.js"
+import {addOneCollection, updateNameAndColor} from "../../../Context/Redux/todoCollectionsSlice.js"
 import { store } from "../../../Context/Redux/store.js";
 
 

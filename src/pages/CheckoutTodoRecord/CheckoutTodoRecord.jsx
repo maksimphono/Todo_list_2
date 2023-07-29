@@ -31,17 +31,18 @@ function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
   dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord, state : store.getState()}))
 }
 
+import { removeOne } from '../../Context/Redux/todoRecordsSlice';
+
 export default function NewTodoRecord() {
   const { id : todoRecordId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
 
-  const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
-  const [selectedEndDate, setSelectedEndDate] = useState(null)
-
   const selectedTodoRecord = useSelector(() => selectTodoRecordsById(store.getState(), todoRecordId))
-  
+  const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState(selectedTodoRecord?.collection)
+  const [selectedEndDate, setSelectedEndDate] = useState(selectedTodoRecord?.endDate)
+
   useEffect(() => {
     console.log(todoRecordId)
   })
@@ -63,6 +64,11 @@ export default function NewTodoRecord() {
     navigate("/")
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
+  const handleDelete = event => {
+    dispatch(removeOne(todoRecordId))
+    navigate("/")
+  }
+
   return (
     <>
         <div id = {style["checkout_todo_record"]}>
@@ -77,11 +83,11 @@ export default function NewTodoRecord() {
 
               <label className = {style["record-content"]}>
                 <h2>Content:</h2>              
-                <EditableField ref = {contentRef}/>
+                <EditableField defaultValue = {selectedTodoRecord?.content} ref = {contentRef}/>
               </label>
 
               <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId}}>
-                <CollectionSelect />
+                <CollectionSelect defaultValue = {selectedTodoRecord?.collection}/>
               </selectedTodosCollectionContext.Provider>
               
 
@@ -93,11 +99,11 @@ export default function NewTodoRecord() {
                   onChange = {setSelectedEndDate}
                   dateFormat = "dd/MM/yyyy"
                   placeholderText='Select a Date'
-                ></DatePicker>  
+                ></DatePicker>
               </label>
               
               <button className = {style["success-btn"]} type = "submit">Save</button>
-              <button className = {style["delete-btn"]} type = "button">Delete</button>
+              <button className = {style["delete-btn"]} type = "button" onClick = {handleDelete}>Delete</button>
               <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
             </form>
         </div>
