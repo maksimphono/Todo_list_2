@@ -7,7 +7,8 @@ ul.select-collection-list {
     top: 100%;
     display: flex;
     flex-direction: column;
-    width: 30vw;
+    width: 100%;
+    max-width: 100%;
     height: auto;
     border-radius: 15px;
     overflow: hidden;
@@ -75,10 +76,10 @@ ul.select-collection-list {
         }
     }
     @media screen and (max-width : $query-tablet-width) {
-        width: 40vw;
+        min-width: 50vw;
     }
     @media screen and (max-width : $query-phone-width) {
-        width: 50vw;
+        min-width: 90vw;
     }
     
 }

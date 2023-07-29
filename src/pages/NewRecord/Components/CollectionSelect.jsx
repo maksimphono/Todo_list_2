@@ -7,27 +7,27 @@ import { store } from '../../../Context/Redux/store'
 
 import {selectedTodosCollectionContext} from "../NewTodoRecord";
 
-import style from "../styles/NewTodoRecord.module.scss"
+import style from "../styles/CollectionSelect.module.scss"
 
 import SelectCollectionDropdown from './SelectCollectionDropdown';
 import modalContext from '../../../Context/modalContext';
 
 export default function CollectionSelect() {
   const {selectedTodosCollectionId} = useContext(selectedTodosCollectionContext)
+  const {modalRef} = useContext(modalContext)
+
   const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), selectedTodosCollectionId))
   const selectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
   
   const detailsId = useId();
   const [open, setOpen] = useState(false);
   const labelRef = useRef(null)
-  const {modalRef} = useContext(modalContext)
-
+  
   const handleBlur = useCallback((event) => {
     if ((labelRef?.current?.contains(event.target))) {
       if (event.target.tagName == "SUMMARY") {
         setOpen(v => !v)
-      } else
-        setOpen(true)
+      }
     }
     else if (modalRef.current.getDialogRef().current.contains(event.target)) {
       setOpen(true)
