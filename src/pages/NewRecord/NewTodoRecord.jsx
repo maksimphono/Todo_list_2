@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId, useS
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
 import $ from "jquery"
+import CollectionSelect from "./Components/CollectionSelect"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import "./styles/ReactDatePicker.scss"
@@ -38,9 +39,7 @@ export default function NewTodoRecord() {
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
   
-  const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), selectedTodosCollectionId))
-  const selectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
-
+  
   const [openedSelectCollectionDropdown, setOpenedSelectCollectionDropdown] = useState(false)
   const collectionSelectionDropdown = useRef(null);
 
@@ -61,24 +60,8 @@ export default function NewTodoRecord() {
     navigate("/")
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
-  return (
-    <>
-        <div id = {style["new_todo_record"]}>
-            <Tooltip />
-
-            <form onSubmit={addNewTodoRecord}>
-
-              <label className = {style["record-title"]}>
-                <h2>Title:</h2>
-                <input name = "title" type="text" />
-              </label>
-
-              <label className = {style["record-content"]}>
-                <h2>Content:</h2>              
-                <EditableField ref = {contentRef}/>
-              </label>
-
-              <label className = {style["select-collection"]}>
+/*
+<label className = {style["select-collection"]}>
                 <h2>
                   Collection
                 </h2>
@@ -96,6 +79,29 @@ export default function NewTodoRecord() {
                   </selectedTodosCollectionContext.Provider>
                 </details>
               </label>
+*/
+
+  return (
+    <>
+        <div id = {style["new_todo_record"]}>
+            <Tooltip />
+
+            <form onSubmit={addNewTodoRecord}>
+
+              <label className = {style["record-title"]}>
+                <h2>Title:</h2>
+                <input name = "title" type="text" />
+              </label>
+
+              <label className = {style["record-content"]}>
+                <h2>Content:</h2>              
+                <EditableField ref = {contentRef}/>
+              </label>
+
+              <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId}}>
+                <CollectionSelect />
+              </selectedTodosCollectionContext.Provider>
+              
 
               <label className = {style["end-date"]}>
                 <h2>End date</h2>
