@@ -78,7 +78,7 @@ export default function SelectCollection({visiable}) {
 
     return (
       <>
-      <ul style = {!visiable && {display : "none"} || {}} className = {style["select-collection-list"]}>
+      <ul style = {(!visiable)?{display : "none"}:{}} className = {style["select-collection-list"]}>
           <li className = {style["add-collection"]}>
             <button 
               type = "button" 

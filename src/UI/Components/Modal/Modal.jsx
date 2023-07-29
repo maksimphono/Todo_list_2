@@ -14,9 +14,10 @@ export default forwardRef(function Modal(props, ref) {
         return {
             showModal : () => dialogRef.current.showModal(),
             close : () => dialogRef.current.close(),
+            getDialogRef : () => dialogRef,
             setTitle,
             setBody,
-            setFooter
+            setFooter,
         }
     })
   
