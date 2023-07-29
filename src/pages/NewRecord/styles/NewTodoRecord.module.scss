@@ -103,6 +103,7 @@
             width: 150%;
             height: auto;
             padding: 10px 20px;
+            margin-top: 20px;
             border-radius: 15px;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 20px;
@@ -121,12 +122,14 @@
                 grid-column: 3/span 1;
                 background-color: $color4;
                 border: 2px solid $color4;
+                
             }
             &[name='cancel']{
                 justify-self: start;
                 grid-column: 4/span 1;
                 border: 2px solid #dbdbdb;
                 background-color: #dbdbdb;
+                
             }
             
         }
@@ -147,6 +150,7 @@
                 &.secondary-btn {
                     justify-self: center;
                     grid-column: 1/span 6;
+                    margin-top: 0;
                     //grid-row: 3/4;
                 }
             }
