@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState, useEffect, useId, useRef } from 'react'
+import React, { useContext, useMemo, useState, useEffect, useId, useRef, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
@@ -22,19 +22,19 @@ export default function CollectionSelect() {
   const labelRef = useRef(null)
   const {modalRef} = useContext(modalContext)
 
-  const handleBlur = (event) => {
-    console.dir(event.target.tagName)
-    if ((labelRef?.current?.contains(event.target)) && event.target.tagName == "SUMMARY") {
-      setOpen(v => !v)
-      return;
+  const handleBlur = useCallback((event) => {
+    if ((labelRef?.current?.contains(event.target))) {
+      if (event.target.tagName == "SUMMARY") {
+        setOpen(v => !v)
+      } else
+        setOpen(true)
     }
-    if ((labelRef?.current?.contains(event.target)) ||
-         (modalRef.current.getDialogRef().current.contains(event.target))
-    )
+    else if (modalRef.current.getDialogRef().current.contains(event.target)) {
       setOpen(true)
-    else
+    } else {
       setOpen(false)
-  }
+    } 
+  }, [modalRef, labelRef])
 
   useEffect(() => {
     document.addEventListener("click", handleBlur)
@@ -42,7 +42,6 @@ export default function CollectionSelect() {
       document.removeEventListener("click", handleBlur)
     }
   }, [])
-
 
   return (
     <>
