@@ -9,9 +9,9 @@ import "react-datepicker/dist/react-datepicker.css"
 import "./styles/ReactDatePicker.scss"
 import SelectCollectionDropdown from './Components/SelectCollectionDropdown';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOne } from '../../Context/Redux/todoRecordsSlice';
+import { addOne, selectTodoRecordsById } from '../../Context/Redux/todoRecordsSlice';
 import { useNavigate } from 'react-router-dom';
 
 // </components>
@@ -32,12 +32,19 @@ function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
 }
 
 export default function NewTodoRecord() {
+  const { id : todoRecordId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
 
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
+
+  const selectedTodoRecord = useSelector(() => selectTodoRecordsById(store.getState(), todoRecordId))
+  
+  useEffect(() => {
+    console.log(todoRecordId)
+  })
 
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
@@ -65,7 +72,7 @@ export default function NewTodoRecord() {
 
               <label className = {style["record-title"]}>
                 <h2>Title:</h2>
-                <input name = "title" type="text" />
+                <input name = "title" type="text" defaultValue={selectedTodoRecord?.title || ""} />
               </label>
 
               <label className = {style["record-content"]}>
@@ -94,7 +101,6 @@ export default function NewTodoRecord() {
               <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
             </form>
         </div>
-
     </>
   )
 }
