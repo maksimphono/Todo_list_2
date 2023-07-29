@@ -1,11 +1,5 @@
 import React, { Suspense, useEffect, useMemo, useState } from 'react'
 
-// <styles>
-//import style from "../styles/Tooltip_wide.module.scss";
-//import style from "../styles/Tooltip_narrow.module.scss";
-
-// </styles>
-
 const query_phone_width_px = 400;
 
 function FontSettingsForm() {
@@ -49,7 +43,6 @@ function FontSettingsForm() {
   )
 }
 
-
 function BtnCreationSettings({style}) {
   return (
     <>
@@ -71,18 +64,16 @@ function BtnCreationSettings({style}) {
   )
 }
 
-
 export default function Tooltip() {
     const [style, setStyle] = useState({});
 
     useEffect(() => {
-        let styleFilePath = "../styles/Tooltip_wide.module.scss"
-        if (window.innerWidth <= query_phone_width_px)
-            styleFilePath = "../styles/Tooltip_narrow.module.scss"    
-
-        import(styleFilePath)
-            .then(importedStyle => {console.log("Import"); setStyle(importedStyle)})
-            .catch(err => {console.log("Error"); console.error(err)})
+        (async () => {
+            if (window.innerWidth <= query_phone_width_px)
+                setStyle(await import("../styles/Tooltip_narrow.module.scss"))
+            else
+                setStyle(await import("../styles/Tooltip_wide.module.scss"))
+        })()
     }, [])
 
     return (
@@ -90,13 +81,13 @@ export default function Tooltip() {
         <div className = {style["tooltip"]}>
             {(window.innerWidth <= query_phone_width_px)?
                 <>
-                    <details className = {style["font-control"]}>
+                    <details className = {style["font_control"]}>
                         <summary>
                             Font
                         </summary>
                         <FontSettingsForm />
                     </details>
-                    <details className = {style["create-elements-btns"]}>
+                    <details className = {style["create_elements_btns"]}>
                     <summary>
                         Add
                     </summary>
