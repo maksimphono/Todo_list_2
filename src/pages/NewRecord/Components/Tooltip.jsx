@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { Suspense, useEffect, useMemo, useState } from 'react'
 
 // <styles>
-import style_wide from "../styles/Tooltip_wide.module.scss";
-import style_narrow from "../styles/Tooltip_narrow.module.scss";
+//import style from "../styles/Tooltip_wide.module.scss";
+//import style from "../styles/Tooltip_narrow.module.scss";
 
 // </styles>
 
@@ -49,11 +49,12 @@ function FontSettingsForm() {
   )
 }
 
-function BtnCreationSettings() {
+
+function BtnCreationSettings({style}) {
   return (
     <>
         {(window.innerWidth <= query_phone_width_px)?
-            <div className = {style_narrow["content"]}>
+            <div className = {style["content"]}>
                 <button></button>
                 <button></button>
                 <button></button>
@@ -71,32 +72,41 @@ function BtnCreationSettings() {
 }
 
 
-
 export default function Tooltip() {
-    const innerWidth = useMemo(() => window.innerWidth, []);
-  
+    const [style, setStyle] = useState({});
+
+    useEffect(() => {
+        let styleFilePath = "../styles/Tooltip_wide.module.scss"
+        if (window.innerWidth <= query_phone_width_px)
+            styleFilePath = "../styles/Tooltip_narrow.module.scss"    
+
+        import(styleFilePath)
+            .then(importedStyle => {console.log("Import"); setStyle(importedStyle)})
+            .catch(err => {console.log("Error"); console.error(err)})
+    }, [])
+
     return (
     <>
-        <div className = {style_narrow["tooltip"]}>
+        <div className = {style["tooltip"]}>
             {(window.innerWidth <= query_phone_width_px)?
                 <>
-                    <details className = {style_narrow["font-control"]}>
+                    <details className = {style["font-control"]}>
                         <summary>
                             Font
                         </summary>
                         <FontSettingsForm />
                     </details>
-                    <details className = {style_narrow["create-elements-btns"]}>
+                    <details className = {style["create-elements-btns"]}>
                     <summary>
                         Add
                     </summary>
-                        <BtnCreationSettings />
+                        <BtnCreationSettings style = {style} />
                     </details>
                 </>
             :
                 <>
                     <FontSettingsForm />
-                    <BtnCreationSettings />
+                    <BtnCreationSettings style = {style} />
                 </>
             }   
         </div>
