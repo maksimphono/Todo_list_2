@@ -64,7 +64,7 @@ function CollectionOption({id}) {
     )
   }
 
-export default function SelectCollection() {
+export default function SelectCollection({visiable}) {
     const {modalRef} = useContext(modalContext)
     const newCollectionFormId = useId();
     const allColection = useSelector(selectAllCollectionRecords)
@@ -78,7 +78,7 @@ export default function SelectCollection() {
 
     return (
       <>
-      <ul className = {style["select-collection-list"]}>
+      <ul style = {!visiable && {display : "none"} || {}} className = {style["select-collection-list"]}>
           <li className = {style["add-collection"]}>
             <button 
               type = "button" 

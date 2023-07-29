@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState, useEffect } from 'react'
+import React, { useContext, useMemo, useState, useEffect, useId } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
@@ -15,14 +15,16 @@ export default function CollectionSelect() {
   const {selectedTodosCollectionId} = useContext(selectedTodosCollectionContext)
   const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), selectedTodosCollectionId))
   const selectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
-  
+  const selftId = useId();
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-    <label className = {style["select-collection"]}>
+    <label htmlFor = {selftId} className = {style["select-collection"]}>
         <h2>
             Collection
         </h2>
-        <details name="collection">
+        <details id = {selftId} name="collection" onClick = {() => setOpen(v => !v)}>
             <summary 
                 style = {{
                 background : selectedCollection?.color || "#000", 
@@ -31,9 +33,10 @@ export default function CollectionSelect() {
             >
                 {selectedCollection?.name || ""}
             </summary>
-            <SelectCollectionDropdown />
         </details>
+        <SelectCollectionDropdown visiable = {open} />
     </label>
+    
     </>
   )
 }

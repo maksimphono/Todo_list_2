@@ -38,10 +38,6 @@ export default function NewTodoRecord() {
 
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
-  
-  
-  const [openedSelectCollectionDropdown, setOpenedSelectCollectionDropdown] = useState(false)
-  const collectionSelectionDropdown = useRef(null);
 
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
@@ -59,27 +55,6 @@ export default function NewTodoRecord() {
 
     navigate("/")
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
-
-/*
-<label className = {style["select-collection"]}>
-                <h2>
-                  Collection
-                </h2>
-                <details name="collection" ref = {collectionSelectionDropdown}>
-                  <selectedTodosCollectionContext.Provider value = {{setSelectedTodosCollectionId}}>
-                    <summary 
-                      style = {{
-                      background : selectedCollection?.color || "#000", 
-                      color: selectedCollectionTextColor
-                      }}
-                    >
-                      {selectedCollection?.name || ""}
-                    </summary>
-                    <SelectCollectionDropdown />
-                  </selectedTodosCollectionContext.Provider>
-                </details>
-              </label>
-*/
 
   return (
     <>
