@@ -28,7 +28,7 @@ import { store } from '../../Context/Redux/store';
 
 function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
   dispatch(addOne(todoRecord))
-  dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord, state : store.getState()}))
+  dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord.id, state : store.getState()}))
 }
 
 export default function NewTodoRecord() {

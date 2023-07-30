@@ -31,7 +31,13 @@ function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
   dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord, state : store.getState()}))
 }
 
+function removeOneTodoRecord({dispatch, todoRecordId, collectionId}) {
+  dispatch(removeOne(todoRecordId))
+  dispatch(unbindTodoRecord({id : collectionId, todoRecordId, state : store.getState()}))
+}
+
 import { removeOne } from '../../Context/Redux/todoRecordsSlice';
+import { unbindTodoRecord } from "../../Context/Redux/todoCollectionsSlice";
 
 export default function NewTodoRecord() {
   const { id : todoRecordId } = useParams();
@@ -65,7 +71,7 @@ export default function NewTodoRecord() {
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   const handleDelete = event => {
-    dispatch(removeOne(todoRecordId))
+    removeOneTodoRecord({dispatch, todoRecordId, collectionId : selectedTodoRecord?.collection})
     navigate("/")
   }
 

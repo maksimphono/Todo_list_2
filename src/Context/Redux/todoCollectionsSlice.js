@@ -14,7 +14,7 @@ const todoRecordsCollection = createSlice({
     name : "todoRecordsCollection",
     initialState : {ids : [], entities : {}},//todoCollectionAdapter.getInitialState(),
     reducers : {
-        addOne : {
+        addOneCollection : {
             prepare : (action) => {
                 console.dir(action)
                 return {
@@ -57,12 +57,28 @@ const todoRecordsCollection = createSlice({
                 }
             },
             reducer : (state, action) => {
-                return todoCollectionAdapter.updateOne(state, {id : action.payload.id, changes : {todoRecordsIds : [action.payload.todoRecordId, ...selectCollectionRecordsById(action.payload.state, action.payload.id).todoRecordsIds]}})
+                return todoCollectionAdapter.updateOne(state, {id : action.payload.id, changes : {todoRecordsIds : [action.payload.todoRecordId].concat(selectCollectionRecordsById(action.payload.state, action.payload.id).todoRecordsIds)}})
+            }
+        },
+        unbindTodoRecord : {
+            prepare : action => {
+                return {
+                    payload : {
+                        id : action.id,
+                        changes : {
+                            todoRecordsIds : selectCollectionRecordsById(action.state, action.id).todoRecordsIds.filter(recordId => recordId != action.todoRecordId)
+                        }
+                    }
+                }
+            },
+            reducer : (state, action) => {
+                return todoCollectionAdapter.updateOne(state, action.payload)
             }
         }
+            
     }
 })
 
-export const {addOne, removeOne, updateOne, updateNameAndColor, addOneTodoRecord} = todoRecordsCollection.actions
+export const {addOneCollection, removeOne, updateOne, updateNameAndColor, addOneTodoRecord, unbindTodoRecord} = todoRecordsCollection.actions
 
 export default todoRecordsCollection.reducer

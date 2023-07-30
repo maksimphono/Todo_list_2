@@ -6,15 +6,21 @@ import { removeOne } from '../../../Context/Redux/todoRecordsSlice';
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
 import { useDispatch, useSelector } from 'react-redux';
+import { unbindTodoRecord } from '../../../Context/Redux/todoCollectionsSlice';
 
 // </styles>
+
+function removeOneTodoRecord({dispatch, todoRecordId, collectionId}) {
+  dispatch(removeOne(todoRecordId))
+  dispatch(unbindTodoRecord({id : collectionId, todoRecordId, state : store.getState()}))
+}
 
 function CardControlBtns({todoRecordId, collectionId}) {
   const dispatch = useDispatch();
   
   const handleComplete = (event) => {
     console.log("Remove", todoRecordId)
-    dispatch(removeOne(todoRecordId))
+    removeOneTodoRecord({dispatch, todoRecordId, collectionId})
   }
   
   return (
@@ -83,7 +89,7 @@ export default function TodoRecordCard({cardData}) {
             <h3 className ={style["title"]}>{newCardData.title}</h3>
             <DateStamp date = {newCardData.dateEnd}/>
             <span className ={style["type"]}>Belongs to collection "<b>{todoCollection.name}</b>"</span>
-            <CardControlBtns todoRecordId = {cardData.id}/>
+            <CardControlBtns todoRecordId = {cardData.id} collectionId = {todoCollection.id}/>
             <p className={style["content"]}>{newCardData.content}</p>
         </div>      
     </>
