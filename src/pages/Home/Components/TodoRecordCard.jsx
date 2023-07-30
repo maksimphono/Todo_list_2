@@ -3,17 +3,14 @@ import $ from "jquery"
 
 import { removeOne } from '../../../Context/Redux/todoRecordsSlice';
 
+import {removeOneTodoRecord} from "../../../Context/Redux/utilities"
+
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { unbindTodoRecord } from '../../../Context/Redux/todoCollectionsSlice';
 
 // </styles>
-
-function removeOneTodoRecord({dispatch, todoRecordId, collectionId}) {
-  dispatch(removeOne(todoRecordId))
-  dispatch(unbindTodoRecord({id : collectionId, todoRecordId, state : store.getState()}))
-}
 
 function CardControlBtns({todoRecordId, collectionId}) {
   const dispatch = useDispatch();

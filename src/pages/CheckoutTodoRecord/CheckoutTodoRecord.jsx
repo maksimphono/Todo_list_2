@@ -26,18 +26,7 @@ export const selectedTodosCollectionContext = createContext()
 import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
 import { store } from '../../Context/Redux/store';
 
-function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
-  dispatch(addOne(todoRecord))
-  dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord, state : store.getState()}))
-}
-
-function removeOneTodoRecord({dispatch, todoRecordId, collectionId}) {
-  dispatch(removeOne(todoRecordId))
-  dispatch(unbindTodoRecord({id : collectionId, todoRecordId, state : store.getState()}))
-}
-
-import { removeOne } from '../../Context/Redux/todoRecordsSlice';
-import { unbindTodoRecord } from "../../Context/Redux/todoCollectionsSlice";
+import {createTodoRecord, removeOneTodoRecord} from "../../Context/Redux/utilities"
 
 export default function NewTodoRecord() {
   const { id : todoRecordId } = useParams();
