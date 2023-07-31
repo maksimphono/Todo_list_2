@@ -1,12 +1,36 @@
-import React, {createContext, forwardRef, useImperativeHandle} from 'react'
+import React, {createContext, forwardRef, useImperativeHandle, useRef, useState} from 'react'
 
-const NotificationContext = createContext()
+import style from "./styles/notification.module.scss"
 
-export default function Notification() {
+const disappearTime = 2000;
+
+export default forwardRef(function(props, ref) {
+  const [variant, setVariant] = useState("info")
+  const [text, setText] = useState("Warning!")
+  const dialogRef = useRef(null);
+
+  useImperativeHandle(ref, () => {
+    return {
+      pop : ({variant, text} = {variant : "info", text : "Qwerty"}) => {
+        dialogRef.current.style.animation = ""
+        setText(text)
+        setVariant(variant)
+        dialogRef.current.show()
+        setTimeout(() => {
+          dialogRef.current.close(); 
+          dialogRef.current.style.animation = "none"
+        }, disappearTime)
+      }
+    }
+  })
+
   return (
-    <div style = "display: none;" class = "notification danger">
-        <p>Success</p>
-        <button class = "cancel-X-btn">x</button>
-    </div>
+    <dialog ref = {dialogRef} className = {style["notification"]} data-variant = {variant} open = {false}>
+        <p>{text}</p>
+        <form method = "dialog">
+          <button className = {style["cancel-X-btn"]} value = {"cancel"} formMethod={"dialog"} onClick={() => dialogRef.current.close()}>x</button>
+        </form>
+        
+    </dialog>
   )
-}
+})

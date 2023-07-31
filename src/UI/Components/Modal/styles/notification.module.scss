@@ -1,6 +1,8 @@
+@import "../../../../define.scss";
+
 .notification {
     position: absolute;
-    top: 10px;
+    //top: 10px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -10,14 +12,20 @@
     width: 40vw;
     height: auto;
     min-height: 10vh;
-    padding-inline: 3%;
+    padding-inline: 20px;
     background-color: #cccb;
     box-shadow: 0 0 6px $color-dark;
     border: 2px dashed $color-dark;
     border-radius: 10px;
+    opacity: .8;
     font-family: Arial, Helvetica, sans-serif;
-    z-index: 199;
+    animation: popdown 1s ease 1 forwards;
+    z-index: 301;
     
+    &:not([open]) {
+        display: none;
+    }
+
     .cancel-X-btn {
         position: absolute;
         top: 50%;
@@ -48,20 +56,27 @@
     }
 }
 
-.notification.success {
+.notification[data-variant='success'] {
     background-color: $color-success;
-    opacity: .8;
 }
 
-.notification.warning {
+.notification[data-variant='warning'] {
     background-color: $color-warning;
-    opacity: .8;
 }
-.notification.info {
+.notification[data-variant='info'] {
     background-color: $color-info;
-    opacity: .8;
 }
-.notification.danger {
+.notification[data-variant='danger'] {
     background-color: $color-danger;
-    opacity: .8;
+}
+
+@keyframes popdown {
+    from {
+        opacity: 0;
+        top: -10px;
+    }
+    to {
+        opacity: .8;
+        top: 10px;
+    }
 }
