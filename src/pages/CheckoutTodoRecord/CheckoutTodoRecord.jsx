@@ -26,8 +26,9 @@ export const selectedTodosCollectionContext = createContext()
 import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
 import { store } from '../../Context/Redux/store';
 
-import {createTodoRecord, removeOneTodoRecord} from "../../Context/Redux/utilities"
+import {createTodoRecord, removeOneTodoRecord, alterOneTodoRecord} from "../../Context/Redux/utilities"
 import modalContext from '../../Context/modalContext';
+
 
 export default function NewTodoRecord() {
   const { id : todoRecordId } = useParams();
@@ -52,15 +53,14 @@ export default function NewTodoRecord() {
       collection : selectedTodosCollectionId
     }
 
-    dispatch(alterTodoRecord(alteredTodoRecord))
-    if (JSON.stringify(selectTodoRecordsById(store.getState(), alteredTodoRecord.id)) == JSON.stringify(alteredTodoRecord)) {
-      notificationRef.current.pop({variant : "success", text : "Record altering success!"})
-      navigate("/")
-    } else {
-      notificationRef.current.pop({variant : "danger", text : "Record altering failed!"})
-    }
-
-    
+    alterOneTodoRecord({dispatch, alteredTodoRecord})
+      .then(result => {
+        notificationRef.current.pop({variant : "success", text : "Record altered successfuly!"})
+        navigate("/")
+      })
+      .catch(err => {
+        notificationRef.current.pop({variant : "info", text : err.toString()})
+      })
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   const handleDelete = event => {
