@@ -16,11 +16,6 @@ import { selectAllCollectionRecords } from '../../Context/Redux/todoCollectionsS
 import { store } from '../../Context/Redux/store';
 
 export default function TodoRecordsList() {
-  const dispatch = useDispatch()
-  const collections = useSelector(() => selectAllCollectionRecords(store.getState()))
-
-  const todoRecords = useSelector(() => selectAllTodoRecords(store.getState()))
-
   return (
     <>
       <div id = {style["todo_records"]}>

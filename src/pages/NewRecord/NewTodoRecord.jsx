@@ -23,13 +23,7 @@ import style from "./styles/NewTodoRecord.module.scss";
 
 export const selectedTodosCollectionContext = createContext()
 
-import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
-import { store } from '../../Context/Redux/store';
-
-function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
-  dispatch(addOne(todoRecord))
-  dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord.id, state : store.getState()}))
-}
+import {createTodoRecord} from "../../Context/Redux/utilities"
 
 import modalContext from '../../Context/modalContext';
 
@@ -55,9 +49,14 @@ export default function NewTodoRecord() {
     }
 
     createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
-
-    notificationRef.current.pop({variant : "success", text : "Record created"})
-    navigate("/")
+      .then(() => {
+        notificationRef.current.pop({variant : "success", text : "Record created"})
+        navigate("/")
+      })
+      .catch(error => {
+        notificationRef.current.pop({variant : "danger", text : error.toString()})
+        console.error(error)
+      })
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   return (
