@@ -1,4 +1,8 @@
-import React, { useRef, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react'
+
+// styles 
+import style from "./styles/Confirmation.module.scss"
+import styled_buttons from "../../../buttons.module.scss"
 
 export default forwardRef(function (props, ref) {
     const dialogRef = useRef()
@@ -20,12 +24,12 @@ export default forwardRef(function (props, ref) {
     })
 
     return (
-        <dialog ref = {dialogRef} open = {false}>
+        <dialog className={style["confirmation_dialog"]} ref = {dialogRef} open = {true}>
             <form method = "dialog">
                 <h2>Confirm action</h2>
                 <p>{text}</p>
-                <button ref = {confirmBtnRef} className="success-btn" type = "submit">Confirm</button>
-                <button ref = {rejectBtnRef} className="warning-btn" type = "button">Reject</button>
+                <button ref = {confirmBtnRef} className = {styled_buttons["success-btn"]} type = "submit">Confirm</button>
+                <button ref = {rejectBtnRef} className = {styled_buttons["warning-btn"]} type = "button">Reject</button>
             </form>
         </dialog>
     )

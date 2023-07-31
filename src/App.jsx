@@ -10,6 +10,7 @@ import CheckoutTodoRecord from './pages/CheckoutTodoRecord/CheckoutTodoRecord'
 import { Provider } from 'react-redux'
 import { store } from './Context/Redux/store'
 import ModalContext from "./Context/modalContext"
+import Confirmation from "./UI/Components/Confirmation/Confirmation";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,6 +24,9 @@ function App() {
           <Route index element = {<TodoRecordsList/>}/>
           <Route path="NewTodoRecord" element = {<NewTodoRecord/>}/>
           <Route path = "CheckoutRecord" element = {<CheckoutTodoRecord />}/>
+        </Route>
+        <Route path = "teststyle">
+          <Route index element = {<Confirmation />}/>
         </Route>
       </Routes>
     </BrowserRouter>
