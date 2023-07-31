@@ -31,10 +31,13 @@ function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
   dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord.id, state : store.getState()}))
 }
 
+import modalContext from '../../Context/modalContext';
+
 export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
+  const {notificationRef} = useContext(modalContext)
 
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
@@ -53,6 +56,7 @@ export default function NewTodoRecord() {
 
     createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
 
+    notificationRef.current.pop({variant : "success", text : "Record created"})
     navigate("/")
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 

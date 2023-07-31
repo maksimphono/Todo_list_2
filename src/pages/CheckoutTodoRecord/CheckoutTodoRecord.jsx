@@ -27,20 +27,18 @@ import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsBy
 import { store } from '../../Context/Redux/store';
 
 import {createTodoRecord, removeOneTodoRecord} from "../../Context/Redux/utilities"
+import modalContext from '../../Context/modalContext';
 
 export default function NewTodoRecord() {
   const { id : todoRecordId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
+  const {notificationRef} = useContext(modalContext)
 
   const selectedTodoRecord = useSelector(() => selectTodoRecordsById(store.getState(), todoRecordId))
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState(selectedTodoRecord?.collection)
   const [selectedEndDate, setSelectedEndDate] = useState(selectedTodoRecord?.endDate)
-
-  useEffect(() => {
-    console.log(todoRecordId)
-  })
 
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
@@ -54,13 +52,14 @@ export default function NewTodoRecord() {
       collection : selectedTodosCollectionId
     }
 
-    createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
+    //createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
 
     navigate("/")
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   const handleDelete = event => {
     removeOneTodoRecord({dispatch, todoRecordId, collectionId : selectedTodoRecord?.collection})
+    notificationRef.current.pop({variant : "warning", text : "Record deleted"})
     navigate("/")
   }
 

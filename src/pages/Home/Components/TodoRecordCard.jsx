@@ -1,23 +1,23 @@
-import React, { useEffect, useRef, useMemo, useState, useTransition } from 'react'
-import $ from "jquery"
-
-import { removeOne } from '../../../Context/Redux/todoRecordsSlice';
+import React, { useEffect, useRef, useMemo, useState, useTransition, useContext } from 'react'
 
 import {removeOneTodoRecord} from "../../../Context/Redux/utilities"
 
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
 import { useDispatch, useSelector } from 'react-redux';
-import { unbindTodoRecord } from '../../../Context/Redux/todoCollectionsSlice';
 
 // </styles>
 
+import modalContext from '../../../Context/modalContext';
+
 function CardControlBtns({todoRecordId, collectionId}) {
   const dispatch = useDispatch();
-  
+  const {notificationRef} = useContext(modalContext)
+
   const handleComplete = (event) => {
-    console.log("Remove", todoRecordId)
+    //console.log("Remove", todoRecordId)
     removeOneTodoRecord({dispatch, todoRecordId, collectionId})
+    notificationRef.current.pop({variant : "success", text : "Task completed!"})
   }
   
   return (
