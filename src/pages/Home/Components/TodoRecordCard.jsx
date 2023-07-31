@@ -14,10 +14,11 @@ function CardControlBtns({todoRecordId, collectionId}) {
   const dispatch = useDispatch();
   const {notificationRef} = useContext(modalContext)
 
-  const handleComplete = (event) => {
+  const handleComplete = async (event) => {
     //console.log("Remove", todoRecordId)
     removeOneTodoRecord({dispatch, todoRecordId, collectionId})
-    notificationRef.current.pop({variant : "success", text : "Task completed!"})
+      .then(notificationRef.current.pop({variant : "success", text : "Task completed!"}) )
+    
   }
   
   return (

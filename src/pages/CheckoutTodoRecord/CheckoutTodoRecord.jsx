@@ -52,16 +52,26 @@ export default function NewTodoRecord() {
       collection : selectedTodosCollectionId
     }
 
-    dispatch(alterTodoRecord(alteredTodoRecord));
-    //createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
+    dispatch(alterTodoRecord(alteredTodoRecord))
+    if (JSON.stringify(selectTodoRecordsById(store.getState(), alteredTodoRecord.id)) == JSON.stringify(alteredTodoRecord)) {
+      notificationRef.current.pop({variant : "success", text : "Record altering success!"})
+      navigate("/")
+    } else {
+      notificationRef.current.pop({variant : "danger", text : "Record altering failed!"})
+    }
 
-    navigate("/")
+    
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   const handleDelete = event => {
     removeOneTodoRecord({dispatch, todoRecordId, collectionId : selectedTodoRecord?.collection})
-    notificationRef.current.pop({variant : "warning", text : "Record deleted"})
-    navigate("/")
+      .then(result => {
+        notificationRef.current.pop({variant : "warning", text : "Record deleted"})
+        navigate("/")
+      })
+      .catch(error => {
+        notificationRef.current.pop({variant : "danger", text : error})
+      }) 
   }
 
   return (
