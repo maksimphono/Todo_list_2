@@ -11,7 +11,7 @@ import SelectCollectionDropdown from './Components/SelectCollectionDropdown';
 
 import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOne, selectTodoRecordsById } from '../../Context/Redux/todoRecordsSlice';
+import { addOne, alterTodoRecord, selectTodoRecordsById } from '../../Context/Redux/todoRecordsSlice';
 import { useNavigate } from 'react-router-dom';
 
 // </components>
@@ -43,15 +43,16 @@ export default function NewTodoRecord() {
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    console.log(selectedEndDate)
-    const newTodoRecord = {
-      id : new Date().toString().slice(0, 24),
+    const newDate = ((new Date(selectedEndDate)).toString() == "Invalid Date")?selectedTodoRecord.dateEnd:(new Date(selectedEndDate)).toString()
+    const alteredTodoRecord = {
+      id : selectedTodoRecord.id,
       title : formData.get("title"),
-      dateEnd : new Date(selectedEndDate).toString().slice(0, 15),
+      dateEnd : newDate.slice(0, 15),
       content : contentRef.current.content(),
       collection : selectedTodosCollectionId
     }
 
+    dispatch(alterTodoRecord(alteredTodoRecord));
     //createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
 
     navigate("/")

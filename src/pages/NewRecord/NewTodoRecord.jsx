@@ -45,7 +45,7 @@ export default function NewTodoRecord() {
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    console.log(selectedEndDate)
+    console.log(formData.get("title"))
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
       title : formData.get("title"),
