@@ -17,10 +17,16 @@ export async function removeOneTodoRecord({dispatch, todoRecordId, collectionId}
 }
 
 export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
-    if (JSON.stringify(selectTodoRecordsById(store.getState(), alteredTodoRecord.id)) == JSON.stringify(alteredTodoRecord))
+    const oldRecord = selectTodoRecordsById(store.getState(), alteredTodoRecord.id)
+    if (JSON.stringify(oldRecord) == JSON.stringify(alteredTodoRecord))
         return Promise.reject("Nothing to change!")
-    else{
+    else {
+        if (alteredTodoRecord.collection != oldRecord.collection) {
+            dispatch(unbindTodoRecord({id : oldRecord.collection, todoRecordId : oldRecord.id, state : store.getState()}))
+            dispatch(addOneTodoRecord({id : alteredTodoRecord.collection, todoRecordId : alteredTodoRecord.id, state : store.getState()}))
+        }
         dispatch(alterTodoRecord(alteredTodoRecord))
         return "OK"
+        
     }
 }

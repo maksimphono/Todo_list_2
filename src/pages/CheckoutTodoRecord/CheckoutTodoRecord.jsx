@@ -26,7 +26,7 @@ export const selectedTodosCollectionContext = createContext()
 import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
 import { store } from '../../Context/Redux/store';
 
-import {createTodoRecord, removeOneTodoRecord, alterOneTodoRecord} from "../../Context/Redux/utilities"
+import {removeOneTodoRecord, alterOneTodoRecord} from "../../Context/Redux/utilities"
 import modalContext from '../../Context/modalContext';
 
 
@@ -70,7 +70,7 @@ export default function NewTodoRecord() {
         navigate("/")
       })
       .catch(error => {
-        notificationRef.current.pop({variant : "danger", text : error})
+        notificationRef.current.pop({variant : "danger", text : error.toString()})
       }) 
   }
 
