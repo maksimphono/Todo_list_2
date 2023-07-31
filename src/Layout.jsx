@@ -9,13 +9,6 @@ export default memo(function Layout() {
   const modalRef = useRef(null);
   const confirmationRef = useRef(null);
 
-  useEffect(() => {
-    //confirmationRef.current.setText("Asdfg")
-    const f = () => confirmationRef.current.show("Asdfgh")
-    document.addEventListener("click", f)
-    return document.removeEventListener("click", f)
-  }, [])
-
   return (
     <>
         <Modal ref = {modalRef} />
