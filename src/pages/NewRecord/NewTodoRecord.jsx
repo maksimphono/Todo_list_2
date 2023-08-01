@@ -60,26 +60,7 @@ export default function NewTodoRecord() {
     } catch (error) {
       notificationRef.current.pop({variant : "warning", text : error.toString()})
     }
-    
-    /*
-    .then(() => {
-        createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
-          .then(() => {
-            notificationRef.current.pop({variant : "success", text : "Record created"})
-            navigate("/")
-          })
-          .catch(error => {
-            notificationRef.current.pop({variant : "danger", text : error.toString()})
-            console.error(error)
-          })
-        }
-      )
-      .catch(error => {
-          notificationRef.current.pop({variant : "warning", text : "Rejected"})
-        }
-      )
-      */
-    
+
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   return (

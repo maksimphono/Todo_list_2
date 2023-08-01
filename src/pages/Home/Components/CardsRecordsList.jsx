@@ -39,14 +39,10 @@ export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
     const TodoRecords = useSelector(() => selectAllTodoRecords(store.getState()))
 
-    useEffect(() => {
-        console.dir(TodoRecords)
-    }, [])
-
     return (
         <>
             <div className = {style["cards"]}>
-                {TodoRecords.map(rec => <TodoRecordCard cardData = {rec}/>)}
+                {TodoRecords.map(rec => <TodoRecordCard key = {rec.id} cardData = {rec}/>)}
             </div>
         </>
     )
