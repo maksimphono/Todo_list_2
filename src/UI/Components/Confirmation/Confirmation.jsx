@@ -1,4 +1,5 @@
 import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react'
+import $ from "jquery"
 
 // styles 
 import style from "./styles/Confirmation.module.scss"
@@ -16,10 +17,15 @@ export default forwardRef(function (props, ref) {
             show : (request) => {
                 setText(request)
                 dialogRef.current.show()
-                console.count("Show")
+
+                $(dialogRef.current).css({"opacity" : "0"})
+                $(dialogRef.current).animate({
+                    opacity : "1"
+                }, 500, "swing")
+
                 return new Promise((resolve, reject) => {
                     const confirm = () => {
-                        confirmBtnRef.current.removeEventListener("click", confirm)        
+                        confirmBtnRef.current.removeEventListener("click", confirm)
                         resolve("OK")
                     }
                     const decline = () => {
