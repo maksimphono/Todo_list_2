@@ -1,5 +1,6 @@
-import React, { useEffect, useId, useMemo } from 'react'
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react'
 
+import DatePicker from 'react-datepicker';
 // <styles>
 import style from "../styles/Tooltip.module.scss";
 import style_filters_option from "../styles/FiltersOption.module.scss"
@@ -9,18 +10,22 @@ import style_filters_option from "../styles/FiltersOption.module.scss"
 const isObject = (elem) => !!(typeof(elem) == "object" && !Array.isArray(elem)) 
 
 function FiltersOption() {
+    const [selectedEndDateTo, setSelectedEndDateTo] = useState()
+    const [selectedEndDateFrom, setSelectedEndDateFrom] = useState();
     const collectionSelectElem = useId();
-    
+    const searchFieldRef = useRef(null);
+
     return (
         <>
             <form className = {style_filters_option["filter_option"]}>
                 <label name = "searchbar">
                     Search by title
-                    <input type="text" />
+                    <input ref = {searchFieldRef} type="text" />
+                    <button type='button' name = 'clear' onClick = {() => searchFieldRef.current.value = ""}>x</button>
                 </label>
-                <label>
+                <label name = "selectedCollection">
                     Collections
-                    <select name = "selectedCollection">
+                    <select>
                         <option value="">asd</option>
                         <option value="">asdf</option>
                         <option value="">sdf</option>
@@ -29,13 +34,23 @@ function FiltersOption() {
                         <option value="">ftyu</option>
                     </select>
                 </label>
-                <label>
+                <label name = "datepick">
                     End date from
-                    <input type="date" />
+                    <DatePicker
+                        selected = {selectedEndDateFrom}
+                        onChange = {setSelectedEndDateFrom}
+                        dateFormat = "dd/MM/yyyy"
+                        placeholderText='Select a Date'
+                    />
                 </label>
-                <label>
+                <label name = 'datepick'>
                     End date to
-                    <input type="date" />
+                    <DatePicker
+                        selected = {selectedEndDateTo}
+                        onChange = {setSelectedEndDateTo}
+                        dateFormat = "dd/MM/yyyy"
+                        placeholderText='Select a Date'
+                    />
                 </label>
                 
             </form>

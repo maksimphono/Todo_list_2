@@ -8,29 +8,51 @@
     height: 100%;
     padding: 20px;
 
+
     label {
+        position: relative;
         display: flex;
         flex-direction: column;
         gap: 5px;
         padding: 10px;
-
-        &, & * {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: larger;
-        }
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: larger;
         
-        input[type='text'], select {
-            all: unset;
-            display: block;
-            width: auto;
-            height: 40px;
-            padding: auto;
-            padding-inline: 10px;
-            color: $color-dark;
-            background-color: #eee;
-            border: none;
-            border-radius: 10px;
+        &:not([name='datepick']) {
+            & > input[type='text'], select {
+                all: unset;
+                display: block;
+                width: auto;
+                height: 40px;
+                padding: auto;
+                padding-inline: 10px;
+                color: $color-dark;
+                background-color: #eee;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+            & > button[name='clear'] {
+                all: unset;
+                position: absolute;
+                right: 15px;
+                bottom: 15px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                aspect-ratio: 1/1;
+                color: $color-dark;
+                border-radius: 50%;
+                cursor: pointer;
+            }
         }
+        &[name='datepick'] {
+            * {
+                color: $color-dark !important;
+            }
+        }
+
     }
 
     @media screen and (max-width : $query-phone-width) {

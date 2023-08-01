@@ -118,7 +118,7 @@
             min-width: 100%;
             z-index: 8;
 
-            *:not(input, select) {
+            *:not(input, select, button, a) {
                 color: #eee;
             }
 
