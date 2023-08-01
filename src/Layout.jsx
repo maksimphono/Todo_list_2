@@ -4,6 +4,7 @@ import {Outlet} from "react-router-dom"
 import Modal from './UI/Components/Modal/Modal'
 import ModalContext from './Context/modalContext'
 import Confirmation from './UI/Components/Confirmation/Confirmation'
+import $ from "jquery"
 import NotificationContext from "./Context/NotificationContext"
 import Notification from './UI/Components/Modal/Notification'
 

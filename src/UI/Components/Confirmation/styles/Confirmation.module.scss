@@ -1,18 +1,20 @@
 @import "../../../../define.scss";
 
 .confirmation_dialog {
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-60%);
+    display: block;
     width: 50vw;
     height: 35vh;
     border: none;
     border-radius: 15px;
     box-shadow: 0 0 6px $color-dark;
     overflow: hidden;
-    z-index: 999999;
-
+    opacity: 1;
+    z-index: 301;
+    
     &:not([open]) {
         display: none;
     }
@@ -81,4 +83,19 @@
     @media screen and (max-width : $query-phone-width) {
         width: 95vw;
     }
+    @keyframes popdown {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-60%);
+        }
+        50%{
+            opacity: 1;
+            transform: translateX(-50%) translateY(-50%);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-60%);
+        }
+    }
+
 }
