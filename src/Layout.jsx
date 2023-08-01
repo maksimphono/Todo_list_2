@@ -7,12 +7,21 @@ import Confirmation from './UI/Components/Confirmation/Confirmation'
 import $ from "jquery"
 import NotificationContext from "./Context/NotificationContext"
 import Notification from './UI/Components/Modal/Notification'
+import { useDispatch } from 'react-redux'
+
+import { selectAllTodoRecords } from './Context/Redux/todoRecordsSlice'
+import { selectAllCollectionRecords } from './Context/Redux/todoCollectionsSlice'
 
 export default memo(function Layout() {
+  const dispatch = useDispatch()
   const modalRef = useRef(null);
   const confirmationRef = useRef(null);
 
   const notificationRef = useRef(null);
+
+  useEffect(() => {
+    dispatch()
+  }, [])
 
   return (
     <>
