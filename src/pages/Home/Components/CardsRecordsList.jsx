@@ -33,10 +33,11 @@ const TodoRecordsJSON = [
 import { addOne } from '../../../Context/Redux/todoRecordsSlice';
 import { useSelector, useDispatch } from "react-redux"
 import {selectAllTodoRecords} from "../../../Context/Redux/todoRecordsSlice"
+import { store } from '../../../Context/Redux/store';
 
 export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
-    const TodoRecords = useSelector(selectAllTodoRecords)
+    const TodoRecords = useSelector(() => selectAllTodoRecords(store.getState()))
 
     useEffect(() => {
         console.dir(TodoRecords)

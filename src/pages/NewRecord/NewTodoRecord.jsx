@@ -26,10 +26,7 @@ import style from "./styles/NewTodoRecord.module.scss";
 
 export const selectedTodosCollectionContext = createContext()
 
-function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
-  dispatch(addOne(todoRecord))
-  dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord.id, state : store.getState()}))
-}
+import {createTodoRecord} from "../../Context/Redux/utilities"
 
 import modalContext from '../../Context/modalContext';
 
@@ -37,7 +34,7 @@ export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
-  const {notificationRef} = useContext(modalContext)
+  const {notificationRef, confirmationRef} = useContext(modalContext)
 
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
@@ -45,7 +42,7 @@ export default function NewTodoRecord() {
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    console.log(selectedEndDate)
+    console.log(formData.get("title"))
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
       title : formData.get("title"),
@@ -54,10 +51,25 @@ export default function NewTodoRecord() {
       collection : selectedTodosCollectionId
     }
 
-    createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
+    confirmationRef.current.show(<h1>Create?</h1>)
+      .then(() => {
+        createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
+          .then(() => {
+            notificationRef.current.pop({variant : "success", text : "Record created"})
+            navigate("/")
+          })
+          .catch(error => {
+            notificationRef.current.pop({variant : "danger", text : error.toString()})
+            console.error(error)
+          })
+        }
+      )
+      .catch(error => {
+          notificationRef.current.pop({variant : "warning", text : "Rejected"})
+        }
+      )
 
-    notificationRef.current.pop({variant : "success", text : "Record created"})
-    navigate("/")
+    
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   return (

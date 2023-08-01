@@ -11,7 +11,7 @@ import SelectCollectionDropdown from './Components/SelectCollectionDropdown';
 
 import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOne, selectTodoRecordsById } from '../../Context/Redux/todoRecordsSlice';
+import { addOne, alterTodoRecord, selectTodoRecordsById } from '../../Context/Redux/todoRecordsSlice';
 import { useNavigate } from 'react-router-dom';
 
 // </components>
@@ -26,8 +26,9 @@ export const selectedTodosCollectionContext = createContext()
 import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
 import { store } from '../../Context/Redux/store';
 
-import {createTodoRecord, removeOneTodoRecord} from "../../Context/Redux/utilities"
+import {removeOneTodoRecord, alterOneTodoRecord} from "../../Context/Redux/utilities"
 import modalContext from '../../Context/modalContext';
+
 
 export default function NewTodoRecord() {
   const { id : todoRecordId } = useParams();
@@ -43,24 +44,34 @@ export default function NewTodoRecord() {
   const addNewTodoRecord = useCallback(event => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    console.log(selectedEndDate)
-    const newTodoRecord = {
-      id : new Date().toString().slice(0, 24),
+    const newDate = ((new Date(selectedEndDate)).toString() == "Invalid Date")?selectedTodoRecord.dateEnd:(new Date(selectedEndDate)).toString()
+    const alteredTodoRecord = {
+      id : selectedTodoRecord.id,
       title : formData.get("title"),
-      dateEnd : new Date(selectedEndDate).toString().slice(0, 15),
+      dateEnd : newDate.slice(0, 15),
       content : contentRef.current.content(),
       collection : selectedTodosCollectionId
     }
 
-    //createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
-
-    navigate("/")
+    alterOneTodoRecord({dispatch, alteredTodoRecord})
+      .then(result => {
+        notificationRef.current.pop({variant : "success", text : "Record altered successfuly!"})
+        navigate("/")
+      })
+      .catch(err => {
+        notificationRef.current.pop({variant : "info", text : err.toString()})
+      })
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   const handleDelete = event => {
     removeOneTodoRecord({dispatch, todoRecordId, collectionId : selectedTodoRecord?.collection})
-    notificationRef.current.pop({variant : "warning", text : "Record deleted"})
-    navigate("/")
+      .then(result => {
+        notificationRef.current.pop({variant : "warning", text : "Record deleted"})
+        navigate("/")
+      })
+      .catch(error => {
+        notificationRef.current.pop({variant : "danger", text : error.toString()})
+      }) 
   }
 
   return (
