@@ -3,11 +3,26 @@
 .filter_option {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    justify-items: stretch;
     gap: 5px;
     width: 100%;
     height: 100%;
     padding: 20px;
-
+    
+    & > button {
+        &:first-of-type {
+            justify-self: end;
+        }
+        &:last-of-type {
+            justify-self: start;
+        }
+        width: 70%;
+        height: 40px;
+        border-radius: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: larger;
+        margin-inline: 5px;
+    }
 
     label {
         position: relative;
@@ -18,6 +33,8 @@
         font-family: Arial, Helvetica, sans-serif;
         font-size: larger;
         
+
+
         &:not([name='datepick']) {
             & > input[type='text'], select {
                 all: unset;
@@ -57,5 +74,11 @@
 
     @media screen and (max-width : $query-phone-width) {
         grid-template-columns: 1fr;
+        
+        & > button {
+            &:first-of-type, &:last-of-type {
+                justify-self: center;
+            }
+        }
     }
 }

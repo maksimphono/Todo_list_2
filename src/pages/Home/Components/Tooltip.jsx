@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 // <styles>
 import style from "../styles/Tooltip.module.scss";
 import style_filters_option from "../styles/FiltersOption.module.scss"
+import styled_buttons from "../../../buttons.module.scss"
 
 // </styles>
 
@@ -52,7 +53,9 @@ function FiltersOption() {
                         placeholderText='Select a Date'
                     />
                 </label>
-                
+                <button className = {styled_buttons["success-btn"]}>Apply filters</button>
+                <button type = "button">Reset</button>
+
             </form>
         </>
     )

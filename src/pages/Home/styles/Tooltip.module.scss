@@ -107,7 +107,7 @@
             grid-template-columns: 1fr;
             justify-items: center;
             gap: 5px;
-            width: 100%;
+            width: 250%;
             height: max-content;
             min-height: 20vh;
             background-color: $color-dark;
@@ -120,6 +120,10 @@
 
             *:not(input, select, button, a) {
                 color: #eee;
+            }
+
+            @media screen and (min-width : $query-desktop-width) {
+                max-width: 200%;
             }
 
             @media screen and (max-width : $query-tablet-width) {
