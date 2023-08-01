@@ -14,6 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addOne } from '../../Context/Redux/todoRecordsSlice';
 import { useNavigate } from 'react-router-dom';
 
+import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
+import { store } from '../../Context/Redux/store';
+
 // </components>
 
 // <styles>
@@ -22,9 +25,6 @@ import style from "./styles/NewTodoRecord.module.scss";
 // </styles>
 
 export const selectedTodosCollectionContext = createContext()
-
-import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
-import { store } from '../../Context/Redux/store';
 
 function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
   dispatch(addOne(todoRecord))

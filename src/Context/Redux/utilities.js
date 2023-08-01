@@ -12,4 +12,4 @@ export function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
 export function removeOneTodoRecord({dispatch, todoRecordId, collectionId}) {
     dispatch(removeOne(todoRecordId))
     dispatch(unbindTodoRecord({id : collectionId, todoRecordId, state : store.getState()}))
-}  
+}
