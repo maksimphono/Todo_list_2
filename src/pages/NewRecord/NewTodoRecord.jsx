@@ -39,7 +39,7 @@ export default function NewTodoRecord() {
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
 
-  const addNewTodoRecord = useCallback(event => {
+  const addNewTodoRecord = useCallback(async event => {
     event.preventDefault()
     const formData = new FormData(event.target)
     console.log(formData.get("title"))
@@ -51,8 +51,18 @@ export default function NewTodoRecord() {
       collection : selectedTodosCollectionId
     }
 
-    confirmationRef.current.show(<h1>Create?</h1>)
-      .then(() => {
+    try {
+      await confirmationRef.current.show("Create?")
+      await createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId);
+      notificationRef.current.pop({variant : "success", text : "Record created"})
+      navigate("/")
+
+    } catch (error) {
+      notificationRef.current.pop({variant : "warning", text : error.toString()})
+    }
+    
+    /*
+    .then(() => {
         createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
           .then(() => {
             notificationRef.current.pop({variant : "success", text : "Record created"})
@@ -68,7 +78,7 @@ export default function NewTodoRecord() {
           notificationRef.current.pop({variant : "warning", text : "Rejected"})
         }
       )
-
+      */
     
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 

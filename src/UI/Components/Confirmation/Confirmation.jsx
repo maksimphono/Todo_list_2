@@ -24,7 +24,7 @@ export default forwardRef(function (props, ref) {
                     }
                     const decline = () => {
                         rejectBtnRef.current.removeEventListener("click", decline)        
-                        reject("NO")
+                        reject("Rejected")
                     }
                     confirmBtnRef.current.addEventListener("click", confirm)
                     rejectBtnRef.current.addEventListener("click", decline)
