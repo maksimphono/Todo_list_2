@@ -10,12 +10,6 @@ export default memo(function Layout() {
   const modalRef = useRef(null);
   const confirmationRef = useRef(null);
 
-  useEffect(() => {
-    const f = () => confirmationRef.current.show("asdfg")
-    $(document).on("click", f)
-    return () => $(document).off("click", f)
-  }, [])
-
   return (
     <>
         <Modal ref = {modalRef} />

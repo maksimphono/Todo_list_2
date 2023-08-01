@@ -1,11 +1,47 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useId, useMemo } from 'react'
 
 // <styles>
 import style from "../styles/Tooltip.module.scss";
+import style_filters_option from "../styles/FiltersOption.module.scss"
 
 // </styles>
 
 const isObject = (elem) => !!(typeof(elem) == "object" && !Array.isArray(elem)) 
+
+function FiltersOption() {
+    const collectionSelectElem = useId();
+    
+    return (
+        <>
+            <form className = {style_filters_option["filter_option"]}>
+                <label name = "searchbar">
+                    Search by title
+                    <input type="text" />
+                </label>
+                <label>
+                    Collections
+                    <select name = "selectedCollection">
+                        <option value="">asd</option>
+                        <option value="">asdf</option>
+                        <option value="">sdf</option>
+                        <option value="">bgr</option>
+                        <option value="">vh</option>
+                        <option value="">ftyu</option>
+                    </select>
+                </label>
+                <label>
+                    End date from
+                    <input type="date" />
+                </label>
+                <label>
+                    End date to
+                    <input type="date" />
+                </label>
+                
+            </form>
+        </>
+    )
+}
 
 function DropdownTool({
     summary,
@@ -21,6 +57,7 @@ function DropdownTool({
         let classList = "";
         let newChild = null;
 
+        console.dir(children)
         if (isObject(children)) {
             classList = style["options"]
             if (children.props?.className)
@@ -40,15 +77,9 @@ function DropdownTool({
             <summary>
                 {summary}
             </summary>
-            {
-            (Array.isArray(children))? // render wrapped children if there are many of them
-                (<div className = {style["options"]}>
-                    {children}
-                </div>
-                )
-            :
-                wrappedChild // render child with className 'options' if there is excatly one child
-            }
+            <div className = {style["options"]}>
+                {children}
+            </div>
             
         </details>
     )
@@ -68,11 +99,7 @@ export default function Tooltip() {
             <DropdownTool
                 summary = "Filter"
             >
-                <ul>
-                    <li>Option</li>
-                    <li>Option</li>
-                    <li>Option</li>
-                </ul>
+                <FiltersOption />
             </DropdownTool>
             <DropdownTool
                 summary = "Sort"
