@@ -16,12 +16,7 @@ export default memo(function Layout() {
   const dispatch = useDispatch()
   const modalRef = useRef(null);
   const confirmationRef = useRef(null);
-
   const notificationRef = useRef(null);
-
-  useEffect(() => {
-    dispatch()
-  }, [])
 
   return (
     <>

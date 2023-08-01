@@ -1,0 +1,123 @@
+@import "./variables.module.scss";
+
+.filter_option {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: stretch;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    
+    & > button {
+        &:first-of-type {
+            justify-self: end;
+        }
+        &:last-of-type {
+            justify-self: start;
+        }
+        width: 70%;
+        height: 40px;
+        border-radius: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: larger;
+        margin-inline: 5px;
+        transition: .3s;
+
+        &:hover {
+            filter: brightness(70%);
+        }
+    }
+
+    label {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: larger;
+        
+
+
+        &:not([name='datepick']) {
+            & > input[type='text'], details {
+                all: unset;
+                display: block;
+                width: auto;
+                height: 40px;
+                padding: auto;
+                padding-inline: 10px;
+                color: $color-dark;
+                background-color: #eee;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                
+            }
+            details {
+                ul {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: start;
+                    width: 100%;
+                    height: max-content;
+                    background-color: #fff;
+                    padding: 10px;
+                    border: 2px solid $color1;
+                    border-radius: 15px;
+                    list-style-type: none;
+                    z-index: 10;
+
+                    li {
+                        display: flex;
+                        gap: 10px;
+                        padding: auto;
+                        align-items: center;
+                        height: 30px;
+                        width: 100%;
+                        color: $color-dark !important;
+                        
+                        input[type='checkbox'] {
+                            width: 20px;
+                            aspect-ratio: 1/1;
+                        }
+                    }
+                    
+                }
+            }
+            & > button[name='clear'] {
+                all: unset;
+                position: absolute;
+                right: 15px;
+                bottom: 15px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                aspect-ratio: 1/1;
+                color: $color-dark;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+        }
+        &[name='datepick'] {
+            * {
+                color: $color-dark !important;
+            }
+        }
+
+    }
+
+    @media screen and (max-width : $query-phone-width) {
+        grid-template-columns: 1fr;
+        
+        & > button {
+            &:first-of-type, &:last-of-type {
+                justify-self: center;
+            }
+        }
+    }
+}
