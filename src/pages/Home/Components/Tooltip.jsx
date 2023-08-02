@@ -14,28 +14,39 @@ const formData = {
     __proto__ : null,
     selectedEndDateTo : new Date(),
     selectedEndDateFrom : new Date(),
-    selectedCollectionIds : new Map(),
+    selectedCollectionIds : Object.create(null),
     searchFieldValue : ""
 }
 
-const formReducer = (state, action) => {
-    switch (action.type) {
-        case "setSearchFieldValue":
-            return {...state, searchFieldValue : action.payload};
-        case "setEndDateTo":
-            return {...state, selectedEndDateTo : action.payload};
-        case "setCollectionIds":
-            return {
-                ...state, 
-                selectedCollectionId : 123
-            };
-        case "setEndDateFrom":
-            return {...state, selectedEndDateFrom : action.payload};
+import { createSlice } from '@reduxjs/toolkit';
+
+const formSlice = createSlice({
+    name : "formSlice",
+    initialState : formData,
+    reducers : {
+        setSearchFieldValue : (state, action) => {
+            return {...state, searchFieldValue : action.payload}
+        },
+        setEndDateTo : (state, action) => {
+            return {...state, selectedEndDateTo : action.payload}
+        },
+        setEndDateFrom : (state, action) => {
+            return {...state, selectedEndDateFrom : action.payload}
+        },
+        setCollectionIds : (state, action) => {
+            const selectedCollectionIds = {...(state.selectedCollectionIds)}
+            if (selectedCollectionIds[action.payload]) {
+                selectedCollectionIds[action.payload] = false
+            } else {
+                selectedCollectionIds[action.payload] = true
+            }
+            return {...state, selectedCollectionIds};
+        }
     }
-}
+})
 
 function FiltersOption() {
-    const [state, dispatch] = useReducer(formReducer, formData)
+    const [state, dispatch] = useReducer(formSlice.reducer, formData)
     const collectionSelectElem = useId();
     const searchFieldRef = useRef(null);
 
@@ -44,7 +55,7 @@ function FiltersOption() {
             <form className = {style_filters_option["filter_option"]}>
                 <label name = "searchbar">
                     Search by title
-                    <input ref = {searchFieldRef} type="text" value = {state.searchFieldValue} onChange={event => dispatch({type : "setSearchFieldValue", payload : event.target.value})} />
+                    <input ref = {searchFieldRef} type="text" value = {state.searchFieldValue} onChange={event => dispatch(formSlice.actions.setSearchFieldValue(event.target.value))} />
                     <button type='button' name = 'clear' onClick = {() => dispatch({type : "setSearchFieldValue", payload : ""})}>x</button>
                 </label>
                 <label name = "selectedCollection">
@@ -52,8 +63,8 @@ function FiltersOption() {
                     <details>
                         <summary></summary>
                         <ul>
-                            <li><input type="checkbox" />1234</li>
-                            <li><input type="checkbox" onClick = {() => {dispatch({type : "setCollectionId", payload : 345}); console.dir(state)}}/>2345</li>
+                            <li><input type="checkbox" onClick = {() => {dispatch(formSlice.actions.setCollectionIds(1))}}/>1234</li>
+                            <li><input type="checkbox" onClick = {() => {dispatch(formSlice.actions.setCollectionIds(2))}}/>2345</li>
                             <li><input type="checkbox" />3456</li>
                             <li><input type="checkbox" />4567</li>
                             <li><input type="checkbox" /></li>
@@ -67,7 +78,7 @@ function FiltersOption() {
                     End date from
                     <DatePicker
                         selected = {state.selectedEndDateFrom}
-                        onChange = {(date) => dispatch({type : "setEndDateFrom", payload : date})}
+                        onChange = {(date) => dispatch(formSlice.actions.setEndDateFrom(date))}
                         dateFormat = "dd/MM/yyyy"
                         placeholderText='Select a Date'
                     />
@@ -76,7 +87,7 @@ function FiltersOption() {
                     End date to
                     <DatePicker
                         selected = {state.selectedEndDateTo}
-                        onChange = {(date) => dispatch({type : "setEndDateTo", payload : date})}
+                        onChange = {(date) => dispatch(formSlice.actions.setEndDateTo(date))}
                         dateFormat = "dd/MM/yyyy"
                         placeholderText='Select a Date'
                     />
