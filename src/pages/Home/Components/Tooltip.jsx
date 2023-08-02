@@ -19,6 +19,9 @@ const formData = {
 }
 
 import { createSlice } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAllCollectionRecords } from '../../../Context/Redux/todoCollectionsSlice';
+import { store } from '../../../Context/Redux/store';
 
 const formSlice = createSlice({
     name : "formSlice",
@@ -47,6 +50,8 @@ const formSlice = createSlice({
 
 function FiltersOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formData)
+    const gDispatch = useDispatch();
+    const collectionsRecords = useSelector(() => selectAllCollectionRecords(store.getState()));
     const collectionSelectElem = useId();
     const searchFieldRef = useRef(null);
 
@@ -63,14 +68,15 @@ function FiltersOption() {
                     <details>
                         <summary></summary>
                         <ul>
-                            <li><input type="checkbox" onClick = {() => {dispatch(formSlice.actions.setCollectionIds(1))}}/>1234</li>
-                            <li><input type="checkbox" onClick = {() => {dispatch(formSlice.actions.setCollectionIds(2))}}/>2345</li>
-                            <li><input type="checkbox" />3456</li>
-                            <li><input type="checkbox" />4567</li>
-                            <li><input type="checkbox" /></li>
-                            <li><input type="checkbox" /></li>
-                            <li><input type="checkbox" /></li>
-                            <li><input type="checkbox" /></li>
+                            {collectionsRecords.map(record => (
+                                <li key = {record.id}>
+                                    <input 
+                                        type="checkbox"
+                                        onClick = {() => {dispatch(formSlice.actions.setCollectionIds(record.id))}}
+                                    />
+                                    {record.name}
+                                </li>
+                            ))}
                         </ul>
                     </details>
                 </label>
