@@ -29,14 +29,16 @@ const todoRecordsSlice = createSlice({
             reducer : (state, action) => {
                 return todoRecordsAdapter.updateOne(state, action.payload)
             }
-        }
+        },
+        addManyTodos : todoRecordsAdapter.addMany
     }
 })
 
 export const {
     addOne,
     removeOne,
-    alterTodoRecord
+    alterTodoRecord,
+    addManyTodos
 } = todoRecordsSlice.actions;
 
 export const {

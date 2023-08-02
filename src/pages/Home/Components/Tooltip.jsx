@@ -10,10 +10,22 @@ import styled_buttons from "../../../buttons.module.scss"
 
 const isObject = (elem) => !!(typeof(elem) == "object" && !Array.isArray(elem)) 
 
+const count_1_MounthBefore = (date) => {
+    const copyDate = date
+    copyDate.setDate(copyDate.getDate() - 30)
+    return copyDate
+}
+
+const count_1_MounthAfter = (date) => {
+    const copyDate = date
+    copyDate.setDate(copyDate.getDate() + 30)
+    return copyDate
+}
+
 const formData = {
     __proto__ : null,
-    selectedEndDateTo : new Date(),
-    selectedEndDateFrom : new Date(),
+    selectedEndDateTo : "",
+    selectedEndDateFrom : "",
     selectedCollectionIds : Object.create(null),
     searchFieldValue : ""
 }
@@ -44,11 +56,15 @@ const formSlice = createSlice({
                 selectedCollectionIds[action.payload] = true
             }
             return {...state, selectedCollectionIds};
+        },
+        resetData : (state, action) => {
+            return {...formData}
         }
     }
 })
 
-import { setFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
+import { setFilters, resetFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
+import $ from "jquery"
 
 function FiltersOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formData)
@@ -62,6 +78,12 @@ function FiltersOption() {
     const handleApplyfilters = event => {
         event.preventDefault()
         gDispatch(setFilters(JSON.parse(JSON.stringify(state))))
+    }
+
+    const handleFiltersReset = () => {
+        gDispatch(resetFilters())
+        dispatch(formSlice.actions.resetData())
+        $("input.setCollectionIds").prop("checked", false)
     }
 
     return (
@@ -83,7 +105,8 @@ function FiltersOption() {
                                         background : record.color,
                                     }}
                                 >
-                                    <input 
+                                    <input
+                                        className = "setCollectionIds" 
                                         type="checkbox"
                                         onClick = {() => {dispatch(formSlice.actions.setCollectionIds(record.id))}}
                                     />
@@ -112,7 +135,7 @@ function FiltersOption() {
                     />
                 </label>
                 <button className = {styled_buttons["success-btn"]} type='submit'>Apply filters</button>
-                <button className = {styled_buttons["secondary-btn"]} type = "button">Reset</button>
+                <button className = {styled_buttons["secondary-btn"]} onClick = {handleFiltersReset} type = "button">Reset</button>
 
             </form>
         </>

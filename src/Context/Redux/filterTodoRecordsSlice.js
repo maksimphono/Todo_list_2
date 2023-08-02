@@ -12,10 +12,13 @@ const filtersSlice = createSlice({
                 selectedCollectionIds : action.payload.selectedCollectionIds,
                 searchFieldValue : action.payload.searchFieldValue
             }
+        },
+        resetFilters : (state, action) => {
+            return {__proto__ : null}
         }
     }
 })
 
-export const {setFilters} = filtersSlice.actions
+export const {setFilters, resetFilters} = filtersSlice.actions
 
 export default filtersSlice.reducer

@@ -11,24 +11,42 @@ const TodoRecordsJSON = [
         id : "1",
         title : "Todo 1",
         dateEnd : "2022-02-03",
-        collection : "Hw",
+        collection : "1",
         content : "Qwertyasdfghzxcvbn"
     },
     {
         id : "2",
         title : "Second Todo",
         dateEnd : "2023-12-10",
-        collection : "Study",
+        collection : "2",
         content : "Second Todo qwerftgvcxsaswderftghbvcfdxsa"
     },
     {
         id : "3",
         title : "Third Todo#3",
         dateEnd : "2023-04-28",
-        collection : "Study",
+        collection : "1",
         content : "#3 todo Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae commodi, architecto saepe placeat ipsum quidem beatae cum soluta assumenda quia, vitae quod pariatur debitis nam. Eum voluptatibus sed unde adipisci."
     }
 ]
+
+const collectionsJSON = [
+    {
+        id : "1",
+        name : "Col_1",
+        color: "#ada",
+        todoRecordsIds : ["1", "3"]
+    },
+    {
+        id : "2",
+        name : "Col_2",
+        color: "#e4c",
+        todoRecordsIds : ["2"]
+    }
+]
+
+import { addManyCollections } from '../../../Context/Redux/todoCollectionsSlice';
+import { addManyTodos } from '../../../Context/Redux/todoRecordsSlice';
 
 import { addOne } from '../../../Context/Redux/todoRecordsSlice';
 import { useSelector, useDispatch } from "react-redux"
@@ -38,14 +56,29 @@ import { store } from '../../../Context/Redux/store';
 export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
+    
+    useEffect(() => {
+        dispatch(addManyTodos(TodoRecordsJSON))
+        dispatch(addManyCollections(collectionsJSON))
+    }, [])
+
     const TodoRecords = useSelector((state) => {
+        console.dir(todoRecordsFilters)
         if (Object.keys(todoRecordsFilters).length > 2) {
-            //console.log(new Date(selectAllTodoRecords(state)[0].dateEnd))
             return selectAllTodoRecords(state)
                 .filter(record => [
-                    new Date(record.dateEnd) >= new Date(todoRecordsFilters.selectedEndDateFrom),
-                    new Date(record.dateEnd) <= new Date(todoRecordsFilters.selectedEndDateTo),
+                    ((todoRecordsFilters.selectedEndDateFrom != "")?
+                        (new Date(record.dateEnd) >= new Date(todoRecordsFilters.selectedEndDateFrom))
+                    :
+                        true
+                    ),
+                    ((todoRecordsFilters.selectedEndDateTo != "")?
+                        (new Date(record.dateEnd) < new Date(todoRecordsFilters.selectedEndDateTo))
+                    :
+                        true
+                    ),
                     record.title.includes(todoRecordsFilters.searchFieldValue),
+                    todoRecordsFilters.selectedCollectionIds[record.collection]
                     ].every(v => v)
                 )
         } else {
