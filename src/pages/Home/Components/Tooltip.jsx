@@ -32,7 +32,7 @@ const formData = {
 
 import { createSlice } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllCollectionRecords, selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice';
+import { selectAllCollectionRecords, selectCollectionRecordsById, selectCollectionRecordsIds } from '../../../Context/Redux/todoCollectionsSlice';
 import { store } from '../../../Context/Redux/store';
 
 const formSlice = createSlice({
@@ -56,6 +56,13 @@ const formSlice = createSlice({
                 selectedCollectionIds[action.payload] = true
             }
             return {...state, selectedCollectionIds};
+        },
+        setAllCollectionIds : (state, action) => {
+            const selectedCollectionIds = {...(state.selectedCollectionIds)}
+            for (let id of action.payload.ids) {
+                selectedCollectionIds[id] = !!action.payload.value;
+            }
+            return {...state, selectedCollectionIds}
         },
         resetData : (state, action) => {
             return {...formData}
@@ -83,8 +90,35 @@ function FiltersOption() {
     const handleFiltersReset = () => {
         gDispatch(resetFilters())
         dispatch(formSlice.actions.resetData())
-        $("input.setCollectionIds").prop("checked", false)
+        dispatch(
+            formSlice.actions
+                .setAllCollectionIds({
+                    value : true,
+                    ids : selectCollectionRecordsIds(store.getState())
+                }
+            )
+        )
+        $("input.setCollectionIds").prop("checked", true)
     }
+
+    useEffect(() => {
+        dispatch(
+            formSlice.actions
+                .setAllCollectionIds({
+                    value : true,
+                    ids : selectCollectionRecordsIds(store.getState())
+                }
+            )
+        )
+    }, [])
+
+    useEffect(() => {
+        if (Object.values(state.selectedCollectionIds).every(v => v)) {
+            $("input.selectAll").prop("checked", true)
+        } else {
+            $("input.selectAll").prop("checked", false)
+        }
+    }, [state.selectedCollectionIds])
 
     return (
         <>
@@ -99,8 +133,19 @@ function FiltersOption() {
                     <details>
                         <summary>{Object.values(state.selectedCollectionIds).filter(v => v).length}</summary>
                         <ul>
+                            <li>
+                                <input
+                                    className = "selectAll" 
+                                    type="checkbox"
+                                    onClick = {(event) => {
+                                        dispatch(formSlice.actions.setAllCollectionIds({value : event.target.checked, ids : selectCollectionRecordsIds(store.getState())}))
+                                        $("input.setCollectionIds").prop("checked", event.target.checked)
+                                    }}
+                                />
+                                <span style = {{color : "#000"}}>All</span>
+                            </li>
                             {collectionsRecords.map(record => (
-                                <li key = {record.id} 
+                                <li key = {record.id}
                                     style = {{
                                         background : record.color,
                                     }}
@@ -108,7 +153,11 @@ function FiltersOption() {
                                     <input
                                         className = "setCollectionIds" 
                                         type="checkbox"
-                                        onClick = {() => {dispatch(formSlice.actions.setCollectionIds(record.id))}}
+                                        defaultChecked = {true}
+                                        onClick = {(event) => {
+                                            dispatch(formSlice.actions.setCollectionIds(record.id))
+                                            //if (event)
+                                        }}
                                     />
                                     <span style = {{color : ((parseInt((record?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee")}}>{record.name}</span>
                                 </li>
