@@ -48,6 +48,8 @@ const formSlice = createSlice({
     }
 })
 
+import { setFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
+
 function FiltersOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formData)
     const gDispatch = useDispatch();
@@ -57,9 +59,14 @@ function FiltersOption() {
     const collectionSelectElem = useId();
     const searchFieldRef = useRef(null);
 
+    const handleApplyfilters = event => {
+        event.preventDefault()
+        gDispatch(setFilters(JSON.parse(JSON.stringify(state))))
+    }
+
     return (
         <>
-            <form className = {style_filters_option["filter_option"]}>
+            <form className = {style_filters_option["filter_option"]} onSubmit = {handleApplyfilters}>
                 <label name = "searchbar">
                     Search by title
                     <input ref = {searchFieldRef} type="text" value = {state.searchFieldValue} onChange={event => dispatch(formSlice.actions.setSearchFieldValue(event.target.value))} />
@@ -104,7 +111,7 @@ function FiltersOption() {
                         placeholderText='Select a Date'
                     />
                 </label>
-                <button className = {styled_buttons["success-btn"]}>Apply filters</button>
+                <button className = {styled_buttons["success-btn"]} type='submit'>Apply filters</button>
                 <button className = {styled_buttons["secondary-btn"]} type = "button">Reset</button>
 
             </form>
@@ -126,7 +133,6 @@ function DropdownTool({
         let classList = "";
         let newChild = null;
 
-        console.dir(children)
         if (isObject(children)) {
             classList = style["options"]
             if (children.props?.className)

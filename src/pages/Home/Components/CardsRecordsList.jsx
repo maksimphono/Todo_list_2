@@ -37,7 +37,22 @@ import { store } from '../../../Context/Redux/store';
 
 export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
-    const TodoRecords = useSelector(() => selectAllTodoRecords(store.getState()))
+    const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
+    const TodoRecords = useSelector((state) => {
+        if (Object.keys(todoRecordsFilters).length > 2) {
+            console.log(new Date(selectAllTodoRecords(state)[0].dateEnd))
+            return selectAllTodoRecords(state).filter(record => new Date(record.dateEnd) >= new Date(todoRecordsFilters.selectedEndDateFrom))
+        } else {
+            return selectAllTodoRecords(state)
+        }
+        
+    })
+    
+
+    useEffect(() => {
+        console.log("Filters: ")
+        console.dir(todoRecordsFilters)
+    }, [todoRecordsFilters])
 
     return (
         <>

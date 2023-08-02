@@ -46,7 +46,7 @@ export default function NewTodoRecord() {
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
       title : formData.get("title"),
-      dateEnd : new Date(selectedEndDate).toString().slice(0, 15),
+      dateEnd : new Date(selectedEndDate).toString(),
       content : contentRef.current.content(),
       collection : selectedTodosCollectionId
     }
