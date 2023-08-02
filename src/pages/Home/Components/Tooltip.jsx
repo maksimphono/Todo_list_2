@@ -20,7 +20,7 @@ const formData = {
 
 import { createSlice } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllCollectionRecords } from '../../../Context/Redux/todoCollectionsSlice';
+import { selectAllCollectionRecords, selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice';
 import { store } from '../../../Context/Redux/store';
 
 const formSlice = createSlice({
@@ -52,6 +52,7 @@ function FiltersOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formData)
     const gDispatch = useDispatch();
     const collectionsRecords = useSelector(() => selectAllCollectionRecords(store.getState()));
+    const selectedCollectionsNames = useSelector(storeState => selectAllCollectionRecords(storeState).filter(record => state.selectedCollectionIds[record.id]).map(record => record.name))
     //const selectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [collectionsRecords[state.selectedCollectionIds].color])
     const collectionSelectElem = useId();
     const searchFieldRef = useRef(null);
@@ -67,20 +68,19 @@ function FiltersOption() {
                 <label name = "selectedCollection">
                     Collections
                     <details>
-                        <summary></summary>
+                        <summary>{Object.values(state.selectedCollectionIds).filter(v => v).length}</summary>
                         <ul>
                             {collectionsRecords.map(record => (
                                 <li key = {record.id} 
                                     style = {{
                                         background : record.color,
-                                        color : ((parseInt((record?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee")
                                     }}
                                 >
                                     <input 
                                         type="checkbox"
                                         onClick = {() => {dispatch(formSlice.actions.setCollectionIds(record.id))}}
                                     />
-                                    {record.name}
+                                    <span style = {{color : ((parseInt((record?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee")}}>{record.name}</span>
                                 </li>
                             ))}
                         </ul>
