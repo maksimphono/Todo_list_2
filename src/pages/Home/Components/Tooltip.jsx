@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useId, useMemo, useReducer, useRef, useState } from 'react'
 
 import DatePicker from 'react-datepicker';
 // <styles>
@@ -10,10 +10,32 @@ import styled_buttons from "../../../buttons.module.scss"
 
 const isObject = (elem) => !!(typeof(elem) == "object" && !Array.isArray(elem)) 
 
+const formData = {
+    __proto__ : null,
+    selectedEndDateTo : new Date(),
+    selectedEndDateFrom : new Date(),
+    selectedCollectionIds : new Map(),
+    searchFieldValue : ""
+}
+
+const formReducer = (state, action) => {
+    switch (action.type) {
+        case "setSearchFieldValue":
+            return {...state, searchFieldValue : action.payload};
+        case "setEndDateTo":
+            return {...state, selectedEndDateTo : action.payload};
+        case "setCollectionIds":
+            return {
+                ...state, 
+                selectedCollectionId : 123
+            };
+        case "setEndDateFrom":
+            return {...state, selectedEndDateFrom : action.payload};
+    }
+}
+
 function FiltersOption() {
-    const [selectedEndDateTo, setSelectedEndDateTo] = useState()
-    const [selectedEndDateFrom, setSelectedEndDateFrom] = useState();
-    const [selectedCollectionId, setSelectedCollectionId] = useState()
+    const [state, dispatch] = useReducer(formReducer, formData)
     const collectionSelectElem = useId();
     const searchFieldRef = useRef(null);
 
@@ -22,8 +44,8 @@ function FiltersOption() {
             <form className = {style_filters_option["filter_option"]}>
                 <label name = "searchbar">
                     Search by title
-                    <input ref = {searchFieldRef} type="text" />
-                    <button type='button' name = 'clear' onClick = {() => searchFieldRef.current.value = ""}>x</button>
+                    <input ref = {searchFieldRef} type="text" value = {state.searchFieldValue} onChange={event => dispatch({type : "setSearchFieldValue", payload : event.target.value})} />
+                    <button type='button' name = 'clear' onClick = {() => dispatch({type : "setSearchFieldValue", payload : ""})}>x</button>
                 </label>
                 <label name = "selectedCollection">
                     Collections
@@ -31,7 +53,7 @@ function FiltersOption() {
                         <summary></summary>
                         <ul>
                             <li><input type="checkbox" />1234</li>
-                            <li><input type="checkbox" />2345</li>
+                            <li><input type="checkbox" onClick = {() => {dispatch({type : "setCollectionId", payload : 345}); console.dir(state)}}/>2345</li>
                             <li><input type="checkbox" />3456</li>
                             <li><input type="checkbox" />4567</li>
                             <li><input type="checkbox" /></li>
@@ -44,8 +66,8 @@ function FiltersOption() {
                 <label name = "datepick">
                     End date from
                     <DatePicker
-                        selected = {selectedEndDateFrom}
-                        onChange = {setSelectedEndDateFrom}
+                        selected = {state.selectedEndDateFrom}
+                        onChange = {(date) => dispatch({type : "setEndDateFrom", payload : date})}
                         dateFormat = "dd/MM/yyyy"
                         placeholderText='Select a Date'
                     />
@@ -53,8 +75,8 @@ function FiltersOption() {
                 <label name = 'datepick'>
                     End date to
                     <DatePicker
-                        selected = {selectedEndDateTo}
-                        onChange = {setSelectedEndDateTo}
+                        selected = {state.selectedEndDateTo}
+                        onChange = {(date) => dispatch({type : "setEndDateTo", payload : date})}
                         dateFormat = "dd/MM/yyyy"
                         placeholderText='Select a Date'
                     />
