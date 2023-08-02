@@ -40,8 +40,14 @@ export default function CardsRecordsCollection() {
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
     const TodoRecords = useSelector((state) => {
         if (Object.keys(todoRecordsFilters).length > 2) {
-            console.log(new Date(selectAllTodoRecords(state)[0].dateEnd))
-            return selectAllTodoRecords(state).filter(record => new Date(record.dateEnd) >= new Date(todoRecordsFilters.selectedEndDateFrom))
+            //console.log(new Date(selectAllTodoRecords(state)[0].dateEnd))
+            return selectAllTodoRecords(state)
+                .filter(record => [
+                    new Date(record.dateEnd) >= new Date(todoRecordsFilters.selectedEndDateFrom),
+                    new Date(record.dateEnd) <= new Date(todoRecordsFilters.selectedEndDateTo),
+                    record.title.includes(todoRecordsFilters.searchFieldValue),
+                    ].every(v => v)
+                )
         } else {
             return selectAllTodoRecords(state)
         }
