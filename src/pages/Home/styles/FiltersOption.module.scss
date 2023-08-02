@@ -65,20 +65,26 @@
                     width: 100%;
                     height: max-content;
                     background-color: #fff;
-                    padding: 10px;
+                    //padding: 10px;
                     border: 2px solid $color1;
                     border-radius: 15px;
                     list-style-type: none;
+                    overflow: hidden;
                     z-index: 10;
 
                     li {
                         display: flex;
                         gap: 10px;
-                        padding: auto;
+                        padding: 12px;
                         align-items: center;
-                        height: 30px;
+                        height: 35px;
                         width: 100%;
-                        color: $color-dark !important;
+                        //color: $color-dark !important;
+                        overflow: hidden;
+
+                        &:not(:last-child) {
+                            border-bottom: 2px dotted #000;
+                        }
                         
                         input[type='checkbox'] {
                             width: 20px;

@@ -52,6 +52,7 @@ function FiltersOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formData)
     const gDispatch = useDispatch();
     const collectionsRecords = useSelector(() => selectAllCollectionRecords(store.getState()));
+    //const selectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [collectionsRecords[state.selectedCollectionIds].color])
     const collectionSelectElem = useId();
     const searchFieldRef = useRef(null);
 
@@ -69,7 +70,12 @@ function FiltersOption() {
                         <summary></summary>
                         <ul>
                             {collectionsRecords.map(record => (
-                                <li key = {record.id}>
+                                <li key = {record.id} 
+                                    style = {{
+                                        background : record.color,
+                                        color : ((parseInt((record?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee")
+                                    }}
+                                >
                                     <input 
                                         type="checkbox"
                                         onClick = {() => {dispatch(formSlice.actions.setCollectionIds(record.id))}}
