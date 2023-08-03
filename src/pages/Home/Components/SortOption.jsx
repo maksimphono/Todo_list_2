@@ -27,6 +27,9 @@ const formSlice = createSlice({
                 ...state,
                 reversed : action.payload
             }
+        },
+        reset : () => {
+            return {...formData}
         }
     }
 })
@@ -44,6 +47,11 @@ export default function SortOption() {
     const handleSubmit = event => {
         event.preventDefault()
         globalDispatch(setSortParams(state))
+    }
+
+    const handleReset = event => {
+        dispatch(formSlice.actions.reset)
+        globalDispatch(resetSortParams())
     }
 
     return (
@@ -96,7 +104,13 @@ export default function SortOption() {
 
             </label>
             <button className = {styled_buttons["success-btn"]}>Apply</button>
-            <button className = {styled_buttons["secondary-btn"]}>Reset</button>
+            <button 
+                className = {styled_buttons["secondary-btn"]} 
+                type = "button" 
+                onClick = {handleReset}
+            >
+                    Reset
+            </button>
         </form>
     </>
   )

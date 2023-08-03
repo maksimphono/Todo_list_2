@@ -5,20 +5,20 @@ const sortTodoRecordsSlice = createSlice({
     initialState : {
         __proto__ : null,
         parameter : null,
-        reverse : false
+        reversed : false
     },
     reducers : {
         setSortParams : (state, action) => {
             return {
                 parameter : action.payload.parameter,
-                reverse : action.payload.reverse
+                reversed : action.payload.reversed
             }
         },
         resetSortParams : () => {
             return {
                 __proto__ : null,
                 parameter : null,
-                reverse : false
+                reversed : false
             }
         }
     }
