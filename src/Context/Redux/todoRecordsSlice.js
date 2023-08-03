@@ -1,11 +1,13 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-
-const todoRecordsAdapter = createEntityAdapter({
-    sortComparer : (a, b) => {
+/*
+sortComparer : (a, b) => {
         const dateA = new Date(a.dateEnd)
         const dateB = new Date(b.dateEnd)
         return dateA - dateB;
     }
+*/
+const todoRecordsAdapter = createEntityAdapter({
+    
 })
 
 const todoRecordsSlice = createSlice({

@@ -53,10 +53,26 @@ import { useSelector, useDispatch } from "react-redux"
 import {selectAllTodoRecords} from "../../../Context/Redux/todoRecordsSlice"
 import { store } from '../../../Context/Redux/store';
 
+
 export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
-    
+    const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
+
+    const sortingFunction = (a, b) => {
+        console.log(todoRecordsSortParams.parameter)
+        if (todoRecordsSortParams.parameter == null) return a.id.localeCompare(b.id)
+        switch (todoRecordsSortParams.parameter) {
+            case "dateEnd":
+                console.log("Date !")
+                return new Date(a.dateEnd) - new Date(b.dateEnd)
+            case ("collection"):
+                return a.collection.localeCompare(b.collection)
+            case ("title"):
+                return a.title.localeCompare(b.title)
+        }
+    }
+
     useEffect(() => {
         dispatch(addManyTodos(TodoRecordsJSON))
         dispatch(addManyCollections(collectionsJSON))
@@ -81,8 +97,9 @@ export default function CardsRecordsCollection() {
                     todoRecordsFilters.selectedCollectionIds[record.collection]
                     ].every(v => v)
                 )
+                .sort(sortingFunction)
         } else {
-            return selectAllTodoRecords(state)
+            return selectAllTodoRecords(state).sort(sortingFunction)
         }
         
     })
