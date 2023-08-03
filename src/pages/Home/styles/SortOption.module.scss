@@ -86,6 +86,7 @@
             transition: .5s;
 
             &:checked {
+                background-color: #ada;
                 transform: rotate(180deg);
             }
         }
