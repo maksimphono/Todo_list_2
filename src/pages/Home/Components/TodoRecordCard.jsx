@@ -2,6 +2,13 @@ import React, { useEffect, useRef, useMemo, useState, useTransition, useContext 
 
 import {removeOneTodoRecord} from "../../../Context/Redux/utilities"
 
+import { store } from '../../../Context/Redux/store';
+import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice';
+import { NavLink } from 'react-router-dom';
+import { selectTodoRecordsById } from '../../../Context/Redux/todoRecordsSlice';
+
+
+
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,9 +19,10 @@ import modalContext from '../../../Context/modalContext';
 
 function CardControlBtns({todoRecordId, collectionId}) {
   const dispatch = useDispatch();
-  const {notificationRef} = useContext(modalContext)
+  const {notificationRef, confirmationRef} = useContext(modalContext)
 
-  const handleComplete = async (event) => {
+  const handleComplete = (event) => {
+    event.preventDefault()
     removeOneTodoRecord({dispatch, todoRecordId, collectionId})
       .then(() => notificationRef.current.pop({variant : "success", text : "Task completed!"}))
       .catch(error => notificationRef.current.pop({variant : "danger", text : error.toString()}))
@@ -43,10 +51,6 @@ function DateStamp({date}) {
   )
 }
 
-import { store } from '../../../Context/Redux/store';
-import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice';
-import { NavLink } from 'react-router-dom';
-
 export default function TodoRecordCard({cardData}) {
   const todoCollection = useSelector(() => selectCollectionRecordsById(store.getState(), cardData.collection))
   const textColor = useMemo(() => ((parseInt(todoCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [todoCollection])
@@ -61,7 +65,7 @@ export default function TodoRecordCard({cardData}) {
         collection : cardData?.collection || "Collection",
         content : cardData?.content || "Lorem ipsum dolor sit amet consectetur adipisicing elit. At nisi facilis praesentium reprehenderit facere vero quis debitis iste, vel, accusantium sit velit non hic fugiat soluta nemo maxime impedit iure!"
       }
-  }, [])
+  }, [cardData.id, cardData.title, cardData.dateEnd, cardData.collection, cardData.content])
 
   const [contentVisiable, setContentVisiable] = useState(false)
   const [isPending, startTransition] = useTransition();
@@ -86,9 +90,9 @@ export default function TodoRecordCard({cardData}) {
             <h3 className ={style["title"]}>{newCardData.title}</h3>
             <DateStamp date = {newCardData.dateEnd}/>
             <span className ={style["type"]}>Belongs to collection "<b>{todoCollection.name}</b>"</span>
-            <CardControlBtns todoRecordId = {cardData.id} collectionId = {todoCollection.id}/>
+            <CardControlBtns todoRecordId = {newCardData.id} collectionId = {newCardData.collection}/>
             <p className={style["content"]}>{newCardData.content}</p>
-        </div>      
+        </div>
     </>
   )
 }

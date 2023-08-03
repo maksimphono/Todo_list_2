@@ -1,0 +1,151 @@
+@import "./variables.module.scss";
+
+.filter_option {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: stretch;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    
+    & > button {
+        &:first-of-type {
+            justify-self: end;
+        }
+        &:last-of-type {
+            justify-self: start;
+        }
+        width: 70%;
+        height: 40px;
+        border-radius: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: larger;
+        margin-inline: 5px;
+        transition: .3s;
+
+        &:hover {
+            filter: brightness(70%);
+        }
+    }
+
+    label {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: auto;
+        max-width: 100%;
+        //overflow-x: hidden;
+        padding: 10px;
+        
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: larger;
+        
+
+
+        &:not([name='datepick']) {
+            & > input[type='text'], details {
+                all: unset;
+                display: block;
+                width: auto;
+                height: 40px;
+                padding: auto;
+                padding-inline: 10px;
+                color: $color-dark;
+                background-color: #eee;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                
+            }
+            details {
+                width: auto;
+             
+                summary {
+                    display: flex;
+                    justify-content: start;
+                    padding: auto;
+                    color: $color-dark;
+                    width: auto;
+                    max-width: 10em;
+                    overflow: hidden;
+                    flex-wrap: nowrap;
+                }
+                ul {
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: start;
+                    width: 100%;
+                    height: max-content;
+                    background-color: #fff;
+                    max-width: 10em;
+                    //padding: 10px;
+                    border: 2px solid $color1;
+                    border-radius: 15px;
+                    list-style-type: none;
+                    overflow: hidden;
+                    z-index: 10;
+
+                    li {
+                        display: flex;
+                        gap: 10px;
+                        padding: 12px;
+                        align-items: center;
+                        height: 35px;
+                        width: 100%;
+                        overflow: hidden;
+
+                        span {
+                            max-width: 80%;
+                            overflow: hidden;
+                            color: inherit;
+                        }
+
+                        &:not(:last-child) {
+                            border-bottom: 2px dotted #000;
+                        }
+                        
+                        input[type='checkbox'] {
+                            width: 20px;
+                            aspect-ratio: 1/1;
+                        }
+                    }
+                    
+                }
+            }
+            & > button[name='clear'] {
+                all: unset;
+                position: absolute;
+                right: 15px;
+                bottom: 15px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                aspect-ratio: 1/1;
+                color: $color-dark;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+        }
+        &[name='datepick'] {
+            * {
+                color: $color-dark !important;
+            }
+        }
+
+    }
+
+    @media screen and (max-width : $query-phone-width) {
+        grid-template-columns: 1fr;
+        
+        & > button {
+            &:first-of-type, &:last-of-type {
+                justify-self: center;
+            }
+        }
+    }
+}

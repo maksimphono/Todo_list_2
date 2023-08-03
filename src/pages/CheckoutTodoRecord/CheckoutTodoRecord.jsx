@@ -35,13 +35,13 @@ export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
-  const {notificationRef} = useContext(modalContext)
+  const {notificationRef, confirmationRef} = useContext(modalContext)
 
   const selectedTodoRecord = useSelector(() => selectTodoRecordsById(store.getState(), todoRecordId))
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState(selectedTodoRecord?.collection)
   const [selectedEndDate, setSelectedEndDate] = useState(selectedTodoRecord?.endDate)
 
-  const addNewTodoRecord = useCallback(event => {
+  const addNewTodoRecord = useCallback(async event => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const newDate = ((new Date(selectedEndDate)).toString() == "Invalid Date")?selectedTodoRecord.dateEnd:(new Date(selectedEndDate)).toString()
@@ -53,25 +53,26 @@ export default function NewTodoRecord() {
       collection : selectedTodosCollectionId
     }
 
-    alterOneTodoRecord({dispatch, alteredTodoRecord})
-      .then(result => {
-        notificationRef.current.pop({variant : "success", text : "Record altered successfuly!"})
-        navigate("/")
-      })
-      .catch(err => {
-        notificationRef.current.pop({variant : "info", text : err.toString()})
-      })
+    try {
+      await confirmationRef.current.show("Save the changes?")
+      await alterOneTodoRecord({dispatch, alteredTodoRecord})
+      notificationRef.current.pop({variant : "success", text : "Record saved successfuly!"})
+      navigate("/")
+    } catch(error) {
+      notificationRef.current.pop({variant : "warning", text : error.toString()})
+    }
+
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
-  const handleDelete = event => {
-    removeOneTodoRecord({dispatch, todoRecordId, collectionId : selectedTodoRecord?.collection})
-      .then(result => {
-        notificationRef.current.pop({variant : "warning", text : "Record deleted"})
-        navigate("/")
-      })
-      .catch(error => {
-        notificationRef.current.pop({variant : "danger", text : error.toString()})
-      }) 
+  const handleDelete = async event => {
+    try {
+      await confirmationRef.current.show("Are you sure you want to delete that task?")
+      await removeOneTodoRecord({dispatch, todoRecordId, collectionId : selectedTodoRecord?.collection})
+      notificationRef.current.pop({variant : "warning", text : "Record deleted"})
+      navigate("/")
+    } catch(error) {
+      notificationRef.current.pop({variant : "danger", text : error.toString()})
+    } 
   }
 
   return (

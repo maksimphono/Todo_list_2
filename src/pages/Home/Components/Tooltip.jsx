@@ -1,54 +1,25 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useId, useMemo, useReducer, useRef, useState } from 'react'
 
+import FiltersOption from "./FiltersOption";
 // <styles>
 import style from "../styles/Tooltip.module.scss";
 
 // </styles>
-
-const isObject = (elem) => !!(typeof(elem) == "object" && !Array.isArray(elem)) 
 
 function DropdownTool({
     summary,
     data_search,
     children
 }) {
-    
-    
-    const wrappedChild = useMemo(() => {
-        // that method is used when only one child was provided. That child will get className 'options'
-        // and then will be rendered
-        
-        let classList = "";
-        let newChild = null;
-
-        if (isObject(children)) {
-            classList = style["options"]
-            if (children.props?.className)
-                if (!children.props.className.split(" ").includes(style["options"]))
-                    classList += " " + children.props.className;
-            
-            newChild = React.Children.map([children], child => (React.cloneElement(child, {className : classList})))[0]
-            return newChild;
-        }
-        
-        return <></>;
-
-    }, [])
 
     return (
         <details className = {style["tool"]} data-search = {!!data_search}>
             <summary>
                 {summary}
             </summary>
-            {
-            (Array.isArray(children))? // render wrapped children if there are many of them
-                (<div className = {style["options"]}>
-                    {children}
-                </div>
-                )
-            :
-                wrappedChild // render child with className 'options' if there is excatly one child
-            }
+            <div className = {style["options"]}>
+                {children}
+            </div>
             
         </details>
     )
@@ -68,11 +39,7 @@ export default function Tooltip() {
             <DropdownTool
                 summary = "Filter"
             >
-                <ul>
-                    <li>Option</li>
-                    <li>Option</li>
-                    <li>Option</li>
-                </ul>
+                <FiltersOption />
             </DropdownTool>
             <DropdownTool
                 summary = "Sort"

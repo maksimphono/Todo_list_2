@@ -14,6 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addOne } from '../../Context/Redux/todoRecordsSlice';
 import { useNavigate } from 'react-router-dom';
 
+import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
+import { store } from '../../Context/Redux/store';
+
 // </components>
 
 // <styles>
@@ -31,32 +34,33 @@ export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
-  const {notificationRef} = useContext(modalContext)
+  const {notificationRef, confirmationRef} = useContext(modalContext)
 
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
 
-  const addNewTodoRecord = useCallback(event => {
+  const addNewTodoRecord = useCallback(async event => {
     event.preventDefault()
     const formData = new FormData(event.target)
     console.log(formData.get("title"))
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
       title : formData.get("title"),
-      dateEnd : new Date(selectedEndDate).toString().slice(0, 15),
+      dateEnd : new Date(selectedEndDate).toString(),
       content : contentRef.current.content(),
       collection : selectedTodosCollectionId
     }
 
-    createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId)
-      .then(() => {
-        notificationRef.current.pop({variant : "success", text : "Record created"})
-        navigate("/")
-      })
-      .catch(error => {
-        notificationRef.current.pop({variant : "danger", text : error.toString()})
-        console.error(error)
-      })
+    try {
+      await confirmationRef.current.show("Create?")
+      await createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId);
+      notificationRef.current.pop({variant : "success", text : "Record created"})
+      navigate("/")
+
+    } catch (error) {
+      notificationRef.current.pop({variant : "warning", text : error.toString()})
+    }
+
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
   return (
