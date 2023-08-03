@@ -1,5 +1,6 @@
 import React, { useEffect, useId, useMemo, useReducer, useRef, useState } from 'react'
 
+import SortOption from "./SortOption"
 import FiltersOption from "./FiltersOption";
 // <styles>
 import style from "../styles/Tooltip.module.scss";
@@ -44,11 +45,7 @@ export default function Tooltip() {
             <DropdownTool
                 summary = "Sort"
             >
-                <ul>
-                    <li>Sort 1</li>
-                    <li>Option</li>
-                    <li>Option</li>
-                </ul>
+                <SortOption />
             </DropdownTool>
         </div>
     </>
