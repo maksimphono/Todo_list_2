@@ -71,15 +71,11 @@ const formSlice = createSlice({
 })
 
 import { setFilters, resetFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
-import $ from "jquery"
 
 function FiltersOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formData)
     const gDispatch = useDispatch();
     const collectionsRecords = useSelector(() => selectAllCollectionRecords(store.getState()));
-    const selectedCollectionsNames = useSelector(storeState => selectAllCollectionRecords(storeState).filter(record => state.selectedCollectionIds[record.id]).map(record => record.name))
-    //const selectedCollectionTextColor = useMemo(() => ((parseInt((selectedCollection?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [collectionsRecords[state.selectedCollectionIds].color])
-    const collectionSelectElem = useId();
     const searchFieldRef = useRef(null);
 
     const handleApplyfilters = event => {
@@ -98,7 +94,6 @@ function FiltersOption() {
                 }
             )
         )
-        $("input.setCollectionIds").prop("checked", true)
     }
 
     useEffect(() => {
@@ -111,14 +106,6 @@ function FiltersOption() {
             )
         )
     }, [])
-
-    useEffect(() => {
-        if (Object.values(state.selectedCollectionIds).every(v => v)) {
-            $("input.selectAll").prop("checked", true)
-        } else {
-            $("input.selectAll").prop("checked", false)
-        }
-    }, [state.selectedCollectionIds])
 
     return (
         <>
@@ -137,9 +124,9 @@ function FiltersOption() {
                                 <input
                                     className = "selectAll" 
                                     type="checkbox"
-                                    onClick = {(event) => {
+                                    checked = {Object.values(state.selectedCollectionIds).every(v => v)}
+                                    onChange = {(event) => {
                                         dispatch(formSlice.actions.setAllCollectionIds({value : event.target.checked, ids : selectCollectionRecordsIds(store.getState())}))
-                                        $("input.setCollectionIds").prop("checked", event.target.checked)
                                     }}
                                 />
                                 <span style = {{color : "#000"}}>All</span>
@@ -153,10 +140,9 @@ function FiltersOption() {
                                     <input
                                         className = "setCollectionIds" 
                                         type="checkbox"
-                                        defaultChecked = {true}
-                                        onClick = {(event) => {
+                                        checked = {state.selectedCollectionIds[record.id]}
+                                        onChange = {() => {
                                             dispatch(formSlice.actions.setCollectionIds(record.id))
-                                            //if (event)
                                         }}
                                     />
                                     <span style = {{color : ((parseInt((record?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee")}}>{record.name}</span>
