@@ -129,11 +129,33 @@
                 color: $color-dark;
                 border-radius: 50%;
                 cursor: pointer;
+
+                &:hover {
+                    background-color: #bbb;
+                }
             }
         }
         &[name='datepick'] {
             * {
                 color: $color-dark !important;
+            }
+            & > button {
+                all: unset;
+                position: absolute;
+                right: 15px;
+                top: 39px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                aspect-ratio: 1/1;
+                color: $color-dark;
+                border-radius: 50%;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #bbb;
+                }
             }
         }
 

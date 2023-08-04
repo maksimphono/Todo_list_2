@@ -114,16 +114,16 @@ function SelectCollections() {
 
 export default function FiltersOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formSlice.getInitialState()) // create state and 'dispatch' method
-    const gDispatch = useDispatch();
+    const globalDispatch = useDispatch();
     const searchFieldRef = useRef(null);
 
     const handleApplyfilters = event => {
         event.preventDefault()
-        gDispatch(setFilters(JSON.parse(JSON.stringify(state))))
+        globalDispatch(setFilters(JSON.parse(JSON.stringify(state))))
     }
 
     const handleFiltersReset = () => {
-        gDispatch(resetFilters())
+        globalDispatch(resetFilters())
         dispatch(formSlice.actions.resetData())
         dispatch(
             formSlice.actions
@@ -151,8 +151,18 @@ export default function FiltersOption() {
             <form className = {style["filter_option"]} onSubmit = {handleApplyfilters}>
                 <label name = "searchbar">
                     Search by title
-                    <input ref = {searchFieldRef} type="text" value = {state.searchFieldValue} onChange={event => dispatch(formSlice.actions.setSearchFieldValue(event.target.value))} />
-                    <button type='button' name = 'clear' onClick = {() => dispatch({type : "setSearchFieldValue", payload : ""})}>x</button>
+                    <input 
+                        type="text" 
+                        value = {state.searchFieldValue} 
+                        onChange={event => dispatch(formSlice.actions.setSearchFieldValue(event.target.value))} 
+                    />
+                    <button 
+                        type='button' 
+                        name = 'clear' 
+                        onClick = {() => dispatch(formSlice.actions.setSearchFieldValue(""))}
+                    >
+                        x
+                    </button>
                 </label>
                 <SelectCollections />
                 <label name = "datepick">
@@ -160,18 +170,32 @@ export default function FiltersOption() {
                     <DatePicker
                         selected = {state.selectedEndDateFrom}
                         onChange = {(date) => dispatch(formSlice.actions.setEndDateFrom(date))}
-                        dateFormat = "dd/MM/yyyy"
+                        dateFormat = "dd.MM.yyyy"
                         placeholderText='Select a Date'
                     />
+                    <button 
+                        type='button' 
+                        name = 'clear' 
+                        onClick = {() => dispatch(formSlice.actions.setEndDateFrom(""))}
+                    >
+                        x
+                    </button>
                 </label>
                 <label name = 'datepick'>
                     End date to
                     <DatePicker
                         selected = {state.selectedEndDateTo}
                         onChange = {(date) => dispatch(formSlice.actions.setEndDateTo(date))}
-                        dateFormat = "dd/MM/yyyy"
+                        dateFormat = "dd.MM.yyyy"
                         placeholderText='Select a Date'
                     />
+                    <button 
+                        type='button' 
+                        name = 'clear' 
+                        onClick = {() => dispatch(formSlice.actions.setEndDateTo(""))}
+                    >
+                        x
+                    </button>
                 </label>
                 <button className = {styled_buttons["success-btn"]} type='submit'>Apply filters</button>
                 <button className = {styled_buttons["secondary-btn"]} onClick = {handleFiltersReset} type = "button">Reset</button>
