@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from "react-redux"
 
 // <styles>
 import style from "../styles/CardsRecordsList.module.scss";
+import { resetFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
+import { resetSortParams } from '../../../Context/Redux/sortTodoRecordsSlice';
 
 // </styles>
 
@@ -54,6 +56,8 @@ const collectionsJSON = [
 function setInitialState(dispatch) {
     dispatch(addManyTodos(TodoRecordsJSON))
     dispatch(addManyCollections(collectionsJSON))
+    dispatch(resetFilters())
+    dispatch(resetSortParams())
 }
 
 export default function CardsRecordsCollection() {
