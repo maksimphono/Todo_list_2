@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import TodoRecordCard from './TodoRecordCard';
 
 import { addManyCollections } from '../../../Context/Redux/todoCollectionsSlice';
 import { addManyTodos } from '../../../Context/Redux/todoRecordsSlice';
-
-import { addOne } from '../../../Context/Redux/todoRecordsSlice';
-import { useSelector, useDispatch } from "react-redux"
 import {selectAllTodoRecords} from "../../../Context/Redux/todoRecordsSlice"
-import { store } from '../../../Context/Redux/store';
+
+import { useSelector, useDispatch } from "react-redux"
 
 // <styles>
 import style from "../styles/CardsRecordsList.module.scss";
@@ -63,9 +61,13 @@ export default function CardsRecordsCollection() {
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
 
-    const sortingFunction = (a, b) => {
+    const sortingFunction = useCallback((a, b) => {
+        if (todoRecordsSortParams.parameter == null) 
+            // if sorting is disabled (not set or was reset)
+            return a.id.localeCompare(b.id) // just compare ids
+
         let [comparableA, comparableB] = [a, b]
-        if (todoRecordsSortParams.parameter == null) return a.id.localeCompare(b.id)
+
         if (todoRecordsSortParams.reversed) {
             comparableA = b
             comparableB = a
@@ -78,16 +80,17 @@ export default function CardsRecordsCollection() {
             case ("title"):
                 return comparableA.title.localeCompare(comparableB.title)
         }
-    }
+    }, [todoRecordsSortParams.parameter, todoRecordsSortParams.reversed])
 
     useEffect(() => {
+         // only for tests, actifically add some records to state, so I don't have to add it manually
         setInitialState(dispatch)
     }, [])
 
     const TodoRecords = useSelector((state) => {
-        console.dir(todoRecordsFilters)
-        if (Object.keys(todoRecordsFilters).length > 2) {
-            return selectAllTodoRecords(state)
+        let resultList = null
+        if (todoRecordsFilters.filtersEnabled) {
+            resultList = selectAllTodoRecords(state)
                 .filter(record => [
                     ((todoRecordsFilters.selectedEndDateFrom != "")?
                         (new Date(record.dateEnd) >= new Date(todoRecordsFilters.selectedEndDateFrom))
@@ -103,11 +106,11 @@ export default function CardsRecordsCollection() {
                     todoRecordsFilters.selectedCollectionIds[record.collection] // todo record belongs to one of selected collections
                     ].every(v => v)
                 )
-                .sort(sortingFunction)
+                
         } else {
-            return selectAllTodoRecords(state).sort(sortingFunction)
+            resultList = selectAllTodoRecords(state)
         }
-        
+        return resultList.sort(sortingFunction)
     })
 
     return (

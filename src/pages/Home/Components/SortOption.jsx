@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useMemo } from 'react'
 import { useId } from 'react'
 import { createSlice } from '@reduxjs/toolkit'
@@ -38,71 +38,50 @@ import { setSortParams, resetSortParams } from '../../../Context/Redux/sortTodoR
 import { useReducer } from 'react'
 import { useDispatch } from 'react-redux'
 
+const parameterItems = [
+    {title : "Date", name : "dateEnd"}, 
+    {title : "Title", name : "title"}, 
+    {title : "collection", name : "collection"}
+]
+
 export default function SortOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formSlice.getInitialState())
     const globalDispatch = useDispatch()
     const namePrefix = useId()
     const parameterRadioName = useMemo(() => namePrefix + "sort_parameter", []) 
 
-    const handleSubmit = event => {
+    const handleSubmit = useCallback(event => {
         event.preventDefault()
         globalDispatch(setSortParams(state))
-    }
+    }, [state])
 
-    const handleReset = event => {
+    const handleReset = useCallback(event => {
         dispatch(formSlice.actions.reset)
         globalDispatch(resetSortParams())
-    }
+    }, [state])
 
     return (
     <>
         <form className = {style["sort_option"]} onSubmit = {handleSubmit}>
-            <label className = {style["parameter"]}>
-                <h2>By Date</h2>
-                <input 
-                    type="radio" 
-                    name = {parameterRadioName} 
-                    checked = {state.parameter == "dateEnd"}
-                    onChange = {event => dispatch(formSlice.actions.setParameter("dateEnd"))}
-                />
-                <input 
-                    type="checkbox"
-                    className = {style["reversed"]} 
-                    checked = {state.parameter == "dateEnd" && state.reversed}
-                    onChange = {() => state.parameter == "dateEnd" && dispatch(formSlice.actions.setReversed(!state.reversed))}
-                />
-            </label>
-            <label className = {style["parameter"]}>
-                <h2>By Title</h2>
-                <input 
-                    type="radio" 
-                    name = {parameterRadioName} 
-                    checked = {state.parameter == "title"}
-                    onChange = {event => dispatch(formSlice.actions.setParameter("title"))}
-                />
-                <input 
-                    type="checkbox" 
-                    className = {style["reversed"]} 
-                    checked = {state.parameter == "title" && state.reversed}
-                    onChange = {(event) => state.parameter == "title" && dispatch(formSlice.actions.setReversed(!state.reversed))}
-                />
-            </label>
-            <label className = {style["parameter"]}>
-                <h2>By Collection</h2>
-                <input 
-                    type="radio" 
-                    name = {parameterRadioName} 
-                    checked = {state.parameter == "collection"}
-                    onChange = {event => dispatch(formSlice.actions.setParameter("collection"))}
-                />
-                <input 
-                    type="checkbox" 
-                    className = {style["reversed"]} 
-                    checked = {state.parameter == "collection" && state.reversed}
-                    onChange = {(event) => state.parameter == "collection" && dispatch(formSlice.actions.setReversed(!state.reversed))}
-                />
-
-            </label>
+            {parameterItems
+                .map(parameterItem => (
+                    <label className = {style["parameter"]}>
+                        <h2>By {parameterItem.title}</h2>
+                        <input 
+                            type="radio" 
+                            name = {parameterRadioName} 
+                            checked = {state.parameter == parameterItem.name}
+                            onChange = {event => dispatch(formSlice.actions.setParameter(parameterItem.name))}
+                        />
+                        <input 
+                            type="checkbox"
+                            className = {style["reversed"]} 
+                            checked = {state.parameter == parameterItem.name && state.reversed}
+                            onChange = {() => state.parameter == parameterItem.name && dispatch(formSlice.actions.setReversed(!state.reversed))}
+                        />
+                    </label>
+            ))}
+            
             <button className = {styled_buttons["success-btn"]}>Apply</button>
             <button 
                 className = {styled_buttons["secondary-btn"]} 

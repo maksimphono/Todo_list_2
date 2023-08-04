@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {__proxy__ : null, filtersEnabled : false}
+
 const filtersSlice = createSlice({
     name : "filterTodoRecords",
-    initialState : {__proxy__ : null, qwerty : 999},
+    initialState,
     reducers : {
         setFilters : (state, action) => {
             return {
                 ...state,
+                filtersEnabled : true,
                 selectedEndDateTo : action.payload.selectedEndDateTo,
                 selectedEndDateFrom : action.payload.selectedEndDateFrom,
                 selectedCollectionIds : action.payload.selectedCollectionIds,
@@ -14,7 +17,7 @@ const filtersSlice = createSlice({
             }
         },
         resetFilters : (state, action) => {
-            return {__proto__ : null}
+            return initialState
         }
     }
 })
