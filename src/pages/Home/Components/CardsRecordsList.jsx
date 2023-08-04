@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react'
 import TodoRecordCard from './TodoRecordCard';
 
+import { addManyCollections } from '../../../Context/Redux/todoCollectionsSlice';
+import { addManyTodos } from '../../../Context/Redux/todoRecordsSlice';
+
+import { addOne } from '../../../Context/Redux/todoRecordsSlice';
+import { useSelector, useDispatch } from "react-redux"
+import {selectAllTodoRecords} from "../../../Context/Redux/todoRecordsSlice"
+import { store } from '../../../Context/Redux/store';
+
 // <styles>
 import style from "../styles/CardsRecordsList.module.scss";
 
@@ -45,14 +53,10 @@ const collectionsJSON = [
     }
 ]
 
-import { addManyCollections } from '../../../Context/Redux/todoCollectionsSlice';
-import { addManyTodos } from '../../../Context/Redux/todoRecordsSlice';
-
-import { addOne } from '../../../Context/Redux/todoRecordsSlice';
-import { useSelector, useDispatch } from "react-redux"
-import {selectAllTodoRecords} from "../../../Context/Redux/todoRecordsSlice"
-import { store } from '../../../Context/Redux/store';
-
+function setInitialState(dispatch) {
+    dispatch(addManyTodos(TodoRecordsJSON))
+    dispatch(addManyCollections(collectionsJSON))
+}
 
 export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
@@ -60,22 +64,24 @@ export default function CardsRecordsCollection() {
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
 
     const sortingFunction = (a, b) => {
-        console.log(todoRecordsSortParams.parameter)
+        let [comparableA, comparableB] = [a, b]
         if (todoRecordsSortParams.parameter == null) return a.id.localeCompare(b.id)
+        if (todoRecordsSortParams.reversed) {
+            comparableA = b
+            comparableB = a
+        }
         switch (todoRecordsSortParams.parameter) {
             case "dateEnd":
-                console.log("Date !")
-                return new Date(a.dateEnd) - new Date(b.dateEnd)
+                return new Date(comparableA.dateEnd) - new Date(comparableB.dateEnd)
             case ("collection"):
-                return a.collection.localeCompare(b.collection)
+                return comparableA.collection.localeCompare(comparableB.collection)
             case ("title"):
-                return a.title.localeCompare(b.title)
+                return comparableA.title.localeCompare(comparableB.title)
         }
     }
 
     useEffect(() => {
-        dispatch(addManyTodos(TodoRecordsJSON))
-        dispatch(addManyCollections(collectionsJSON))
+        setInitialState(dispatch)
     }, [])
 
     const TodoRecords = useSelector((state) => {
@@ -86,15 +92,15 @@ export default function CardsRecordsCollection() {
                     ((todoRecordsFilters.selectedEndDateFrom != "")?
                         (new Date(record.dateEnd) >= new Date(todoRecordsFilters.selectedEndDateFrom))
                     :
-                        true
+                        true // just ignore that condition if that date is not specified
                     ),
                     ((todoRecordsFilters.selectedEndDateTo != "")?
                         (new Date(record.dateEnd) < new Date(todoRecordsFilters.selectedEndDateTo))
                     :
-                        true
+                        true // just ignore that condition if that date is not specified
                     ),
-                    record.title.includes(todoRecordsFilters.searchFieldValue),
-                    todoRecordsFilters.selectedCollectionIds[record.collection]
+                    record.title.includes(todoRecordsFilters.searchFieldValue), // todo record title contains inputted string
+                    todoRecordsFilters.selectedCollectionIds[record.collection] // todo record belongs to one of selected collections
                     ].every(v => v)
                 )
                 .sort(sortingFunction)
@@ -103,12 +109,6 @@ export default function CardsRecordsCollection() {
         }
         
     })
-    
-
-    useEffect(() => {
-        console.log("Filters: ")
-        console.dir(todoRecordsFilters)
-    }, [todoRecordsFilters])
 
     return (
         <>
