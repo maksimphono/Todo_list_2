@@ -17,22 +17,16 @@ function DropdownTool({
     onShrink
 }) {
     const dialogRef = useRef(null);
-    const [open, setOpen] = useState(false)
 
     const handleExpand = useCallback((event) => {
-        setOpen(v => {
-            if (v)
-                onShrink()
-            else
-                onExpand()
-            console.log(!v)
-            return !v
-        })
+        if (dialogRef.current.open)
+            onShrink()
+        else
+            onExpand()
     }, [onExpand, onShrink])
 
     useEffect(() => {
         if (forceShrink) {
-            setOpen(false)
             dialogRef.current.open = false
         }
     }, [forceShrink])
