@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useReducer, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from 'react'
 
 import SortOption from "./SortOption"
 import FiltersOption from "./FiltersOption";
@@ -12,34 +12,33 @@ function DropdownTool({
     summary,
     data_search,
     children,
-    enableExpand,
+    forceShrink,
     onExpand,
     onShrink
 }) {
     const dialogRef = useRef(null);
     const [open, setOpen] = useState(false)
 
-    const handleExpand = (event) => {
-        event.preventDefault()
+    const handleExpand = useCallback((event) => {
         setOpen(v => {
-            if (v) {
+            if (v)
                 onShrink()
-                return !v
-            }
-            if (!v && enableExpand) {
+            else
                 onExpand()
-                return !v
-            }
-            return v
+            console.log(!v)
+            return !v
         })
-    }
+    }, [onExpand, onShrink])
 
     useEffect(() => {
-        setOpen(v => (!v && enableExpand)?true:false)
-    }, [enableExpand])
-    
+        if (forceShrink) {
+            setOpen(false)
+            dialogRef.current.open = false
+        }
+    }, [forceShrink])
+
     return (
-        <details ref = {dialogRef} className = {style["tool"]} data-search = {!!data_search} open = {open} onClick = {handleExpand}>
+        <details ref = {dialogRef} className = {style["tool"]} onClick = {handleExpand}>
             <summary>
                 {summary}
             </summary>
@@ -66,17 +65,15 @@ export default function Tooltip() {
             </DropdownTool>
             <DropdownTool
                 summary = "Filter"
-                enableExpand = {expandedDropdown != "SortOption"} 
+                forceShrink = {expandedDropdown == "SortOption"} 
                 onExpand = {() => setExpandedDropdown("FiltersOption")}
                 onShrink = {() => setExpandedDropdown("")}
             >
-                <FiltersOption 
-                    
-                />
+                <FiltersOption />
             </DropdownTool>
             <DropdownTool
                 summary = "Sort"
-                enableExpand = {expandedDropdown != "FiltersOption"}
+                forceShrink = {expandedDropdown == "FiltersOption"}
                 onExpand = {() => setExpandedDropdown("SortOption")}
                 onShrink = {() => setExpandedDropdown("")}
             >
