@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 /*
 sortComparer : (a, b) => {
         const dateA = new Date(a.dateEnd)
@@ -6,9 +6,22 @@ sortComparer : (a, b) => {
         return dateA - dateB;
     }
 */
+
+
 const todoRecordsAdapter = createEntityAdapter({
     
 })
+
+import { todoRecordsDataAdapter } from "../../LocalStorage/initStorage";
+
+const loadAllTodoRecords = createAsyncThunk("todoRecords/loadAll", async () => {
+    //console.log("Collections: ")
+    //console.dir(todoCollectionsDataAdapter.loadMany())
+    return todoRecordsDataAdapter.loadMany()
+})
+
+export {loadAllTodoRecords};
+
 
 const todoRecordsSlice = createSlice({
     name : "todoRecords",
@@ -33,6 +46,11 @@ const todoRecordsSlice = createSlice({
             }
         },
         addManyTodos : todoRecordsAdapter.addMany
+    },
+    extraReducers : (builder) => {
+        builder.addCase(loadAllTodoRecords.fulfilled, (state, action) => {
+            return todoRecordsAdapter.setAll(state, action.payload)
+        })
     }
 })
 

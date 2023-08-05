@@ -56,11 +56,13 @@ const collectionsJSON = [
   }
 ]
 
+import { loadAllTodoRecords } from './Context/Redux/todoRecordsSlice'
 
 function TestComponent() {
     useEffect(() => {
         console.log("Records")
         store.dispatch(loadAllCollections())
+        store.dispatch(loadAllTodoRecords())
         //todoRecordsDataAdapter.saveMany(TodoRecordsJSON)
         //todoCollectionsDataAdapter.saveMany(collectionsJSON)
         //todoCollectionsDataAdapter.saveOne(collectionsJSON[0])
