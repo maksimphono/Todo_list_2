@@ -1,91 +1,105 @@
-function generateApplicationStoragePrefix(prefixLength) {
-    const symbols = "!@#$%^&*()?><{}:"
-    let generatedPrefix = ""
-
-    for (let i = 0; i < prefixLength; i++) {
-        result += symbols.charAt(Math.floor(Math.random() * symbols.length))
+class LocalStorageWrapper {
+    constructor(prefixLength) {
+        if (!LocalStorageWrapper.instance) {
+            LocalStorageWrapper.instance = this
+        }
+        this.storageInitialState = {
+            "todo_records_ids" : [],
+            "todo_collections_ids" : []
+        }
+        this.prefixLength = prefixLength
+        this.storagePrefix = this.initStorage()
+        return LocalStorageWrapper.instance
     }
-    return generatedPrefix
-}
-
-function getStoragePrefix() {
-    if (localStorage.getItem("TodoApplicationStoragePrefix") != null) {
-        return localStorage.getItem("TodoApplicationStoragePrefix")
-    } else {
-        return initStorage()
+    initStorage() {
+        let storagePrefix = ""
+    
+        storagePrefix = "$$"//this.generateApplicationStoragePrefix(8)
+        localStorage.setItem("TodoApplicationStoragePrefix", storagePrefix)
+    
+        for (let field in this.storageInitialState) {
+            localStorage.setItem(`${storagePrefix}__${field}`, JSON.stringify(this.storageInitialState[field]))
+        }
+    
+        return storagePrefix
+    }
+    generateApplicationStoragePrefix() {
+        const symbols = "!@#$%^&*()?><{}:"
+        let generatedPrefix = ""
+    
+        for (let i = 0; i < this.prefixLength; i++) {
+            result += symbols.charAt(Math.floor(Math.random() * symbols.length))
+        }
+        return generatedPrefix
+    }
+    getStoragePrefix() {
+        if (localStorage.getItem("TodoApplicationStoragePrefix") != null) {
+            return localStorage.getItem("TodoApplicationStoragePrefix")
+        } else {
+            return this.initStorage()
+        }
+    }
+    get(key) {
+        return JSON.parse(localStorage.getItem(`${this.storagePrefix}__${key}`)) || []
+    }
+    set(key, value) {
+        return localStorage.setItem(`${this.storagePrefix}__${key}`, JSON.stringify(value))
+    }
+    clear() {
+        const todoRecordsIds = this.get(this.storagePrefix, "todo_records_ids")
+        const todoCollectionsIds = this.get(this.storagePrefix, "todo_collections_ids")
+        localStorage.removeItem("TodoApplicationStoragePrefix")
+    
+        for (let field in this.storageInitialState) {
+            localStorage.removeItem(`${this.storagePrefix}__${field}`)
+        }
+        for (let id of todoRecordsIds) {
+            localStorage.removeItem(`${this.storagePrefix}__todo_record__${id}`)
+        }
+        for (let id of todoCollectionsIds) {
+            localStorage.removeItem(`${this.storagePrefix}__collection_record__${id}`)
+        }
+        localStorage.removeItem("todo_records_ids")
+        localStorage.removeItem("todo_collections_ids")
     }
 }
 
-const storageInitialState = {
-    "todo_records_ids" : [],
-    "todo_collections_ids" : []
-}
+const localstorageWrapper = new LocalStorageWrapper(8)
+export default localstorageWrapper
 
-function localStorageGet(storagePrefix, key) {
-    return JSON.parse(localStorage.getItem(`${storagePrefix}__${key}`))
-}
-
-function localStorageSet(storagePrefix, key, value) {
-    return localStorage.setItem(`${storagePrefix}__${key}`, JSON.stringify(value))
-}
-
-
-export function initStorage() {
-    let storagePrefix = ""
-
-    storagePrefix = "$$"//generateApplicationStoragePrefix(8)
-    localStorage.setItem("TodoApplicationStoragePrefix", storagePrefix)
-
-    for (let field in storageInitialState) {
-        localStorage.setItem(`${storagePrefix}__${field}`, JSON.stringify(storageInitialState[field]))
+class TodoRecordsDataAdapter {
+    constructor (entryPrefix, idsListName) {
+        if (!TodoRecordsDataAdapter.instance) {
+            TodoRecordsDataAdapter.instance = this
+        }
+        this.entryPrefix = entryPrefix
+        this.idsListName = idsListName
+        return TodoRecordsDataAdapter.instance
     }
+    saveTodoRecords(todoRecords) {
+        const todoRecordsIds = []
+    
+        for (let record of todoRecords) {
+            localstorageWrapper.set(`${this.entryPrefix}__${record.id}`, record)
+            todoRecordsIds.push(record.id)
+        }
+        localstorageWrapper.set(this.idsListName, todoRecordsIds)
+    }
+    loadTodoRecords() {
+        const todoRecordsIds = localstorageWrapper.get(this.idsListName)
+        console.dir(todoRecordsIds)
+        const todoRecords = []
 
-    return storagePrefix
+        for (let todoRecordId of todoRecordsIds) {
+            todoRecords.push(localstorageWrapper.get(`${this.entryPrefix}__${todoRecordId}`))
+        }
+
+        return todoRecords
+    }
 }
 
-export function clearStorage() {
-    const storagePrefix = getStoragePrefix()
-    const todoRecordsIds = localStorageGet(storagePrefix, "todo_records_ids")
-    const todoCollectionsIds = localStorageGet(storagePrefix, "todo_collections_ids")
-    localStorage.removeItem("TodoApplicationStoragePrefix")
+export const todoRecordsDataAdapter = new TodoRecordsDataAdapter("todo_record", "todo_records_ids")
 
-    for (let field in storageInitialState) {
-        localStorage.removeItem(`${storagePrefix}__${field}`)
-    }
-    for (let id of todoRecordsIds) {
-        localStorage.removeItem(`${storagePrefix}__todo_record__${id}`)
-    }
-    for (let id of todoCollectionsIds) {
-        localStorage.removeItem(`${storagePrefix}__collection_record__${id}`)
-    }
-    localStorage.removeItem("todo_records_ids")
-    localStorage.removeItem("todo_collections_ids")
-}
-
-export function saveTodoRecords(todoRecords) {
-    const todoRecordsIds = []
-    let storagePrefix = getStoragePrefix();
-
-    for (let record of todoRecords) {
-        localStorageSet(storagePrefix + "__todo_record", record.id, record)
-        todoRecordsIds.push(record.id)
-    }
-    localStorageSet(storagePrefix, "todo_records_ids", todoRecordsIds)
-}
-
-export function loadTodoRecords() {
-    let storagePrefix = getStoragePrefix()
-
-    const todoRecordsIds = localStorageGet(storagePrefix, "todo_records_ids")
-    const todoRecords = []
-    //const todoCollectionsIds = JSON.parse(localStorage.getItem("todo_collections_ids"))
-
-    for (let todoRecordId of todoRecordsIds) {
-        todoRecords.push(localStorageGet(storagePrefix + "__todo_record", todoRecordId))
-    }
-
-    return todoRecords
-}
 
 export function saveTodoCollections(todoCollections) {
     const todoCollectionsIds = []

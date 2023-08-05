@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux"
 import style from "../styles/CardsRecordsList.module.scss";
 import { resetFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
 import { resetSortParams } from '../../../Context/Redux/sortTodoRecordsSlice';
-import { clearStorage, loadTodoRecords, saveTodoCollections, saveTodoRecords } from '../../../LocalStorage/initStorage';
+//import { clearStorage, loadTodoRecords, saveTodoCollections, saveTodoRecords } from '../../../LocalStorage/initStorage';
 
 // </styles>
 

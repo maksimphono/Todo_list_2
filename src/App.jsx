@@ -11,12 +11,56 @@ import { Provider } from 'react-redux'
 import { store } from './Context/Redux/store'
 import ModalContext from "./Context/modalContext"
 import Confirmation from "./UI/Components/Confirmation/Confirmation";
-import { loadTodoCollections, loadTodoRecords } from './LocalStorage/initStorage'
+//import { loadTodoCollections,} from './LocalStorage/initStorage'
+
+import localstorageWrapper, {todoRecordsDataAdapter} from './LocalStorage/initStorage'
+
+
+const TodoRecordsJSON = [
+  {
+      id : "1",
+      title : "Todo 1",
+      dateEnd : "2022-02-03",
+      collection : "1",
+      content : "Qwertyasdfghzxcvbn"
+  },
+  {
+      id : "2",
+      title : "Second Todo",
+      dateEnd : "2023-12-10",
+      collection : "2",
+      content : "Second Todo qwerftgvcxsaswderftghbvcfdxsa"
+  },
+  {
+      id : "3",
+      title : "Third Todo#3",
+      dateEnd : "2023-04-28",
+      collection : "1",
+      content : "#3 todo Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae commodi, architecto saepe placeat ipsum quidem beatae cum soluta assumenda quia, vitae quod pariatur debitis nam. Eum voluptatibus sed unde adipisci."
+  }
+]
+
+const collectionsJSON = [
+  {
+      id : "1",
+      name : "Col_1",
+      color: "#ada",
+      todoRecordsIds : ["1", "3"]
+  },
+  {
+      id : "2",
+      name : "Col_2",
+      color: "#e4c",
+      todoRecordsIds : ["2"]
+  }
+]
+
 
 function TestComponent() {
     useEffect(() => {
         console.log("Records")
-        console.dir(loadTodoCollections())
+        todoRecordsDataAdapter.saveTodoRecords(TodoRecordsJSON)
+        console.dir(todoRecordsDataAdapter.loadTodoRecords(TodoRecordsJSON))
     }, [])
   
     return <></>
