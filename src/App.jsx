@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Navbar from "./Navbar"
@@ -11,6 +11,16 @@ import { Provider } from 'react-redux'
 import { store } from './Context/Redux/store'
 import ModalContext from "./Context/modalContext"
 import Confirmation from "./UI/Components/Confirmation/Confirmation";
+import { loadTodoCollections, loadTodoRecords } from './LocalStorage/initStorage'
+
+function TestComponent() {
+    useEffect(() => {
+        console.log("Records")
+        console.dir(loadTodoCollections())
+    }, [])
+  
+    return <></>
+}
 
 function App() {
   const [count, setCount] = useState(0)
@@ -25,8 +35,9 @@ function App() {
           <Route path="NewTodoRecord" element = {<NewTodoRecord/>}/>
           <Route path = "CheckoutRecord/:id" element = {<CheckoutTodoRecord />}/>
         </Route>
-        <Route path = "teststyle">
-          <Route index element = {<Confirmation />}/>
+        <Route path = "tests">
+        <Route index element = {<TestComponent/>}/>
+          
         </Route>
       </Routes>
     </BrowserRouter>

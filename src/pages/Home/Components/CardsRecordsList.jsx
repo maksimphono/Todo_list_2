@@ -67,8 +67,8 @@ export default function CardsRecordsCollection() {
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
 
     useEffect(() => {
-        saveTodoRecords(TodoRecordsJSON)
-        saveTodoCollections(collectionsJSON)
+        //saveTodoRecords(TodoRecordsJSON)
+        //saveTodoCollections(collectionsJSON)
     }, [])
 
     const sortingFunction = useCallback((a, b) => {

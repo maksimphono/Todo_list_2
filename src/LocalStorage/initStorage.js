@@ -74,14 +74,14 @@ export function saveTodoRecords(todoRecords) {
 }
 
 export function loadTodoRecords() {
-    let storagePrefix = getStoragePrefix() + "__todo_record"
+    let storagePrefix = getStoragePrefix()
 
     const todoRecordsIds = localStorageGet(storagePrefix, "todo_records_ids")
     const todoRecords = []
     //const todoCollectionsIds = JSON.parse(localStorage.getItem("todo_collections_ids"))
 
     for (let todoRecordId of todoRecordsIds) {
-        todoRecords.push(localStorageGet(storagePrefix, todoRecordId))
+        todoRecords.push(localStorageGet(storagePrefix + "__todo_record", todoRecordId))
     }
 
     return todoRecords
@@ -99,7 +99,7 @@ export function saveTodoCollections(todoCollections) {
 }
 
 export function loadTodoCollections() {
-    let prefix = getStoragePrefix() + "__collection_record";
+    let prefix = getStoragePrefix();
 
     if (localStorage.getItem("TodoApplicationStoragePrefix") == null) {
         prefix = initStorage()
@@ -108,12 +108,12 @@ export function loadTodoCollections() {
         prefix = localStorage.getItem("TodoApplicationStoragePrefix")
     }
 
-    const todoCollectionsIds = localStorageGet(prefix, "todo_collections_ids")
+    const todoCollectionsIds = localStorageGet(prefix, "todo_collections_ids") || []
     const todoCollections = []
  
     for (let todoCollectionId of todoCollectionsIds) {
-        todoCollections.push(localStorageGet(prefix, todoCollectionId))
+        todoCollections.push(localStorageGet(prefix + "__collection_record", todoCollectionId))
     }
 
-    return todoRecords
+    return todoCollections
 }
