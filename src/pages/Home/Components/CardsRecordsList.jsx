@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux"
 import style from "../styles/CardsRecordsList.module.scss";
 import { resetFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
 import { resetSortParams } from '../../../Context/Redux/sortTodoRecordsSlice';
+import { clearStorage, loadTodoRecords, saveTodoCollections, saveTodoRecords } from '../../../LocalStorage/initStorage';
 
 // </styles>
 
@@ -65,6 +66,11 @@ export default function CardsRecordsCollection() {
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
 
+    useEffect(() => {
+        saveTodoRecords(TodoRecordsJSON)
+        saveTodoCollections(collectionsJSON)
+    }, [])
+
     const sortingFunction = useCallback((a, b) => {
         if (todoRecordsSortParams.parameter == null) 
             // if sorting is disabled (not set or was reset)
@@ -89,6 +95,7 @@ export default function CardsRecordsCollection() {
     useEffect(() => {
          // only for tests, actifically add some records to state, so I don't have to add it manually
         setInitialState(dispatch)
+        
     }, [])
 
     const TodoRecords = useSelector((state) => {

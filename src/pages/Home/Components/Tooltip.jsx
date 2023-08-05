@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useId, useMemo, useReducer, useRef, useS
 
 import SortOption from "./SortOption"
 import FiltersOption from "./FiltersOption";
-import $ from "jquery"
 // <styles>
 import style from "../styles/Tooltip.module.scss";
 
@@ -10,7 +9,6 @@ import style from "../styles/Tooltip.module.scss";
 
 function DropdownTool({
     summary,
-    data_search,
     children,
     forceShrink,
     onExpand,
@@ -51,7 +49,7 @@ export default function Tooltip() {
     <>
       <div className = {style.tooltip}>
             <DropdownTool
-                summary = "Search"
+                summary = "Callendar"
                 data_search = {true}
             >
                 <input type="text" />
