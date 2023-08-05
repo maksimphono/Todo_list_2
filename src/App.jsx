@@ -13,7 +13,7 @@ import ModalContext from "./Context/modalContext"
 import Confirmation from "./UI/Components/Confirmation/Confirmation";
 //import { loadTodoCollections,} from './LocalStorage/initStorage'
 
-import localstorageWrapper, {todoRecordsDataAdapter} from './LocalStorage/initStorage'
+import localstorageWrapper, {todoRecordsDataAdapter, todoCollectionsDataAdapter} from './LocalStorage/initStorage'
 
 
 const TodoRecordsJSON = [
@@ -59,8 +59,12 @@ const collectionsJSON = [
 function TestComponent() {
     useEffect(() => {
         console.log("Records")
-        todoRecordsDataAdapter.saveTodoRecords(TodoRecordsJSON)
-        console.dir(todoRecordsDataAdapter.loadTodoRecords(TodoRecordsJSON))
+        todoRecordsDataAdapter.saveMany(TodoRecordsJSON)
+        todoCollectionsDataAdapter.saveMany(collectionsJSON)
+        //todoCollectionsDataAdapter.saveOne(collectionsJSON[0])
+        //console.dir(todoRecordsDataAdapter.loadOne(1))
+        //todoRecordsDataAdapter.removeOne(2)
+        //todoRecordsDataAdapter.saveOne(TodoRecordsJSON[1])
     }, [])
   
     return <></>
