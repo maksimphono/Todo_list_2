@@ -136,6 +136,7 @@ export default function FiltersOption() {
     }
 
     useEffect(() => {
+        console.log("Set true")
         dispatch(
             formSlice.actions
                 .setAllCollectionIds({
@@ -144,6 +145,7 @@ export default function FiltersOption() {
                 }
             )
         )
+        handleFiltersReset()
     }, [])
 
     return (

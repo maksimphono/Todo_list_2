@@ -58,10 +58,10 @@ import { loadAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice';
 import { loadAllCollections } from '../../../Context/Redux/todoCollectionsSlice';
 
 function setInitialState(dispatch) {
-    dispatch(loadAllTodoRecords())
-    dispatch(loadAllCollections())
-    //dispatch(addManyTodos(TodoRecordsJSON))
-    //dispatch(addManyCollections(collectionsJSON))
+    //dispatch(loadAllTodoRecords())
+    //dispatch(loadAllCollections())
+    dispatch(addManyTodos(TodoRecordsJSON))
+    dispatch(addManyCollections(collectionsJSON))
     dispatch(resetFilters())
     dispatch(resetSortParams())
 }
@@ -103,6 +103,8 @@ export default function CardsRecordsCollection() {
     useEffect(() => {
          // only for tests, actifically add some records to state, so I don't have to add it manually
         
+        setInitialState(dispatch)
+        /*
          if (todoLoadStatus == "idle"){
             dispatch(loadAllTodoRecords())
          }
@@ -111,7 +113,7 @@ export default function CardsRecordsCollection() {
         }
         dispatch(resetFilters())
         dispatch(resetSortParams())
-        
+        */
     }, [])
 
     const TodoRecords = useSelector((state) => {
