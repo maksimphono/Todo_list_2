@@ -21,7 +21,7 @@ export {loadAllCollections};
 
 const todoRecordsCollection = createSlice({
     name : "todoRecordsCollection",
-    initialState : {ids : [], entities : {}},//todoCollectionAdapter.getInitialState(),
+    initialState : todoCollectionAdapter.getInitialState({loadstatus : "idle"}),
     reducers : {
         addOneCollection : {
             prepare : (action) => {
@@ -88,6 +88,7 @@ const todoRecordsCollection = createSlice({
     },
     extraReducers : (builder) => {
         builder.addCase(loadAllCollections.fulfilled, (state, action) => {
+            state.loadstatus = "loaded"
             return todoCollectionAdapter.setAll(state, action.payload)
         })
     }
