@@ -1,4 +1,4 @@
-import { createAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { createAction, createEntityAdapter, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const todoCollectionAdapter = createEntityAdapter()
 
@@ -9,6 +9,15 @@ export const {
     selectEntities : selectCollectionRecordsEntries,
 } = todoCollectionAdapter.getSelectors(state => state.todoRecordsCollection)
 
+import { todoCollectionsDataAdapter } from "../../LocalStorage/initStorage";
+
+const loadAllCollections = createAsyncThunk("todoRecordsCollection/loadAll", async () => {
+    console.log("Collections: ")
+    console.dir(todoCollectionsDataAdapter.loadMany())
+    return todoCollectionsDataAdapter.loadMany()
+})
+
+export {loadAllCollections};
 
 const todoRecordsCollection = createSlice({
     name : "todoRecordsCollection",
@@ -76,6 +85,11 @@ const todoRecordsCollection = createSlice({
             }
         },
         addManyCollections : todoCollectionAdapter.addMany
+    },
+    extraReducers : (builder) => {
+        builder.addCase(loadAllCollections.fulfilled, (state, action) => {
+            return todoCollectionAdapter.setAll(state, action.payload)
+        })
     }
 })
 

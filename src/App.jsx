@@ -14,6 +14,7 @@ import Confirmation from "./UI/Components/Confirmation/Confirmation";
 //import { loadTodoCollections,} from './LocalStorage/initStorage'
 
 import localstorageWrapper, {todoRecordsDataAdapter, todoCollectionsDataAdapter} from './LocalStorage/initStorage'
+import { loadAllCollections } from './Context/Redux/todoCollectionsSlice'
 
 
 const TodoRecordsJSON = [
@@ -59,8 +60,9 @@ const collectionsJSON = [
 function TestComponent() {
     useEffect(() => {
         console.log("Records")
-        todoRecordsDataAdapter.saveMany(TodoRecordsJSON)
-        todoCollectionsDataAdapter.saveMany(collectionsJSON)
+        store.dispatch(loadAllCollections())
+        //todoRecordsDataAdapter.saveMany(TodoRecordsJSON)
+        //todoCollectionsDataAdapter.saveMany(collectionsJSON)
         //todoCollectionsDataAdapter.saveOne(collectionsJSON[0])
         //console.dir(todoRecordsDataAdapter.loadOne(1))
         //todoRecordsDataAdapter.removeOne(2)

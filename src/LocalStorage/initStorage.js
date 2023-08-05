@@ -3,10 +3,6 @@ class LocalStorageWrapper {
         if (!LocalStorageWrapper.instance) {
             LocalStorageWrapper.instance = this
         }
-        this.storageInitialState = {
-            "todo_records_ids" : [],
-            "todo_collections_ids" : []
-        }
         this.prefixLength = prefixLength
         this.storagePrefix = this.initStorage()
         return LocalStorageWrapper.instance
@@ -16,11 +12,7 @@ class LocalStorageWrapper {
     
         storagePrefix = "$$"//this.generateApplicationStoragePrefix(8)
         localStorage.setItem("TodoApplicationStoragePrefix", storagePrefix)
-    
-        for (let field in this.storageInitialState) {
-            localStorage.setItem(`${storagePrefix}__${field}`, JSON.stringify(this.storageInitialState[field]))
-        }
-    
+
         return storagePrefix
     }
     generateApplicationStoragePrefix() {
