@@ -4,6 +4,11 @@ import {addOne, removeOne, selectTodoRecordsById, alterTodoRecord} from "./todoR
 
 import {addOneTodoRecord, unbindTodoRecord} from "./todoCollectionsSlice"
 
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { todoRecordsDataAdapter } from "../../LocalStorage/initStorage";
+import { todoCollectionsDataAdapter } from "../../LocalStorage/initStorage";
+import {saveOneTodoRecordThunk} from "./todoRecordsSlice"
+
 export async function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
     dispatch(addOne(todoRecord))
     dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord, state : store.getState()}))
@@ -26,6 +31,7 @@ export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
             dispatch(addOneTodoRecord({id : alteredTodoRecord.collection, todoRecordId : alteredTodoRecord.id, state : store.getState()}))
         }
         dispatch(alterTodoRecord(alteredTodoRecord))
+        //dispatch(saveOneTodoRecordThunk(alteredTodoRecord))
         return "OK"
         
     }

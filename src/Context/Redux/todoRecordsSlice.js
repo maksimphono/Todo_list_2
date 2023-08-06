@@ -9,13 +9,16 @@ sortComparer : (a, b) => {
 
 
 const todoRecordsAdapter = createEntityAdapter({
-    
 })
 
 import { todoRecordsDataAdapter } from "../../LocalStorage/initStorage";
 
 const loadAllTodoRecords = createAsyncThunk("todoRecords/loadAll", async () => {
     return todoRecordsDataAdapter.loadMany()
+})
+
+export const saveOneTodoRecordThunk = createAsyncThunk("todoRecords/saveOne", async (entry) => {
+    return todoRecordsDataAdapter.saveOne(entry)
 })
 
 export {loadAllTodoRecords};
