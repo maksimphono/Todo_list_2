@@ -2,7 +2,7 @@ import { store } from "./store";
 
 import {addOne, removeOne, selectTodoRecordsById, alterTodoRecord} from "./todoRecordsSlice"
 
-import {addOneTodoRecord, unbindTodoRecord} from "./todoCollectionsSlice"
+import {addOneTodoRecord, selectCollectionRecordsById, unbindTodoRecord} from "./todoCollectionsSlice"
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { todoRecordsDataAdapter } from "../../LocalStorage/initStorage";
@@ -21,6 +21,8 @@ export async function removeOneTodoRecord({dispatch, todoRecordId, collectionId}
     return "OK"
 }
 
+import { saveOneCollectionRecord } from "./todoCollectionsSlice";
+
 export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
     const oldRecord = selectTodoRecordsById(store.getState(), alteredTodoRecord.id)
     if (JSON.stringify(oldRecord) == JSON.stringify(alteredTodoRecord))
@@ -29,6 +31,11 @@ export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
         if (alteredTodoRecord.collection != oldRecord.collection) {
             dispatch(unbindTodoRecord({id : oldRecord.collection, todoRecordId : oldRecord.id, state : store.getState()}))
             dispatch(addOneTodoRecord({id : alteredTodoRecord.collection, todoRecordId : alteredTodoRecord.id, state : store.getState()}))
+            const newCollectionRecord = selectCollectionRecordsById(store.getState(), alteredTodoRecord.collection)
+            const oldCollectionRecord = selectCollectionRecordsById(store.getState(), oldRecord.collection)
+            
+            dispatch(saveOneCollectionRecord(newCollectionRecord))
+            dispatch(saveOneCollectionRecord(oldCollectionRecord))
         }
         dispatch(alterTodoRecord(alteredTodoRecord))
         dispatch(saveOneTodoRecordThunk(alteredTodoRecord))

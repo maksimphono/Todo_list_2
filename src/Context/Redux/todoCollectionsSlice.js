@@ -11,13 +11,15 @@ export const {
 
 import { todoCollectionsDataAdapter } from "../../LocalStorage/initStorage";
 
-const loadAllCollections = createAsyncThunk("todoRecordsCollection/loadAll", async () => {
+export const loadAllCollections = createAsyncThunk("todoRecordsCollection/loadAll", async () => {
     console.log("Collections: ")
     console.dir(todoCollectionsDataAdapter.loadMany())
     return todoCollectionsDataAdapter.loadMany()
 })
 
-export {loadAllCollections};
+export const saveOneCollectionRecord = createAsyncThunk("todoRecordsCollection/saveOne", async (entry) => {
+    return todoCollectionsDataAdapter.saveOne(entry)
+})
 
 const todoRecordsCollection = createSlice({
     name : "todoRecordsCollection",
