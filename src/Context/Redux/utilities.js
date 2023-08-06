@@ -31,7 +31,7 @@ export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
             dispatch(addOneTodoRecord({id : alteredTodoRecord.collection, todoRecordId : alteredTodoRecord.id, state : store.getState()}))
         }
         dispatch(alterTodoRecord(alteredTodoRecord))
-        //dispatch(saveOneTodoRecordThunk(alteredTodoRecord))
+        dispatch(saveOneTodoRecordThunk(alteredTodoRecord))
         return "OK"
         
     }

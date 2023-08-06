@@ -90,10 +90,13 @@ export default function CardsRecordsCollection() {
         }
     }, [todoRecordsSortParams.parameter, todoRecordsSortParams.reversed])
 
+    const todoRecordsLoadStatus = useSelector(state => state.todoRecords.loadstatus)
+    const collectionsLoadStatus = useSelector(state => state.todoRecordsCollection.loadstatus)
+
     useEffect(() => {
          // only for tests, actifically add some records to state, so I don't have to add it manually
-        
-        setInitialState(dispatch)
+        if (todoRecordsLoadStatus == "idle" && collectionsLoadStatus == "idle")
+            setInitialState(dispatch)
     }, [])
 
     const TodoRecords = useSelector((state) => {

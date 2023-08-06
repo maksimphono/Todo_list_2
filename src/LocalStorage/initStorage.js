@@ -73,10 +73,12 @@ class DataAdapter {
     saveOne(entry) {
         const ids = localstorageWrapper.get(this.idsListName) || []
 
+        console.log("Save")
+        console.dir(entry)
         if (!ids.includes(entry.id)) {
             ids.push(entry.id)
-            localstorageWrapper.set(`${this.entryPrefix}__${entry.id}`, entry)
         }
+        localstorageWrapper.set(`${this.entryPrefix}__${entry.id}`, entry)
         localstorageWrapper.set(this.idsListName, ids)
     }
     loadMany() {
