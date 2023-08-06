@@ -17,9 +17,16 @@ export const loadAllCollections = createAsyncThunk("todoRecordsCollection/loadAl
     return todoCollectionsDataAdapter.loadMany()
 })
 
-export const saveOneCollectionRecord = createAsyncThunk("todoRecordsCollection/saveOne", async (entry) => {
+const saveOneCollectionRecord = createAsyncThunk("todoRecordsCollection/saveOne", async (entry) => {
     return todoCollectionsDataAdapter.saveOne(entry)
 })
+
+const removeOneCollectionRecordThunk = createAsyncThunk("todoRecordsCollection/removeOne", async id => {
+    return todoCollectionsDataAdapter.removeOne(id)
+})
+
+export {removeOneCollectionRecordThunk}
+
 
 const todoRecordsCollection = createSlice({
     name : "todoRecordsCollection",
@@ -62,7 +69,6 @@ const todoRecordsCollection = createSlice({
         },
         removeOne : (state, action) => {
             todoCollectionAdapter.removeOne(state, action)
-            todoCollectionsDataAdapter.removeOne(action.payload)
         },
         addOneTodoRecord : {
             prepare : action => {

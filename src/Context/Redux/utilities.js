@@ -1,12 +1,9 @@
 import { store } from "./store";
 
-import {addOne, removeOne, selectTodoRecordsById, alterTodoRecord} from "./todoRecordsSlice"
+import {addOne, removeOne, selectTodoRecordsById, alterTodoRecord, removeOneTodoRecordThunk, selectAllTodoRecords, removeMany, removeManyTodoRecordsThunk} from "./todoRecordsSlice"
 
-import {addOneTodoRecord, resaveInLocalStorage, selectCollectionRecordsById, unbindTodoRecord} from "./todoCollectionsSlice"
+import {addOneTodoRecord, resaveInLocalStorage, selectCollectionRecordsById, unbindTodoRecord, removeOne as collections_removeOne, removeOneCollectionRecordThunk} from "./todoCollectionsSlice"
 
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { todoRecordsDataAdapter } from "../../LocalStorage/initStorage";
-import { todoCollectionsDataAdapter } from "../../LocalStorage/initStorage";
 import {saveOneTodoRecordThunk} from "./todoRecordsSlice"
 
 export async function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
@@ -19,13 +16,11 @@ export async function createTodoRecord(dispatch, todoRecord, collectionRecordId)
 
 export async function removeOneTodoRecord({dispatch, todoRecordId, collectionId}) {
     dispatch(removeOne(todoRecordId))
+    dispatch(removeOneTodoRecordThunk(todoRecordId))
     dispatch(unbindTodoRecord({id : collectionId, todoRecordId, state : store.getState()}))
     dispatch(resaveInLocalStorage({id : collectionId, todoRecordId, state : store.getState()}))
     return "OK"
 }
-
-import { saveOneCollectionRecord } from "./todoCollectionsSlice";
-
 export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
     const oldRecord = selectTodoRecordsById(store.getState(), alteredTodoRecord.id)
     if (JSON.stringify(oldRecord) == JSON.stringify(alteredTodoRecord))
@@ -43,4 +38,15 @@ export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
         return "OK"
         
     }
+}
+
+export async function removeOneCollectionRecord({dispatch, id, state}) {
+    const todoRecordsIds = selectAllTodoRecords(state).filter(entry => entry.collection == id).map(entry => entry.id)
+
+    dispatch(collections_removeOne(id))
+    dispatch(removeMany(todoRecordsIds))
+
+    dispatch(removeManyTodoRecordsThunk(todoRecordsIds))
+    dispatch(removeOneCollectionRecordThunk(id))
+    return "OK"
 }

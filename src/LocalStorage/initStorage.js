@@ -101,6 +101,14 @@ class DataAdapter {
         localstorageWrapper.set(this.idsListName, ids)
         localstorageWrapper.remove(`${this.entryPrefix}__${id}`)
     }
+    removeMany(ids) {
+        let idsToStore = localstorageWrapper.get(this.idsListName).filter(id => !ids.includes(id))
+
+        for (let id of ids) {
+            localstorageWrapper.remove(`${this.entryPrefix}__${id}`)
+        }
+        localstorageWrapper.set(this.idsListName, idsToStore)
+    }
 }
 
 export const todoRecordsDataAdapter = new DataAdapter("todo_record", "todo_records_ids")

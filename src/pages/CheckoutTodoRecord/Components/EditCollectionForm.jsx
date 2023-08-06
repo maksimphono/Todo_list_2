@@ -18,14 +18,14 @@ export default function EditCollectionForm({id, closeModal, CollectionId}) {
     const collectionRecord = useSelector(() => selectCollectionRecordsById(store.getState(), CollectionId))
     const handleSubmit = useCallback(event => {
       event.preventDefault()
-      const formDate = new FormData(event.target)
-      console.log(formDate.get("name"), formDate.get("color"))
+      const formData = new FormData(event.target)
+      console.log(formData.get("name"), formData.get("color"))
       
       
       dispatch(updateNameAndColor({
         id : CollectionId,
-        name : formDate.get("name"), 
-        color : formDate.get("color")
+        name : formData.get("name"), 
+        color : formData.get("color")
       }))
       
       event.target.reset()

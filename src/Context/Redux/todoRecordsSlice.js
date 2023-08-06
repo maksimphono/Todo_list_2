@@ -21,6 +21,14 @@ export const saveOneTodoRecordThunk = createAsyncThunk("todoRecords/saveOne", as
     return todoRecordsDataAdapter.saveOne(entry)
 })
 
+export const removeOneTodoRecordThunk = createAsyncThunk("todoRecords/removeOne", async (id) => {
+    return todoRecordsDataAdapter.removeOne(id)
+})
+
+export const removeManyTodoRecordsThunk = createAsyncThunk("todoRecords/removeMany", async (ids) => {
+    return todoRecordsDataAdapter.removeMany(ids)
+})
+
 export {loadAllTodoRecords};
 
 
@@ -31,7 +39,7 @@ const todoRecordsSlice = createSlice({
         addOne : todoRecordsAdapter.addOne,
         removeOne : (state, action) => {
             todoRecordsAdapter.removeOne(state, action)
-            todoRecordsDataAdapter.removeOne(action.payload)
+            
         },
         alterTodoRecord : {
             prepare : action => ({
@@ -49,7 +57,8 @@ const todoRecordsSlice = createSlice({
                 return todoRecordsAdapter.updateOne(state, action.payload)
             }
         },
-        addManyTodos : todoRecordsAdapter.addMany
+        addManyTodos : todoRecordsAdapter.addMany,
+        removeMany : todoRecordsAdapter.removeMany
     },
     extraReducers : (builder) => {
         builder.addCase(loadAllTodoRecords.fulfilled, (state, action) => {
@@ -62,6 +71,7 @@ const todoRecordsSlice = createSlice({
 export const {
     addOne,
     removeOne,
+    removeMany,
     alterTodoRecord,
     addManyTodos
 } = todoRecordsSlice.actions;
