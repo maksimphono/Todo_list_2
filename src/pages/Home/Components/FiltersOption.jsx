@@ -135,8 +135,11 @@ export default function FiltersOption() {
         )
     }
 
+    const todoLoadStatus = useSelector(state => state.todoRecords.loadstatus)
+    const collectionsLoadStatus = useSelector(state => state.todoRecordsCollection.loadstatus)
+    
     useEffect(() => {
-        console.log("Set true")
+        //console.log("Set true")
         dispatch(
             formSlice.actions
                 .setAllCollectionIds({
@@ -145,8 +148,7 @@ export default function FiltersOption() {
                 }
             )
         )
-        handleFiltersReset()
-    }, [])
+    }, [todoLoadStatus, collectionsLoadStatus])
 
     return (
         <FormContext.Provider value = {[state, dispatch]}>

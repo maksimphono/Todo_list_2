@@ -58,23 +58,16 @@ import { loadAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice';
 import { loadAllCollections } from '../../../Context/Redux/todoCollectionsSlice';
 
 function setInitialState(dispatch) {
-    //dispatch(loadAllTodoRecords())
-    //dispatch(loadAllCollections())
-    dispatch(addManyTodos(TodoRecordsJSON))
-    dispatch(addManyCollections(collectionsJSON))
     dispatch(resetFilters())
     dispatch(resetSortParams())
+    dispatch(loadAllTodoRecords())
+    dispatch(loadAllCollections())
 }
 
 export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
-
-    useEffect(() => {
-        //saveTodoRecords(TodoRecordsJSON)
-        //saveTodoCollections(collectionsJSON)
-    }, [])
 
     const sortingFunction = useCallback((a, b) => {
         if (todoRecordsSortParams.parameter == null) 
@@ -97,23 +90,10 @@ export default function CardsRecordsCollection() {
         }
     }, [todoRecordsSortParams.parameter, todoRecordsSortParams.reversed])
 
-    const todoLoadStatus = useSelector(state => (state.todoRecords.loadstatus))
-    const collectionsLoadStatus = useSelector(state => (state.todoRecordsCollection.loadstatus))
-
     useEffect(() => {
          // only for tests, actifically add some records to state, so I don't have to add it manually
         
         setInitialState(dispatch)
-        /*
-         if (todoLoadStatus == "idle"){
-            dispatch(loadAllTodoRecords())
-         }
-         if (collectionsLoadStatus == "idle"){
-            dispatch(loadAllCollections())
-        }
-        dispatch(resetFilters())
-        dispatch(resetSortParams())
-        */
     }, [])
 
     const TodoRecords = useSelector((state) => {
@@ -141,6 +121,7 @@ export default function CardsRecordsCollection() {
         }
         return resultList.sort(sortingFunction)
     })
+
 
     return (
         <>
