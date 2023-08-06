@@ -29,7 +29,10 @@ const todoRecordsSlice = createSlice({
     initialState : todoRecordsAdapter.getInitialState({loadstatus : "idle"}),
     reducers : {
         addOne : todoRecordsAdapter.addOne,
-        removeOne : todoRecordsAdapter.removeOne,
+        removeOne : (state, action) => {
+            todoRecordsAdapter.removeOne(state, action)
+            todoRecordsDataAdapter.removeOne(action.payload)
+        },
         alterTodoRecord : {
             prepare : action => ({
                 payload : {

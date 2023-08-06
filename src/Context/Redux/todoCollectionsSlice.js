@@ -25,6 +25,10 @@ const todoRecordsCollection = createSlice({
     name : "todoRecordsCollection",
     initialState : todoCollectionAdapter.getInitialState({loadstatus : "idle"}),
     reducers : {
+        resaveInLocalStorage : (state, action) => {
+            const entry = selectCollectionRecordsById(action.payload.state, action.payload.id)
+            todoCollectionsDataAdapter.saveOne(entry)
+        },
         addOneCollection : {
             prepare : (action) => {
                 console.dir(action)
@@ -56,7 +60,10 @@ const todoRecordsCollection = createSlice({
             },
             reducer : (state, action) => todoCollectionAdapter.updateOne(state, action.payload)
         },
-        removeOne : todoCollectionAdapter.removeOne,
+        removeOne : (state, action) => {
+            todoCollectionAdapter.removeOne(state, action)
+            todoCollectionsDataAdapter.removeOne(action.payload)
+        },
         addOneTodoRecord : {
             prepare : action => {
                 return {
@@ -105,7 +112,8 @@ export const {
     updateNameAndColor, 
     addOneTodoRecord, 
     unbindTodoRecord,
-    addManyCollections
+    addManyCollections,
+    resaveInLocalStorage
 } = todoRecordsCollection.actions
 
 export default todoRecordsCollection.reducer
