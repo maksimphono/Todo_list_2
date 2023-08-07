@@ -10,12 +10,14 @@ export default class EntityAsyncStorageAdapter extends DataAdapter {
         this._thunks = {
             __proto__ : null,
             loadAll : createAsyncThunk(`${this.actionNamePrefix}/loadAll`, async () => {
-                console.log("Collections: ")
-                return super.loadMany()
+                return super.loadAll()
             }),
             loadOne : createAsyncThunk(`${this.actionNamePrefix}/loadOne`, async (id) => {
                 return super.loadOne(id)
             }),
+            loadMany : createAsyncThunk(`${this.actionNamePrefix}/loadMany`, async (ids) => {
+                return super.loadMany(ids)
+            }), 
             saveOne : createAsyncThunk(`${this.actionNamePrefix}/saveOne`, async (entry) => {
                 return super.saveOne(entry)
             }),

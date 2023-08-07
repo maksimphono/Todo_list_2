@@ -4,18 +4,17 @@ class LocalStorageWrapper {
             LocalStorageWrapper.instance = this
         }
         this.prefixLength = prefixLength
-        this.storagePrefix = this.initStorage()
+        this._storagePrefix = this.initStorage()
         return LocalStorageWrapper.instance
     }
     initStorage() {
-        let storagePrefix = ""
-    
-        storagePrefix = "$$"//this.generateApplicationStoragePrefix(8)
+        let storagePrefix = "$$"//LocalStorageWrapper.generateApplicationStoragePrefix(8)
+
         localStorage.setItem("TodoApplicationStoragePrefix", storagePrefix)
 
         return storagePrefix
     }
-    generateApplicationStoragePrefix() {
+    static generateApplicationStoragePrefix() {
         const symbols = "!@#$%^&*()?><{}:"
         let generatedPrefix = ""
     
@@ -24,7 +23,7 @@ class LocalStorageWrapper {
         }
         return generatedPrefix
     }
-    getStoragePrefix() {
+    get storagePrefix() {
         if (localStorage.getItem("TodoApplicationStoragePrefix") != null) {
             return localStorage.getItem("TodoApplicationStoragePrefix")
         } else {
@@ -32,13 +31,13 @@ class LocalStorageWrapper {
         }
     }
     get(key) {
-        return JSON.parse(localStorage.getItem(`${this.storagePrefix}__${key}`)) || []
+        return JSON.parse(localStorage.getItem(`${this._storagePrefix}__${key}`)) || []
     }
     set(key, value) {
-        return localStorage.setItem(`${this.storagePrefix}__${key}`, JSON.stringify(value))
+        return localStorage.setItem(`${this._storagePrefix}__${key}`, JSON.stringify(value))
     }
     remove(key) {
-        localStorage.removeItem(`${this.storagePrefix}__${key}`)
+        localStorage.removeItem(`${this._storagePrefix}__${key}`)
     }
     clear() {
         localStorage.removeItem("TodoApplicationStoragePrefix")
@@ -50,63 +49,87 @@ export default localstorageWrapper
 
 export class DataAdapter {
     constructor (entryPrefix, idsListName) {
-        this.entryPrefix = entryPrefix
-        this.idsListName = idsListName
+        this._entryPrefix = entryPrefix
+        this._idsListName = idsListName
+    }
+    get(id) {
+        return localstorageWrapper.get(`${this._entryPrefix}__${id}`)
+    }
+    get idsList() {
+        return localstorageWrapper.get(this._idsListName) || []
+    }
+    set idsList(newIdsList) {
+        return localstorageWrapper.set(this._idsListName, newIdsList)
+    }
+    set(entry) {
+        return localstorageWrapper.set(`${this._entryPrefix}__${entry.id}`, entry)
+    }
+    remove(id) {
+        return localstorageWrapper.remove(`${this._entryPrefix}__${id}`)
     }
     clearData() {
-        const ids = localstorageWrapper.get(this.idsListName)
+        const ids = this.idsList
 
         for (let id of ids) {
-            localstorageWrapper.remove(`${this.entryPrefix}__${id}`)
+            this.remove(id)
         }
-        localstorageWrapper.remove(this.idsListName)
+        localstorageWrapper.remove(this._idsListName)
     }
     saveMany(entries) {
         const entriesIds = []
     
         for (let record of entries) {
-            localstorageWrapper.set(`${this.entryPrefix}__${record.id}`, record)
+            this.set(record)
             entriesIds.push(record.id)
         }
-        localstorageWrapper.set(this.idsListName, entriesIds)
+        this.idsList = entriesIds
     }
     saveOne(entry) {
-        const ids = localstorageWrapper.get(this.idsListName) || []
+        const ids = this.idsList
 
-        console.log("Save")
-        console.dir(entry)
         if (!ids.includes(entry.id)) {
             ids.push(entry.id)
         }
-        localstorageWrapper.set(`${this.entryPrefix}__${entry.id}`, entry)
-        localstorageWrapper.set(this.idsListName, ids)
+        this.set(entry)
+        this.idsList = ids
     }
-    loadMany() {
-        const entriesIds = localstorageWrapper.get(this.idsListName)
+    loadAll() {
+        const ids = this.idsList
         const entries = []
 
-        for (let todoRecordId of entriesIds) {
-            entries.push(localstorageWrapper.get(`${this.entryPrefix}__${todoRecordId}`))
+        for (let id of ids) {
+            entries.push(this.get(id))
         }
 
         return entries
     }
+    loadMany(ids) {
+        const idsList = this.idsList
+        const entries = []
+
+        ids.forEach(id => {
+            if (idsList.includes(id))
+                entries.push(this.get(id))
+        })
+
+        return entries
+        
+    }
     loadOne(id) {
-        return localstorageWrapper.get(`${this.entryPrefix}__${id}`)
+        return this.get(id)
     }
     removeOne(id) {
-        let ids = localstorageWrapper.get(this.idsListName)
+        let ids = this.idsList
 
         ids = ids.filter(v => v != id)
-        localstorageWrapper.set(this.idsListName, ids)
-        localstorageWrapper.remove(`${this.entryPrefix}__${id}`)
+        this.idsList = ids
+        this.remove(id)
     }
     removeMany(ids) {
-        let idsToStore = localstorageWrapper.get(this.idsListName).filter(id => !ids.includes(id))
+        this.idsList = this.idsList.filter(id => !ids.includes(id))
 
         for (let id of ids) {
-            localstorageWrapper.remove(`${this.entryPrefix}__${id}`)
+            this.remove(id)
         }
-        localstorageWrapper.set(this.idsListName, idsToStore)
     }
 }
