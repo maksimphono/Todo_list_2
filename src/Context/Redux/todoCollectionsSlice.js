@@ -30,7 +30,7 @@ const todoRecordsCollection = createSlice({
                 console.dir(action)
                 return {
                     payload : {
-                        id : new Date().toString().slice(4, 24),
+                        id : action?.id,
                         color : action?.color || "red",
                         name : action?.name || "Unnamed",
                         todoRecordsIds : action?.todoRecordsIds || []

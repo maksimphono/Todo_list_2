@@ -22,6 +22,7 @@ export default function NewCollectionForm({id, closeModal}) {
       console.log(formDate.get("name"), formDate.get("color"))
       
       createOneCollection({dispatch, entry : {
+        id : new Date().toString().slice(4, 24),
         name : formDate.get("name"), 
         color : formDate.get("color")
       }})

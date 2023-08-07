@@ -15,13 +15,14 @@ import { createOneCollection } from "../../../Context/Redux/utilities.js";
 
 export default function NewCollectionForm({id, closeModal}) {
     const dispatch = useDispatch()
-    
+
     const handleSubmit = useCallback(event => {
       event.preventDefault()
       const formDate = new FormData(event.target)
       console.log(formDate.get("name"), formDate.get("color"))
       
       createOneCollection({dispatch, entry : {
+        id : new Date().toString().slice(4, 24),
         name : formDate.get("name"), 
         color : formDate.get("color")
       }})
