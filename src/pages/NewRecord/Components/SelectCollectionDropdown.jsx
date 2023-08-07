@@ -26,10 +26,22 @@ function CollectionOption({id}) {
     const textColor = useMemo(() => ((parseInt(selectedCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
     const borderColor = useMemo(() => ((parseInt(selectedCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
 
-    const handleRemoveCollection = useCallback((collectionId) => {
-      modalRef.current.close()
-      dispatch(removeOne(collectionId))
-    }, [modalRef])
+    const handleRemoveCollection = useCallback(async (collectionId) => {      
+      try {
+        await confirmationRef.current.show("Warning! After deleting a collection, all todo records, belonging to that collection will be deleted as well!\nProceed?")
+        await removeOneCollectionRecord({dispatch, id : collectionId, state : store.getState()})
+        notificationRef.current.pop({variant : "info", text : "Collection deleted"})
+        modalRef.current.close()
+      } catch (error) {
+        modalRef.current.close()
+        if (error === Refused) {
+          notificationRef.current.pop({variant : "info", text : "Action refused"})
+        }
+        else
+          notificationRef.current.pop({variant : "warning", text : error.toString()})
+      }
+      
+    }, [modalRef, store])
 
     const startEditCollectionRecord = useCallback(event => {
       modalRef.current.setTitle("Edit collection");

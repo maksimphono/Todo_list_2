@@ -5,6 +5,9 @@ import $ from "jquery"
 import style from "./styles/Confirmation.module.scss"
 import styled_buttons from "../../../buttons.module.scss"
 
+export const Refused = Symbol("Refused")
+export const Confirmed = Symbol("Confirmed")
+
 export default forwardRef(function (props, ref) {
     const dialogRef = useRef()
     const [text, setText] = useState("")
@@ -16,7 +19,7 @@ export default forwardRef(function (props, ref) {
         return {
             show : (request) => {
                 setText(request)
-                dialogRef.current.show()
+                dialogRef.current.showModal()
 
                 $(dialogRef.current).css({"opacity" : "0"})
                 $(dialogRef.current).animate({
@@ -26,11 +29,11 @@ export default forwardRef(function (props, ref) {
                 return new Promise((resolve, reject) => {
                     const confirm = () => {
                         confirmBtnRef.current.removeEventListener("click", confirm)
-                        resolve("OK")
+                        resolve(Confirmed)
                     }
                     const decline = () => {
                         rejectBtnRef.current.removeEventListener("click", decline)        
-                        reject("Rejected")
+                        reject(Refused)
                     }
                     confirmBtnRef.current.addEventListener("click", confirm)
                     rejectBtnRef.current.addEventListener("click", decline)

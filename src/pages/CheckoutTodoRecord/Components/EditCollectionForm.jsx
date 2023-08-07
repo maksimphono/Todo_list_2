@@ -19,23 +19,26 @@ export default function EditCollectionForm({id, closeModal, CollectionId}) {
     const dispatch = useDispatch()
     const collectionRecord = useSelector(() => selectCollectionRecordsById(store.getState(), CollectionId))
     
-    const handleSubmit = useCallback(event => {
+    const handleSubmit = useCallback(async event => {
       event.preventDefault()
       const formDate = new FormData(event.target)
       console.log(formDate.get("name"), formDate.get("color"))
-      
-      updateOneCollection({dispatch, entry : {
-        id : CollectionId,
-        name : formDate.get("name"), 
-        color : formDate.get("color")
-      }})
-      
-      event.target.reset()
-      closeModal();
-    })
 
-    useEffect(() => console.dir(collectionRecord), [])
-  
+      try {
+        await updateOneCollection({dispatch, entry : {
+          id : CollectionId,
+          name : formDate.get("name"), 
+          color : formDate.get("color")
+        }})
+        notificationRef.current.pop({variant : "info", text : "Collection altered"})
+        event.target.reset()
+        closeModal();
+      } catch (error) {
+        notificationRef.current.pop({variant : "warning", text : error.toString()})
+      }
+      
+    })
+    
     return (
       <form 
         id = {id}

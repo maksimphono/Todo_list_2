@@ -72,7 +72,7 @@ export default function NewTodoRecord() {
       navigate("/")
     } catch(error) {
       notificationRef.current.pop({variant : "danger", text : error.toString()})
-    } 
+    }
   }
 
   return (

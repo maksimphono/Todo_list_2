@@ -17,20 +17,28 @@ import { updateOneCollection } from "../../../Context/Redux/utilities.js";
 
 export default function EditCollectionForm({id, closeModal, CollectionId}) {
     const dispatch = useDispatch()
-    const collectionRecord = useSelector(() => selectCollectionRecordsById(store.getState(), CollectionId))
-    const handleSubmit = useCallback(event => {
+    
+    const {notificationRef} = useContext(modalContext)
+    const collectionRecord = useSelector((state) => selectCollectionRecordsById(state, CollectionId))
+
+    const handleSubmit = useCallback(async event => {
       event.preventDefault()
       const formDate = new FormData(event.target)
       console.log(formDate.get("name"), formDate.get("color"))
+
+      try {
+        await updateOneCollection({dispatch, entry : {
+          id : CollectionId,
+          name : formDate.get("name"), 
+          color : formDate.get("color")
+        }})
+        notificationRef.current.pop({variant : "info", text : "Collection altered"})
+        event.target.reset()
+        closeModal();
+      } catch (error) {
+        notificationRef.current.pop({variant : "warning", text : error.toString()})
+      }
       
-      updateOneCollection({dispatch, entry : {
-        id : CollectionId,
-        name : formDate.get("name"), 
-        color : formDate.get("color")
-      }})
-      
-      event.target.reset()
-      closeModal();
     })
 
     useEffect(() => console.dir(collectionRecord), [])

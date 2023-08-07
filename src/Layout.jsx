@@ -20,12 +20,12 @@ export default memo(function Layout() {
 
   return (
     <>
-        <Modal ref = {modalRef} />
-        <Confirmation ref = {confirmationRef} />
         <Notification ref = {notificationRef} />
         <ModalContext.Provider value = {{modalRef : modalRef, confirmationRef, notificationRef}}>
+            <Modal ref = {modalRef} />
+            <Confirmation ref = {confirmationRef} />
             <Navbar />
-            <Outlet/>
+            <Outlet />
         </ModalContext.Provider>        
     </>
     
