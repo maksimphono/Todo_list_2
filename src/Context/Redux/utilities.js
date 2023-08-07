@@ -1,22 +1,34 @@
 import { store } from "./store";
 
-import {addOne, removeOne, selectTodoRecordsById, alterTodoRecord, removeOneTodoRecordThunk, selectAllTodoRecords, removeMany, removeManyTodoRecordsThunk} from "./todoRecordsSlice"
+import {
+    addOne, 
+    removeOne, 
+    selectTodoRecordsById, 
+    alterTodoRecord, 
+    selectAllTodoRecords, 
+    removeMany, 
+    todoRecordsStorageThunks
+} from "./todoRecordsSlice"
 
-import {addOneTodoRecord, resaveInLocalStorage, selectCollectionRecordsById, unbindTodoRecord, removeOne as collections_removeOne, removeOneCollectionRecordThunk} from "./todoCollectionsSlice"
-
-import {saveOneTodoRecordThunk} from "./todoRecordsSlice"
+import {
+    addOneTodoRecord, 
+    resaveInLocalStorage, 
+    unbindTodoRecord, 
+    removeOne as collections_removeOne, 
+    collectionsRecordsThunks
+} from "./todoCollectionsSlice"
 
 export async function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
     dispatch(addOne(todoRecord))
     dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord.id, state : store.getState()}))
-    dispatch(saveOneTodoRecordThunk(todoRecord))
+    dispatch(todoRecordsStorageThunks.saveOne(todoRecord))
     dispatch(resaveInLocalStorage({id : collectionRecordId, state : store.getState()}))
     return "OK"
 }
 
 export async function removeOneTodoRecord({dispatch, todoRecordId, collectionId}) {
     dispatch(removeOne(todoRecordId))
-    dispatch(removeOneTodoRecordThunk(todoRecordId))
+    dispatch(todoRecordsStorageThunks.removeOne(todoRecordId))
     dispatch(unbindTodoRecord({id : collectionId, todoRecordId, state : store.getState()}))
     dispatch(resaveInLocalStorage({id : collectionId, todoRecordId, state : store.getState()}))
     return "OK"
@@ -29,12 +41,12 @@ export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
         if (alteredTodoRecord.collection != oldRecord.collection) {
             dispatch(unbindTodoRecord({id : oldRecord.collection, todoRecordId : oldRecord.id, state : store.getState()}))
             dispatch(addOneTodoRecord({id : alteredTodoRecord.collection, todoRecordId : alteredTodoRecord.id, state : store.getState()}))
-            
+
             dispatch(resaveInLocalStorage({id : oldRecord.collection, state : store.getState()}))
             dispatch(resaveInLocalStorage({id : alteredTodoRecord.collection, state : store.getState()}))
         }
         dispatch(alterTodoRecord(alteredTodoRecord))
-        dispatch(saveOneTodoRecordThunk(alteredTodoRecord))
+        dispatch(todoRecordsStorageThunks.saveOne(alteredTodoRecord))
         return "OK"
         
     }
@@ -46,7 +58,11 @@ export async function removeOneCollectionRecord({dispatch, id, state}) {
     dispatch(collections_removeOne(id))
     dispatch(removeMany(todoRecordsIds))
 
-    dispatch(removeManyTodoRecordsThunk(todoRecordsIds))
-    dispatch(removeOneCollectionRecordThunk(id))
+    dispatch(todoRecordsStorageThunks.removeMany(todoRecordsIds))
+    dispatch(collectionsRecordsThunks.removeOne(id))
     return "OK"
+}
+
+export async function createOneCollection({dispatch, entry}) {
+
 }

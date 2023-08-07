@@ -54,14 +54,14 @@ const collectionsJSON = [
     }
 ]
 
-import { loadAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice';
-import { loadAllCollections } from '../../../Context/Redux/todoCollectionsSlice';
+import { todoRecordsStorageThunks } from '../../../Context/Redux/todoRecordsSlice';
+import { collectionsRecordsThunks } from '../../../Context/Redux/todoCollectionsSlice';
 
 function setInitialState(dispatch) {
     dispatch(resetFilters())
     dispatch(resetSortParams())
-    dispatch(loadAllTodoRecords())
-    dispatch(loadAllCollections())
+    dispatch(todoRecordsStorageThunks.loadAll())
+    dispatch(collectionsRecordsThunks.loadAll())
 }
 
 export default function CardsRecordsCollection() {

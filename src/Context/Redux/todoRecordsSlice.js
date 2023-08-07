@@ -1,4 +1,5 @@
 import { createEntityAdapter, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 /*
 sortComparer : (a, b) => {
         const dateA = new Date(a.dateEnd)
@@ -7,30 +8,16 @@ sortComparer : (a, b) => {
     }
 */
 
+import EntityAsyncStorageAdapter from "./EntityAsyncStorageAdapter";
 
 const todoRecordsAdapter = createEntityAdapter({
 })
 
 import { todoRecordsDataAdapter } from "../../LocalStorage/initStorage";
 
-const loadAllTodoRecords = createAsyncThunk("todoRecords/loadAll", async () => {
-    return todoRecordsDataAdapter.loadMany()
-})
+const todoRecordsStorageAdapter = new EntityAsyncStorageAdapter("todoRecords", todoRecordsDataAdapter)
 
-export const saveOneTodoRecordThunk = createAsyncThunk("todoRecords/saveOne", async (entry) => {
-    return todoRecordsDataAdapter.saveOne(entry)
-})
-
-export const removeOneTodoRecordThunk = createAsyncThunk("todoRecords/removeOne", async (id) => {
-    return todoRecordsDataAdapter.removeOne(id)
-})
-
-export const removeManyTodoRecordsThunk = createAsyncThunk("todoRecords/removeMany", async (ids) => {
-    return todoRecordsDataAdapter.removeMany(ids)
-})
-
-export {loadAllTodoRecords};
-
+export const todoRecordsStorageThunks = todoRecordsStorageAdapter.thunks
 
 const todoRecordsSlice = createSlice({
     name : "todoRecords",
@@ -61,7 +48,7 @@ const todoRecordsSlice = createSlice({
         removeMany : todoRecordsAdapter.removeMany
     },
     extraReducers : (builder) => {
-        builder.addCase(loadAllTodoRecords.fulfilled, (state, action) => {
+        builder.addCase(todoRecordsStorageAdapter.thunks.loadAll.fulfilled, (state, action) => {
             state.loadstatus = "loaded"
             return todoRecordsAdapter.setAll(state, action.payload)
         })

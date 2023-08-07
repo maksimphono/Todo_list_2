@@ -11,10 +11,8 @@ import { Provider } from 'react-redux'
 import { store } from './Context/Redux/store'
 import ModalContext from "./Context/modalContext"
 import Confirmation from "./UI/Components/Confirmation/Confirmation";
-//import { loadTodoCollections,} from './LocalStorage/initStorage'
 
 import localstorageWrapper, {todoRecordsDataAdapter, todoCollectionsDataAdapter} from './LocalStorage/initStorage'
-import { loadAllCollections } from './Context/Redux/todoCollectionsSlice'
 
 
 const TodoRecordsJSON = [
@@ -55,8 +53,6 @@ const collectionsJSON = [
       todoRecordsIds : ["2"]
   }
 ]
-
-import { loadAllTodoRecords } from './Context/Redux/todoRecordsSlice'
 
 function TestComponent() {
     useEffect(() => {

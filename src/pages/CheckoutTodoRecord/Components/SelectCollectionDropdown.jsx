@@ -8,7 +8,7 @@ import modalContext from "../../../Context/modalContext.js";
 // styles
 import style from "../styles/SelectCollection.module.scss"//"../styles/SelectCollection.module.scss"
 import styled_buttons from "../../../buttons.module.scss";
-import { selectAllCollectionRecords, removeOne, selectCollectionRecordsById, removeOneCollectionRecordThunk } from "../../../Context/Redux/todoCollectionsSlice";
+import { selectAllCollectionRecords, removeOne, selectCollectionRecordsById, collectionsRecordsThunks } from "../../../Context/Redux/todoCollectionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import EditCollectionForm from "./EditCollectionForm";
