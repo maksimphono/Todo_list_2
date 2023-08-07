@@ -12,17 +12,28 @@ import {
 
 import {
     addOneTodoRecord, 
-    resaveInLocalStorage, 
     unbindTodoRecord, 
     removeOne as collections_removeOne, 
+    selectCollectionRecordsById,
+    
     collectionsRecordsThunks
 } from "./todoCollectionsSlice"
+
+function putCollectionToLocalStorage({dispatch, state, id}) {
+    const entry = selectCollectionRecordsById(state, id)
+    dispatch(collectionsRecordsThunks.saveOne(entry))
+}
+
+function putTodoRecordToLocalStorage({dispatch, state, id}) {
+    const entry = selectTodoRecordsById(state, id)
+    dispatch(todoRecordsStorageThunks.saveOne(entry))
+}
 
 export async function createTodoRecord(dispatch, todoRecord, collectionRecordId) {
     dispatch(addOne(todoRecord))
     dispatch(addOneTodoRecord({id : collectionRecordId, todoRecordId : todoRecord.id, state : store.getState()}))
     dispatch(todoRecordsStorageThunks.saveOne(todoRecord))
-    dispatch(resaveInLocalStorage({id : collectionRecordId, state : store.getState()}))
+    putCollectionToLocalStorage({dispatch, state : store.getState(), id : collectionRecordId})
     return "OK"
 }
 
@@ -30,7 +41,7 @@ export async function removeOneTodoRecord({dispatch, todoRecordId, collectionId}
     dispatch(removeOne(todoRecordId))
     dispatch(todoRecordsStorageThunks.removeOne(todoRecordId))
     dispatch(unbindTodoRecord({id : collectionId, todoRecordId, state : store.getState()}))
-    dispatch(resaveInLocalStorage({id : collectionId, todoRecordId, state : store.getState()}))
+    putCollectionToLocalStorage({dispatch, state : store.getState(), id : collectionId})
     return "OK"
 }
 export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
@@ -42,8 +53,8 @@ export async function alterOneTodoRecord({dispatch, alteredTodoRecord}) {
             dispatch(unbindTodoRecord({id : oldRecord.collection, todoRecordId : oldRecord.id, state : store.getState()}))
             dispatch(addOneTodoRecord({id : alteredTodoRecord.collection, todoRecordId : alteredTodoRecord.id, state : store.getState()}))
 
-            dispatch(resaveInLocalStorage({id : oldRecord.collection, state : store.getState()}))
-            dispatch(resaveInLocalStorage({id : alteredTodoRecord.collection, state : store.getState()}))
+            putCollectionToLocalStorage({dispatch, id : oldRecord.collection, state : store.getState()})
+            putCollectionToLocalStorage({dispatch, id : alteredTodoRecord.collection, state : store.getState()})
         }
         dispatch(alterTodoRecord(alteredTodoRecord))
         dispatch(todoRecordsStorageThunks.saveOne(alteredTodoRecord))

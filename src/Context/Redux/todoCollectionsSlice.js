@@ -21,10 +21,6 @@ const todoRecordsCollection = createSlice({
     name : "todoRecordsCollection",
     initialState : todoCollectionAdapter.getInitialState({loadstatus : "idle"}),
     reducers : {
-        resaveInLocalStorage : (state, action) => {
-            const entry = selectCollectionRecordsById(action.payload.state, action.payload.id)
-            todoCollectionsDataAdapter.saveOne(entry)
-        },
         addOneCollection : {
             prepare : (action) => {
                 console.dir(action)
