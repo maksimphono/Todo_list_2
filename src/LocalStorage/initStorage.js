@@ -48,7 +48,7 @@ class LocalStorageWrapper {
 const localstorageWrapper = new LocalStorageWrapper(8)
 export default localstorageWrapper
 
-class DataAdapter {
+export class DataAdapter {
     constructor (entryPrefix, idsListName) {
         this.entryPrefix = entryPrefix
         this.idsListName = idsListName
@@ -110,6 +110,3 @@ class DataAdapter {
         localstorageWrapper.set(this.idsListName, idsToStore)
     }
 }
-
-export const todoRecordsDataAdapter = new DataAdapter("todo_record", "todo_records_ids")
-export const todoCollectionsDataAdapter = new DataAdapter("todo_collection", "todo_collections_ids")

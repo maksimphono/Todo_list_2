@@ -12,7 +12,10 @@ import { store } from './Context/Redux/store'
 import ModalContext from "./Context/modalContext"
 import Confirmation from "./UI/Components/Confirmation/Confirmation";
 
-import localstorageWrapper, {todoRecordsDataAdapter, todoCollectionsDataAdapter} from './LocalStorage/initStorage'
+import localstorageWrapper from './LocalStorage/initStorage'
+
+import { todoRecordsStorageThunks } from './Context/Redux/todoRecordsSlice'
+import { collectionsRecordsThunks } from './Context/Redux/todoCollectionsSlice'
 
 
 const TodoRecordsJSON = [
@@ -57,10 +60,12 @@ const collectionsJSON = [
 function TestComponent() {
     useEffect(() => {
         console.log("Records")
+        store.dispatch(todoRecordsStorageThunks.saveMany(TodoRecordsJSON))
+        store.dispatch(collectionsRecordsThunks.saveMany(collectionsJSON))
         //store.dispatch(loadAllCollections())
         //store.dispatch(loadAllTodoRecords())
-        todoRecordsDataAdapter.saveMany(TodoRecordsJSON)
-        todoCollectionsDataAdapter.saveMany(collectionsJSON)
+        //todoRecordsDataAdapter.saveMany(TodoRecordsJSON)
+        //todoCollectionsDataAdapter.saveMany(collectionsJSON)
         //todoCollectionsDataAdapter.saveOne(collectionsJSON[0])
         //console.dir(todoRecordsDataAdapter.loadOne(1))
         //todoRecordsDataAdapter.removeOne(2)

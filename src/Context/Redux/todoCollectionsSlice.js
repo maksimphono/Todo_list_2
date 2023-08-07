@@ -11,9 +11,7 @@ export const {
     selectEntities : selectCollectionRecordsEntries,
 } = todoCollectionAdapter.getSelectors(state => state.todoRecordsCollection)
 
-import { todoCollectionsDataAdapter } from "../../LocalStorage/initStorage";
-
-const todoRecordsCollectionStorageAdapter = new EntityAsyncStorageAdapter("todoRecordsCollection", todoCollectionsDataAdapter)
+const todoRecordsCollectionStorageAdapter = new EntityAsyncStorageAdapter("todoRecordsCollection", "todo_collection", "todo_collections_ids")
 
 export const collectionsRecordsThunks = todoRecordsCollectionStorageAdapter.thunks
 

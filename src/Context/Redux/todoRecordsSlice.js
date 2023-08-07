@@ -13,9 +13,7 @@ import EntityAsyncStorageAdapter from "./EntityAsyncStorageAdapter";
 const todoRecordsAdapter = createEntityAdapter({
 })
 
-import { todoRecordsDataAdapter } from "../../LocalStorage/initStorage";
-
-const todoRecordsStorageAdapter = new EntityAsyncStorageAdapter("todoRecords", todoRecordsDataAdapter)
+const todoRecordsStorageAdapter = new EntityAsyncStorageAdapter("todoRecords", "todo_record", "todo_records_ids")
 
 export const todoRecordsStorageThunks = todoRecordsStorageAdapter.thunks
 
