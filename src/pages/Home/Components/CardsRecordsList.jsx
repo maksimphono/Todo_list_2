@@ -58,8 +58,6 @@ import { todoRecordsStorageThunks } from '../../../Context/Redux/todoRecordsSlic
 import { collectionsRecordsThunks } from '../../../Context/Redux/todoCollectionsSlice';
 
 function setInitialState(dispatch) {
-    dispatch(resetFilters())
-    dispatch(resetSortParams())
     dispatch(todoRecordsStorageThunks.loadAll())
     dispatch(collectionsRecordsThunks.loadAll())
 }
@@ -97,6 +95,8 @@ export default function CardsRecordsCollection() {
          // only for tests, actifically add some records to state, so I don't have to add it manually
         if (todoRecordsLoadStatus == "idle" && collectionsLoadStatus == "idle")
             setInitialState(dispatch)
+        dispatch(resetFilters())
+        dispatch(resetSortParams())
     }, [])
 
     const TodoRecords = useSelector((state) => {
