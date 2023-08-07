@@ -12,8 +12,6 @@ import { store } from './Context/Redux/store'
 import ModalContext from "./Context/modalContext"
 import Confirmation from "./UI/Components/Confirmation/Confirmation";
 
-import localstorageWrapper from './LocalStorage/initStorage'
-
 import { todoRecordsStorageThunks } from './Context/Redux/todoRecordsSlice'
 import { collectionsRecordsThunks } from './Context/Redux/todoCollectionsSlice'
 

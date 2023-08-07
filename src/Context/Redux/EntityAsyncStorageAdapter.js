@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DataAdapter } from "../../LocalStorage/initStorage"
+import DataAdapter from "../../LocalStorage/DataAdapter"
 
 export default class EntityAsyncStorageAdapter extends DataAdapter {
     constructor (actionNamePrefix, entryPrefix, idsListName) {
