@@ -13,6 +13,8 @@ import style_NewCollectionForm from "../styles/NewCollectionForm.module.scss"
 import { useDispatch, useSelector } from "react-redux";
 import { selectCollectionRecordsById, selectAllCollectionRecords } from "../../../Context/Redux/todoCollectionsSlice.js";
 
+import { updateOneCollection } from "../../../Context/Redux/utilities.js";
+
 export default function EditCollectionForm({id, closeModal, CollectionId}) {
     const dispatch = useDispatch()
     const collectionRecord = useSelector(() => selectCollectionRecordsById(store.getState(), CollectionId))
@@ -21,12 +23,11 @@ export default function EditCollectionForm({id, closeModal, CollectionId}) {
       const formDate = new FormData(event.target)
       console.log(formDate.get("name"), formDate.get("color"))
       
-      
-      dispatch(updateNameAndColor({
+      updateOneCollection({dispatch, entry : {
         id : CollectionId,
         name : formDate.get("name"), 
         color : formDate.get("color")
-      }))
+      }})
       
       event.target.reset()
       closeModal();

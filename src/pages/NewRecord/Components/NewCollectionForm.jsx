@@ -11,18 +11,21 @@ import { store } from "../../../Context/Redux/store.js";
 import style_NewCollectionForm from "../styles/NewCollectionForm.module.scss"
 import { useDispatch } from "react-redux";
 
+import { createOneCollection } from "../../../Context/Redux/utilities.js";
 
 export default function NewCollectionForm({id, closeModal}) {
     const dispatch = useDispatch()
+
     const handleSubmit = useCallback(event => {
       event.preventDefault()
       const formDate = new FormData(event.target)
       console.log(formDate.get("name"), formDate.get("color"))
       
-      dispatch(addOneCollection({
+      createOneCollection({dispatch, entry : {
         name : formDate.get("name"), 
         color : formDate.get("color")
-      }))
+      }})
+      
       event.target.reset()
       closeModal();
     })

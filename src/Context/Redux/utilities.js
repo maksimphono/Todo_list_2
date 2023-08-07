@@ -63,6 +63,14 @@ export async function removeOneCollectionRecord({dispatch, id, state}) {
     return "OK"
 }
 
-export async function createOneCollection({dispatch, entry}) {
+import { addOneCollection, updateNameAndColor } from "./todoCollectionsSlice";
 
+export async function createOneCollection({dispatch, entry}) {
+    dispatch(addOneCollection(entry))
+    dispatch(collectionsRecordsThunks.saveOne(entry))
+}
+
+export async function updateOneCollection({dispatch, entry}) {
+    dispatch(updateNameAndColor(entry))
+    dispatch(collectionsRecordsThunks.saveOne(entry))
 }
