@@ -19,6 +19,8 @@ export default function EditCollectionForm({id, closeModal, CollectionId}) {
     const dispatch = useDispatch()
     const collectionRecord = useSelector(() => selectCollectionRecordsById(store.getState(), CollectionId))
     
+    const {modalRef, confirmationRef} = useContext(modalContext)
+
     const handleSubmit = useCallback(async event => {
       event.preventDefault()
       const formDate = new FormData(event.target)
@@ -36,7 +38,6 @@ export default function EditCollectionForm({id, closeModal, CollectionId}) {
       } catch (error) {
         notificationRef.current.pop({variant : "warning", text : error.toString()})
       }
-      
     })
     
     return (
