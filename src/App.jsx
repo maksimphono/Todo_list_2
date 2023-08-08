@@ -73,6 +73,8 @@ function TestComponent() {
     return <></>
 }
 
+import CalendarView from './pages/Home/Components/CalendarView'
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -87,8 +89,8 @@ function App() {
           <Route path = "CheckoutRecord/:id" element = {<CheckoutTodoRecord />}/>
         </Route>
         <Route path = "tests">
-        <Route index element = {<TestComponent/>}/>
-          
+          <Route element = {<TestComponent/>}/>
+          <Route index element = {<CalendarView/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

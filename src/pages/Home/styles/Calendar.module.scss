@@ -1,0 +1,120 @@
+@import "./variables.module.scss";
+
+.calendar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto 1fr;
+    width: 100%;
+    height: 80vh;
+    padding: 5px;
+    //border: 2px solid $color-dark;
+
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: large;
+    }
+
+    & > h2 {
+        grid-column: 2/span 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+    }
+
+    & > button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        aspect-ratio: 1/1;
+        background-color: #fff;
+        border: 2px solid $color-dark;
+        border-radius: 20px;
+    }
+
+    thead {
+        grid-column: 1 / span 3;
+        margin-top: 10px;
+        display: block;
+        width: 100%;
+
+        tr {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            th {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    }
+
+    tbody {
+        grid-column: 1 / span 3;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(6, 1fr);
+        gap: 1px;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+
+        tr {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            width: 100%;
+            height: auto;
+
+            td {
+                position: relative;
+                display: flex;
+                align-items: center;
+                width: auto;
+                height: auto;
+                gap: 0;
+                border: 2px solid $color-dark;
+                border-radius: 10px;
+                cursor: pointer;
+                overflow: hidden;
+
+                &:hover {
+                    span {
+                        transform: scale(2) translateX(-25%) translateY(-25%);
+                    }
+                }
+
+                span {
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    top: 50%;
+                    left: 50%;
+                    transform: translateX(-50%) translateY(-50%);
+                    height: auto;
+                    padding: 3px;
+                    aspect-ratio: 1/1;
+                    border: none;
+                    background-color: #fff;
+                    border-radius: 50%;
+                    box-shadow: 0 0 5px $color-dark;
+                    overflow: hidden;
+                    transition: .5s;
+                }
+
+                & > div {
+                    flex-grow: 1;
+                    display: block;
+                    width: auto;
+                    height: 100%;
+                }
+            }
+        }
+    }
+    
+    
+}

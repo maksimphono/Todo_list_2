@@ -27,6 +27,7 @@ body {
 
     #root {
         display: block;
+        height: max-content;
         min-height: 100vh;
         
         background-image: linear-gradient($color3, $color2);
