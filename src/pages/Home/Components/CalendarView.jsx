@@ -50,7 +50,7 @@ export default function CalendarView() {
 
     const monthAsTable = useMemo(() => fillMonth(YEAR, MONTH), [])
     useEffect(() => console.table(fillMonth(2022, 7)), [])
-    
+
     let dayIndex = 0
     
     return (
@@ -73,8 +73,8 @@ export default function CalendarView() {
                                 <div style = {{background : "#ada"}}></div>
                                 <div style = {{background : "red"}}></div>
                                 <div style = {{background : "#e1c"}}></div>
-                            </td>
-                            ))
+                            </td>)
+                            )
                         }
                     </tr>
                 )}
