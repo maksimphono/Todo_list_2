@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import style from "../styles/Calendar.module.scss"
 
@@ -42,10 +42,16 @@ function fillMonth(year, month) {
     return monthAsTable
 }
 
+const MONTH = 3
+const YEAR = 2023
+
 export default function CalendarView() {
-  
+
+
+    const monthAsTable = useMemo(() => fillMonth(YEAR, MONTH), [])
     useEffect(() => console.table(fillMonth(2022, 7)), [])
     
+    let dayIndex = 0
     
     return (
     <>
@@ -62,12 +68,14 @@ export default function CalendarView() {
                 {Array.range(0, 6).map(() => 
                     <tr>
                         {Array.range(0, 7).map(() => 
-                            <td>
-                                <span>31</span>
+                            (<td>
+                                <span>{monthAsTable[dayIndex++]}</span>
                                 <div style = {{background : "#ada"}}></div>
                                 <div style = {{background : "red"}}></div>
                                 <div style = {{background : "#e1c"}}></div>
-                            </td>)}
+                            </td>
+                            ))
+                        }
                     </tr>
                 )}
             </tbody>
