@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useReducer, useState } from 'react'
 
 import style from "../styles/Calendar.module.scss"
 import { createSlice } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
 
 Array.range = (start, stop, step = 1) => {
     return Array.from((function* () {
@@ -66,7 +67,7 @@ function dateReducer(state, action) {
             if (state.month === 0) 
                 return {...state,
                     month : 11,
-                    year : state.year - 1
+                    year : (state.year - 1 < new Date().getFullYear())?( state.year ):( state.year - 1 )
                 }
             else
                 return {...state,
@@ -87,6 +88,8 @@ export default function CalendarView() {
         month : +(new Date().getMonth()),
         year : +(new Date().getFullYear())
     })
+    //const todoRecords = useSelector(globalState => globalState.todoRecords.filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
+    //console.table(todoRecords)
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
 
@@ -109,10 +112,10 @@ export default function CalendarView() {
                 </tr>
             </thead>
             <tbody>
-                {Array.range(0, 6).map(() => 
-                    <tr>
-                        {Array.range(0, 7).map(() => 
-                            (<td>
+                {Array.range(0, 6).map((key) =>
+                    <tr key = {key}>
+                        {Array.range(0, 7).map(key => 
+                            (<td key = {key}>
                                 <span>{monthAsTable[dayIndex++]}</span>
                                 <div style = {{background : "#ada"}}></div>
                                 <div style = {{background : "red"}}></div>
