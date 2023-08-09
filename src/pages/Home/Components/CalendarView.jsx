@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useReducer, useState } from 'react'
 
 import style from "../styles/Calendar.module.scss"
+import { createSlice } from '@reduxjs/toolkit'
 
 Array.range = (start, stop, step = 1) => {
     return Array.from((function* () {
@@ -42,23 +43,66 @@ function fillMonth(year, month) {
     return monthAsTable
 }
 
-const MONTH = 3
-const YEAR = 2023
+const monthsNames = "January February March April May June July August September October November December".split(" ")
+
+const incMonth = Symbol("incMonth")
+const decMonth = Symbol("decMonth")
+const setYear = Symbol("setYear")
+
+function dateReducer(state, action) {
+    switch (action.type) {
+        case incMonth:
+            if (state.month === 11) 
+                return {...state,
+                    month : 0,
+                    year : state.year + 1
+                }
+            else {
+                return {...state,
+                    month : state.month + 1
+                }
+            }
+        case decMonth:
+            if (state.month === 0) 
+                return {...state,
+                    month : 11,
+                    year : state.year - 1
+                }
+            else
+                return {...state,
+                    month : state.month - 1
+                }
+        case setYear:
+            return {...state,
+                year : action.payload
+            }
+        default:
+            return {...state}
+    }
+}
 
 export default function CalendarView() {
+    const [state, dispatch] = useReducer(dateReducer, {
+        __proto__ : null, 
+        month : +(new Date().getMonth()),
+        year : +(new Date().getFullYear())
+    })
 
-
-    const monthAsTable = useMemo(() => fillMonth(YEAR, MONTH), [])
-    useEffect(() => console.table(fillMonth(2022, 7)), [])
+    const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
 
     let dayIndex = 0
-    
+
     return (
     <>
         <table className={style["calendar"]}>
-            <button></button>
-            <h2>September</h2>
-            <button></button>
+            <button onClick = {() => dispatch({type : decMonth})}></button>
+            <h2>{monthsNames[state.month]}</h2>
+            <select name="select-year" value = {state.year} onChange={event => dispatch({type : setYear, payload : event.target.value})}>
+                {Array.range(new Date().getFullYear(), 2050).map(n => 
+                    <option>{n}</option>
+                )}
+            </select>
+            <button onClick = {() => dispatch({type : incMonth})}></button>
             <thead>
                 <tr>
                     {"SUN MON TUE WEN THU FRI SAT".split(" ").map(day => <th>{day}</th>)}
