@@ -42,19 +42,15 @@ function DropdownTool({
     )
 }
 
-export default function Tooltip({switchViewMode}) {
+import { viewModeCalendar, viewModeList } from '../TodoRecordsList';
+
+export default function Tooltip({switchViewMode, viewMode}) {
     const [expandedDropdown, setExpandedDropdown] = useState("")
   
     return (
     <>
       <div className = {style.tooltip}>
-            <DropdownTool
-                summary = "Callendar"
-                data_search = {true}
-            >
-                <input type="text" />
-                <button type="submit">Search</button>                   
-            </DropdownTool>
+            <button onClick = {switchViewMode}>{(viewMode === viewModeList)?"Calendar":"List"}</button>
             <DropdownTool
                 summary = "Filter"
                 forceShrink = {expandedDropdown == "SortOption"} 

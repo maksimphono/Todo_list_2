@@ -83,18 +83,21 @@ function dateReducer(state, action) {
 }
 
 import TodoCardsByDay from './TodoCardsByDay'
+import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
+import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
 
-export default function CalendarView({show}) {
-    if (!show) return <></>
-    
+export default function CalendarView() {
     const [state, dispatch] = useReducer(dateReducer, {
         __proto__ : null, 
         month : +(new Date().getMonth()),
         year : +(new Date().getFullYear())
     })
-    const dislogRef = useRef(null)
-    //const todoRecords = useSelector(globalState => globalState.todoRecords.filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
-    //console.table(todoRecords)
+    const todoRecords = useSelector(globalState => selectAllTodoRecords(globalState).filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
+    
+    const selectCollection = (entry) => {
+        return useSelector(globalState => selectCollectionRecordsById(globalState, entry.collection))
+    }
+    console.table(todoRecords)
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
 
@@ -122,9 +125,12 @@ export default function CalendarView({show}) {
                         {Array.range(0, 7).map(key => 
                             (<td key = {key}>
                                 <span>{monthAsTable[dayIndex++]}</span>
-                                <div style = {{background : "#ada"}}></div>
-                                <div style = {{background : "red"}}></div>
-                                <div style = {{background : "#e1c"}}></div>
+                                {todoRecords
+                                    .filter(entry => new Date(entry.dateEnd).getDate() === dayIndex)
+                                    .map(entry => {
+                                        console.log("Color : ", selectCollection(entry).color)
+                                        return <div style = {{background : selectCollection(entry).color}}></div>
+                                    })}
                             </td>)
                             )
                         }

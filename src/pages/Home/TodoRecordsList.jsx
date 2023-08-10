@@ -17,8 +17,8 @@ import { store } from '../../Context/Redux/store';
 
 import CalendarView from './Components/CalendarView';
 
-const viewModeList = Symbol("viewModeList")
-const viewModeCalendar = Symbol("viewModeCalendar")
+export const viewModeList = Symbol("viewModeList")
+export const viewModeCalendar = Symbol("viewModeCalendar")
 
 export default function TodoRecordsList() {
   const [viewMode, setViewMod] = useState(viewModeList)
@@ -30,9 +30,14 @@ export default function TodoRecordsList() {
   return (
     <>
       <div id = {style["todo_records"]}>
-        <Tooltip switchViewMode = {switchViewMode}/>
-        <Cards show = {viewMode === viewModeList}/>
-        <CalendarView show = {viewMode === viewModeCalendar}/>
+        <Tooltip viewMode = {viewMode} switchViewMode = {switchViewMode}/>
+        {(viewMode === viewModeList)?
+            <Cards />
+        :(viewMode === viewModeCalendar)?
+            <CalendarView />
+        :
+            <></>
+        }
       </div>
     </>
   )
