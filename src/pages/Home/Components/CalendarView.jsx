@@ -33,13 +33,14 @@ function fillMonth(year, month) {
     const firstDay = new Date(`${year}-${month}-1`)
     const firstDayOfWeek = firstDay.getDay()
     const prevMonth = (month - 1) || 12
+    const nextMonth = (month !== 12)?(month + 1):1
     
     for (let day = daysInMonths.get(prevMonth) - firstDayOfWeek + 1; day <= daysInMonths.get(prevMonth); day++) {
-        monthAsTable.push(day)
+        monthAsTable.push({__proto__ : null, day, month : prevMonth})
     }
-    monthAsTable = [...monthAsTable, ...Array.range(1, daysInMonths.get(month) + 1)]
-    
-    monthAsTable = [...monthAsTable, ...Array.range(1, 42 - monthAsTable.length + 1)]
+    monthAsTable = [...monthAsTable, ...Array.range(1, daysInMonths.get(month) + 1).map(day => ({__proto__ : null, day, month}))]
+
+    monthAsTable = [...monthAsTable, ...Array.range(1, 42 - monthAsTable.length + 1).map(day => ({__proto__ : null, day, month : nextMonth}))]
 
     return monthAsTable
 }
@@ -97,11 +98,13 @@ export default function CalendarView() {
     const selectCollection = (entry) => {
         return useSelector(globalState => selectCollectionRecordsById(globalState, entry.collection))
     }
-    console.table(todoRecords)
+    
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
 
-    let dayIndex = 0
+    console.table(monthAsTable)
+    
+    let dayIndex = -1
 
     return (
     <>
@@ -124,9 +127,11 @@ export default function CalendarView() {
                     <tr key = {key}>
                         {Array.range(0, 7).map(key => 
                             (<td key = {key}>
-                                <span>{monthAsTable[dayIndex++]}</span>
+                                <span>{monthAsTable[++dayIndex].day}</span>
                                 {todoRecords
-                                    .filter(entry => new Date(entry.dateEnd).getDate() === dayIndex)
+                                    .filter(entry => 
+                                        (new Date(entry.dateEnd).getDate() === monthAsTable[dayIndex].day) && 
+                                        (new Date(entry.dateEnd).getMonth() + 1 === monthAsTable[dayIndex].month))
                                     .map(entry => {
                                         console.log("Color : ", selectCollection(entry).color)
                                         return <div style = {{background : selectCollection(entry).color}}></div>
