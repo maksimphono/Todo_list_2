@@ -42,7 +42,7 @@ function DropdownTool({
     )
 }
 
-export default function Tooltip() {
+export default function Tooltip({switchViewMode}) {
     const [expandedDropdown, setExpandedDropdown] = useState("")
   
     return (

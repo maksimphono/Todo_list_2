@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer, useState } from 'react'
+import React, { useEffect, useMemo, useReducer, useState, useRef } from 'react'
 
 import style from "../styles/Calendar.module.scss"
 import { createSlice } from '@reduxjs/toolkit'
@@ -82,12 +82,17 @@ function dateReducer(state, action) {
     }
 }
 
-export default function CalendarView() {
+import TodoCardsByDay from './TodoCardsByDay'
+
+export default function CalendarView({show}) {
+    if (!show) return <></>
+    
     const [state, dispatch] = useReducer(dateReducer, {
         __proto__ : null, 
         month : +(new Date().getMonth()),
         year : +(new Date().getFullYear())
     })
+    const dislogRef = useRef(null)
     //const todoRecords = useSelector(globalState => globalState.todoRecords.filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
     //console.table(todoRecords)
 

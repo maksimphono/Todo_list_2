@@ -1,5 +1,25 @@
 @import "./variables.module.scss";
 
 .todo_cards_by_day {
-    display: block;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: max-content;
+    min-height: 30vh;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 6px $color-dark;
+    z-index: 9;
+
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        aspect-ratio: 1/1;
+    }
 }

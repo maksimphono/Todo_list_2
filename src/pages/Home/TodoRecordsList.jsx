@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Tooltip from './Components/Tooltip';
 import Cards from './Components/CardsRecordsList.jsx';
 
@@ -15,12 +15,24 @@ import {addOne, selectAllTodoRecords} from "../../Context/Redux/todoRecordsSlice
 import { selectAllCollectionRecords } from '../../Context/Redux/todoCollectionsSlice';
 import { store } from '../../Context/Redux/store';
 
+import CalendarView from './Components/CalendarView';
+
+const viewModeList = Symbol("viewModeList")
+const viewModeCalendar = Symbol("viewModeCalendar")
+
 export default function TodoRecordsList() {
+  const [viewMode, setViewMod] = useState(viewModeList)
+
+  const switchViewMode = useCallback(() => setViewMod(mode => 
+      mode === viewModeCalendar?( viewModeList ):( viewModeCalendar )), 
+  [])
+  
   return (
     <>
       <div id = {style["todo_records"]}>
-        <Tooltip />
-        <Cards />
+        <Tooltip switchViewMode = {switchViewMode}/>
+        <Cards show = {viewMode === viewModeList}/>
+        <CalendarView show = {viewMode === viewModeCalendar}/>
       </div>
     </>
   )

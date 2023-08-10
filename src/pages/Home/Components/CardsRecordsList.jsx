@@ -62,7 +62,9 @@ function setInitialState(dispatch) {
     dispatch(collectionsRecordsThunks.loadAll())
 }
 
-export default function CardsRecordsCollection() {
+export default function CardsRecordsCollection({show}) {
+    if (!show) return <></>
+    
     const dispatch = useDispatch()
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
