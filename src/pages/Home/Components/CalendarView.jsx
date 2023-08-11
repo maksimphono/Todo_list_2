@@ -85,9 +85,9 @@ function dateReducer(state, action) {
     }
 }
 
-import TodoCardsByDay from './TodoCardsByDay'
 import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
+import { useNavigate } from 'react-router-dom'
 
 export default function CalendarView() {
     const [state, dispatch] = useReducer(dateReducer, {
@@ -97,9 +97,13 @@ export default function CalendarView() {
     })
     const todoRecords = useSelector(globalState => selectAllTodoRecords(globalState).filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
     
+    const navigate = useNavigate()
+
     const selectCollectionByTodoRecord = useCallback((entry) => useSelector(globalState => selectCollectionRecordsById(globalState, entry.collection)), [])
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
+
+    const navigateTo = (date) => navigate(`records_by_date/${date.toISOString().slice(0, 10)}`)
 
     let dayIndex = -1
 
@@ -122,9 +126,11 @@ export default function CalendarView() {
             <tbody>
                 {Array.range(0, 6).map((key) =>
                     <tr key = {key}>
-                        {Array.range(0, 7).map(key => 
-                            (<td key = {key}>
-                                <span>{monthAsTable[++dayIndex].getDate()}</span>
+                        {Array.range(0, 7).map(key => {
+                            dayIndex++
+                            return ( 
+                            <td key = {key} onClick = {() => navigateTo(monthAsTable[dayIndex])}>
+                                <span>{monthAsTable[dayIndex].getDate()}</span>
                                 {todoRecords
                                     .filter(entry => {
                                         return new Date(entry.dateEnd).toLocaleString() === monthAsTable[dayIndex].toLocaleString()
@@ -133,7 +139,8 @@ export default function CalendarView() {
                                     .map(entry => {
                                         return <div style = {{background : selectCollectionByTodoRecord(entry).color}}></div>
                                     })}
-                            </td>)
+                            </td>
+                            )}
                             )
                         }
                     </tr>

@@ -73,6 +73,7 @@ function TestComponent() {
     return <></>
 }
 
+import CardsRecordsList from './pages/Home/Components/CardsRecordsList'
 import CalendarView from './pages/Home/Components/CalendarView'
 
 function App() {
@@ -84,7 +85,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path = "/" element = {<Layout />}>
-          <Route index element = {<TodoRecordsList/>}/>
+          <Route index element = {<TodoRecordsList />}/>
+          <Route path = "records_by_date/:date" element = {<TodoRecordsList />}/>
           <Route path="NewTodoRecord" element = {<NewTodoRecord/>}/>
           <Route path = "CheckoutRecord/:id" element = {<CheckoutTodoRecord />}/>
         </Route>
