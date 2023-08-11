@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer, useState, useRef } from 'react'
+import React, { useEffect, useMemo, useReducer, useState, useRef, useCallback } from 'react'
 
 import style from "../styles/Calendar.module.scss"
 import { createSlice } from '@reduxjs/toolkit'
@@ -34,13 +34,15 @@ function fillMonth(year, month) {
     const firstDayOfWeek = firstDay.getDay()
     const prevMonth = (month - 1) || 12
     const nextMonth = (month !== 12)?(month + 1):1
+    const yearOfNextMonth = (nextMonth === 1)?(year + 1):year
+    const yearOfPrevMonth = (prevMonth === 12)?(year - 1):year
     
     for (let day = daysInMonths.get(prevMonth) - firstDayOfWeek + 1; day <= daysInMonths.get(prevMonth); day++) {
-        monthAsTable.push({__proto__ : null, day, month : prevMonth})
+        monthAsTable.push(new Date(`${yearOfPrevMonth}/${prevMonth}/${day} 12:0:0 AM`))
     }
-    monthAsTable = [...monthAsTable, ...Array.range(1, daysInMonths.get(month) + 1).map(day => ({__proto__ : null, day, month}))]
+    monthAsTable = [...monthAsTable, ...Array.range(1, daysInMonths.get(month) + 1).map(day => (new Date(`${year}/${month}/${day} 12:0:0 AM`)))]
 
-    monthAsTable = [...monthAsTable, ...Array.range(1, 42 - monthAsTable.length + 1).map(day => ({__proto__ : null, day, month : nextMonth}))]
+    monthAsTable = [...monthAsTable, ...Array.range(1, 42 - monthAsTable.length + 1).map(day => (new Date(`${yearOfNextMonth}/${nextMonth}/${day} 12:0:0 AM`)))]
 
     return monthAsTable
 }
@@ -95,15 +97,10 @@ export default function CalendarView() {
     })
     const todoRecords = useSelector(globalState => selectAllTodoRecords(globalState).filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
     
-    const selectCollection = (entry) => {
-        return useSelector(globalState => selectCollectionRecordsById(globalState, entry.collection))
-    }
-    
+    const selectCollectionByTodoRecord = useCallback((entry) => useSelector(globalState => selectCollectionRecordsById(globalState, entry.collection)), [])
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
 
-    console.table(monthAsTable)
-    
     let dayIndex = -1
 
     return (
@@ -127,14 +124,14 @@ export default function CalendarView() {
                     <tr key = {key}>
                         {Array.range(0, 7).map(key => 
                             (<td key = {key}>
-                                <span>{monthAsTable[++dayIndex].day}</span>
+                                <span>{monthAsTable[++dayIndex].getDate()}</span>
                                 {todoRecords
-                                    .filter(entry => 
-                                        (new Date(entry.dateEnd).getDate() === monthAsTable[dayIndex].day) && 
-                                        (new Date(entry.dateEnd).getMonth() + 1 === monthAsTable[dayIndex].month))
+                                    .filter(entry => {
+                                        return new Date(entry.dateEnd).toLocaleString() === monthAsTable[dayIndex].toLocaleString()
+                                    }
+                                    )
                                     .map(entry => {
-                                        console.log("Color : ", selectCollection(entry).color)
-                                        return <div style = {{background : selectCollection(entry).color}}></div>
+                                        return <div style = {{background : selectCollectionByTodoRecord(entry).color}}></div>
                                     })}
                             </td>)
                             )
@@ -146,3 +143,8 @@ export default function CalendarView() {
     </>
   )
 }
+
+/*
+(new Date(entry.dateEnd).getDate() === monthAsTable[dayIndex].day) && 
+                                        (new Date(entry.dateEnd).getMonth() + 1 === monthAsTable[dayIndex].month)
+*/
