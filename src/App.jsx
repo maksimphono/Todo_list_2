@@ -75,6 +75,7 @@ function TestComponent() {
 
 import CardsRecordsList from './pages/Home/Components/CardsRecordsList'
 import CalendarView from './pages/Home/Components/CalendarView'
+import { TodoRecordsListByDay } from './pages/Home/TodoRecordsList'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -86,7 +87,7 @@ function App() {
       <Routes>
         <Route path = "/" element = {<Layout />}>
           <Route index element = {<TodoRecordsList />}/>
-          <Route path = "records_by_date/:date" element = {<TodoRecordsList />}/>
+          <Route path = "records_by_date/:date" element = {<TodoRecordsListByDay />}/>
           <Route path="NewTodoRecord" element = {<NewTodoRecord/>}/>
           <Route path = "CheckoutRecord/:id" element = {<CheckoutTodoRecord />}/>
         </Route>

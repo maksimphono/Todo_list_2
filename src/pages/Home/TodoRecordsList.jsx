@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Tooltip from './Components/Tooltip';
-import Cards from './Components/CardsRecordsList.jsx';
+import Cards , {CardsRecordsCollectionByDay} from './Components/CardsRecordsList.jsx';
 
 // <styles>
 import style from "./styles/TodoRecordsList.module.scss";
@@ -14,11 +14,28 @@ import {addOne, selectAllTodoRecords} from "../../Context/Redux/todoRecordsSlice
 
 import { selectAllCollectionRecords } from '../../Context/Redux/todoCollectionsSlice';
 import { store } from '../../Context/Redux/store';
-
+ 
 import CalendarView from './Components/CalendarView';
+import { useParams } from 'react-router-dom';
 
 export const viewModeList = Symbol("viewModeList")
 export const viewModeCalendar = Symbol("viewModeCalendar")
+
+export function TodoRecordsListByDay() {
+  const {date : specifiedDate} = useParams()
+  console.log("Date : ", specifiedDate)
+  
+  //const todoRecords = useSelector(state => state.todoRecords).filter(entry => new Date(entry.dateEnd).toLocaleString() === specifiedDate)
+  
+  return (
+    <>
+      <div id = {style["todo_records"]}>
+        <Tooltip disableCalendar = {true}/>
+        <CardsRecordsCollectionByDay />
+      </div>
+    </>
+  )
+}
 
 export default function TodoRecordsList() {
   const [viewMode, setViewMod] = useState(viewModeList)

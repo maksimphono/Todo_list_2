@@ -103,7 +103,7 @@ export default function CalendarView() {
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
 
-    const navigateTo = (date) => navigate(`records_by_date/${date.toISOString().slice(0, 10)}`)
+    const navigateTo = (date) => navigate(`records_by_date/${date.toISOString()}`)
 
     let dayIndex = -1
 
@@ -128,8 +128,9 @@ export default function CalendarView() {
                     <tr key = {key}>
                         {Array.range(0, 7).map(key => {
                             dayIndex++
+                            const dateToNavigateTo = monthAsTable[dayIndex]
                             return ( 
-                            <td key = {key} onClick = {() => navigateTo(monthAsTable[dayIndex])}>
+                            <td key = {key} onClick = {() => navigateTo(dateToNavigateTo)}>
                                 <span>{monthAsTable[dayIndex].getDate()}</span>
                                 {todoRecords
                                     .filter(entry => {
