@@ -19,7 +19,7 @@ export default function NewCollectionForm({id, closeModal}) {
     const handleSubmit = useCallback(event => {
       event.preventDefault()
       const formDate = new FormData(event.target)
-      console.log(formDate.get("name"), formDate.get("color"))
+      //console.log(formDate.get("name"), formDate.get("color"))
       
       createOneCollection({dispatch, entry : {
         id : new Date().toString().slice(4, 24),

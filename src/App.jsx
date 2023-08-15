@@ -92,7 +92,7 @@ function App() {
           <Route path = "CheckoutRecord/:id" element = {<CheckoutTodoRecord />}/>
         </Route>
         <Route path = "tests">
-          <Route element = {<TestComponent/>}/>
+          <Route path = "add" element = {<TestComponent/>}/>
           <Route index element = {<CalendarView/>}/>
         </Route>
       </Routes>

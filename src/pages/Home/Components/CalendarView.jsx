@@ -38,11 +38,11 @@ function fillMonth(year, month) {
     const yearOfPrevMonth = (prevMonth === 12)?(year - 1):year
     
     for (let day = daysInMonths.get(prevMonth) - firstDayOfWeek + 1; day <= daysInMonths.get(prevMonth); day++) {
-        monthAsTable.push(new Date(`${yearOfPrevMonth}/${prevMonth}/${day} 12:0:0 AM`))
+        monthAsTable.push(new Date(`${yearOfPrevMonth}/${prevMonth}/${day} 11:59:59 PM`))
     }
-    monthAsTable = [...monthAsTable, ...Array.range(1, daysInMonths.get(month) + 1).map(day => (new Date(`${year}/${month}/${day} 12:0:0 AM`)))]
+    monthAsTable = [...monthAsTable, ...Array.range(1, daysInMonths.get(month) + 1).map(day => (new Date(`${year}/${month}/${day} 11:59:59 PM`)))]
 
-    monthAsTable = [...monthAsTable, ...Array.range(1, 42 - monthAsTable.length + 1).map(day => (new Date(`${yearOfNextMonth}/${nextMonth}/${day} 12:0:0 AM`)))]
+    monthAsTable = [...monthAsTable, ...Array.range(1, 42 - monthAsTable.length + 1).map(day => (new Date(`${yearOfNextMonth}/${nextMonth}/${day} 11:59:59 PM`)))]
 
     return monthAsTable
 }
@@ -96,14 +96,17 @@ export default function CalendarView() {
         year : +(new Date().getFullYear())
     })
     const todoRecords = useSelector(globalState => selectAllTodoRecords(globalState).filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
-    
+
+    //console.log("Todos : ")
+    //console.table(todoRecords)
+
     const navigate = useNavigate()
 
     const selectCollectionByTodoRecord = useCallback((entry) => useSelector(globalState => selectCollectionRecordsById(globalState, entry.collection)), [])
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
 
-    const navigateTo = (date) => navigate(`records_by_date/${date.toISOString()}`)
+    const navigateToViewByDay = useCallback((date) => navigate(`records_by_date/${date.toISOString()}`), [])
 
     let dayIndex = -1
 
@@ -130,16 +133,16 @@ export default function CalendarView() {
                             dayIndex++
                             const dateToNavigateTo = monthAsTable[dayIndex]
                             return ( 
-                            <td key = {key} onClick = {() => navigateTo(dateToNavigateTo)}>
+                            <td key = {key} onClick = {() => navigateToViewByDay(dateToNavigateTo)}>
                                 <span>{monthAsTable[dayIndex].getDate()}</span>
                                 {todoRecords
-                                    .filter(entry => {
-                                        return new Date(entry.dateEnd).toLocaleString() === monthAsTable[dayIndex].toLocaleString()
-                                    }
+                                    .filter(entry => (
+                                        new Date(entry.dateEnd).getTime() === monthAsTable[dayIndex].getTime()
                                     )
-                                    .map(entry => {
-                                        return <div style = {{background : selectCollectionByTodoRecord(entry).color}}></div>
-                                    })}
+                                    )
+                                    .map(entry => (
+                                        <div style = {{background : selectCollectionByTodoRecord(entry).color}}></div>
+                                    ))}
                             </td>
                             )}
                             )
