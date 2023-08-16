@@ -66,7 +66,6 @@ function setInitialState(dispatch) {
 export function CardsRecordsCollectionByDay() {
     const {date : specifiedDate} = useParams()
 
-    console.log("Date : ", specifiedDate)
     const dispatch = useDispatch()
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
@@ -99,8 +98,8 @@ export function CardsRecordsCollectionByDay() {
          // only for tests, actifically add some records to state, so I don't have to add it manually
         if (todoRecordsLoadStatus == "idle" && collectionsLoadStatus == "idle")
             setInitialState(dispatch)
-        dispatch(resetFilters())
-        dispatch(resetSortParams())
+        //dispatch(resetFilters())
+        //dispatch(resetSortParams())
     }, [])
 
     const TodoRecords = useSelector((state) => {
@@ -133,7 +132,6 @@ export function CardsRecordsCollectionByDay() {
 }
 
 export default function CardsRecordsCollection() {
-    
     const dispatch = useDispatch()
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
@@ -166,8 +164,8 @@ export default function CardsRecordsCollection() {
          // only for tests, actifically add some records to state, so I don't have to add it manually
         if (todoRecordsLoadStatus == "idle" && collectionsLoadStatus == "idle")
             setInitialState(dispatch)
-        dispatch(resetFilters())
-        dispatch(resetSortParams())
+        //dispatch(resetFilters())
+        //dispatch(resetSortParams())
     }, [])
 
     const TodoRecords = useSelector((state) => {

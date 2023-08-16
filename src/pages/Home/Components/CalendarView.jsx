@@ -156,8 +156,8 @@ export default function CalendarView() {
                                     .map(entry => (
                                         <span 
                                             className = {style["todo_record"]} 
-                                            style = {{background : selectCollectionByTodoRecord(entry).color}
-                                        }>
+                                            style = {{background : selectCollectionByTodoRecord(entry).color}}
+                                        >
                                             {entry.title}
                                         </span>
                                     ))}

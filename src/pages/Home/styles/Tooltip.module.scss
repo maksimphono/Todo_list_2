@@ -12,7 +12,7 @@
     border-bottom: 2px solid #000;
     z-index: 9;
 
-    & > button {
+    & > button.switch_view {
         all: unset;
         position: relative;
         display: flex;
@@ -51,11 +51,17 @@
                         
         }
 
+        &:nth-child(1) {
+            .options {
+                left: 0%;
+                //transform: translateX(-50%);
+            }
+        }
+
         &:nth-child(2) {
             .options {
                 left: 50%;
                 transform: translateX(-50%);
-    
             }
         }
 
@@ -66,38 +72,6 @@
 
         &:hover {
             background: #8a8484d2;
-        }
-
-        &[data-search='true'] {
-            
-            &[open] {
-                & ~ details.tool {
-                    ul {
-                        display: none;
-                    }
-                }
-            }
-
-            .options {
-                position: absolute;
-                right: 0;
-                display: grid;
-                grid-template-columns: 1fr;
-                justify-items: center;
-                gap: 5px;
-                width: 100%;
-                max-width: 95vw;
-                min-width: 100%;
-
-                @media screen and (max-width : $query-tablet-width) {
-                    min-width: 70vw;
-                }
-                @media screen and (max-width : $query-phone-width) {
-                    min-width: 95vw;
-                }
-            }
-
-
         }
 
         &:nth-child(2) {
@@ -147,10 +121,10 @@
             }
 
             @media screen and (max-width : $query-tablet-width) {
-                min-width: 300%;
+                min-width: 97vw;
             }
             @media screen and (max-width : $query-phone-width) {
-                min-width: 300%;
+                min-width: 97vw;
                 //min-width: 95vw;
             }
         }
