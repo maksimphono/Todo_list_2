@@ -44,12 +44,20 @@ import { setSortParams, resetSortParams } from '../../../Context/Redux/sortTodoR
 import { useReducer } from 'react'
 import { useDispatch } from 'react-redux'
 import { store } from '../../../Context/Redux/store'
+import useReduxStoreState from '../../../hooks/useReduxStoreState'
 
 const parameterItems = [
     {title : "Date", name : "dateEnd"}, 
     {title : "Title", name : "title"}, 
     {title : "collection", name : "collection"}
 ]
+
+function useInitSortSlice(dispatch) {
+    const state = useReduxStoreState()
+    useEffect(() => {
+        dispatch(formSlice.actions.init(state))
+    }, [])
+}
 
 export default function SortOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formSlice.getInitialState())

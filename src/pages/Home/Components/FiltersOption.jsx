@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCollectionRecords, selectCollectionRecordsById, selectCollectionRecordsIds } from '../../../Context/Redux/todoCollectionsSlice';
 import { store } from '../../../Context/Redux/store';
 import { setFilters, resetFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
+import useReduxStoreState from '../../../hooks/useReduxStoreState';
 
 const formData = {
     __proto__ : null,
@@ -83,7 +84,8 @@ const formSlice = createSlice({
 const FormContext = createContext()
 
 function SelectCollections() {
-    const collectionsRecords = useSelector(() => selectAllCollectionRecords(store.getState()));
+    const globalState = useReduxStoreState()
+    const collectionsRecords = useSelector(() => selectAllCollectionRecords(globalState));
     const [state, dispatch] = useContext(FormContext); // access to the data of the form
 
     return (
@@ -98,7 +100,7 @@ function SelectCollections() {
                             type="checkbox"
                             checked = {Object.values(state.selectedCollectionIds).every(v => v)}
                             onChange = {(event) => {
-                                dispatch(formSlice.actions.setAllCollectionIds({value : event.target.checked, ids : selectCollectionRecordsIds(store.getState())}))
+                                dispatch(formSlice.actions.setAllCollectionIds({value : event.target.checked, ids : selectCollectionRecordsIds(globalState)}))
                             }}
                         />
                         <span style = {{color : "#000"}}>All</span>
@@ -129,7 +131,7 @@ function SelectCollections() {
 export default function FiltersOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formSlice.getInitialState()) // create state and 'dispatch' method
     const globalDispatch = useDispatch();
-    const searchFieldRef = useRef(null);
+    const globalState = useReduxStoreState()
 
     useEffect(() => {
         dispatch(formSlice.actions.init());
@@ -149,7 +151,7 @@ export default function FiltersOption() {
             formSlice.actions
                 .setAllCollectionIds({
                     value : true,
-                    ids : selectCollectionRecordsIds(store.getState())
+                    ids : selectCollectionRecordsIds(globalState)
                 }
             )
         )
@@ -159,13 +161,12 @@ export default function FiltersOption() {
     const collectionsLoadStatus = useSelector(state => state.todoRecordsCollection.loadstatus)
     
     useEffect(() => {
-        //console.log("Set true")
-        if (!store.getState().filterTodoRecords.filtersEnabled) {
+        if (!globalState.filterTodoRecords.filtersEnabled) {
             dispatch(
                 formSlice.actions
                     .setAllCollectionIds({
                         value : true,
-                        ids : selectCollectionRecordsIds(store.getState())
+                        ids : selectCollectionRecordsIds(globalState)
                     }
                 )
             )

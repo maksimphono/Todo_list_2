@@ -135,8 +135,6 @@ export function CardsRecordsCollectionByDay() {
 
 export default function CardsRecordsCollection() {
     const dispatch = useDispatch()
-    //const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
-    //const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
 
     const TodoRecords = useFilteredSortedRecords({filterDeadline : true})
     const todoRecordsLoadStatus = useSelector(state => state.todoRecords.loadstatus)

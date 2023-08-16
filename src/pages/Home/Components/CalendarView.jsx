@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useReducer, useState, useRef, useCallback } from 'react'
 
 import style from "../styles/Calendar.module.scss"
-import { createSlice } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 
 Array.range = (start, stop, step = 1) => {
@@ -94,14 +93,9 @@ function dateReducer(state, action) {
     }
 }
 
-import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
 import { useNavigate } from 'react-router-dom'
-
-function useStoreState() {
-    return useSelector(state => state)
-}
-
+import useReduxStoreState from '../../../hooks/useReduxStoreState'
 import { switchView, setCalendar, setList } from '../homePageViewModeSlice'
 import useFilteredSortedRecords from '../hooks/useFilteredSortedRecords'
 
@@ -117,7 +111,7 @@ export default function CalendarView() {
     const navigate = useNavigate()
 
     const globalDispatch = useDispatch()
-    const storeState = useStoreState()
+    const storeState = useReduxStoreState()
     const selectCollectionByTodoRecord = (entry) => selectCollectionRecordsById(storeState, entry.collection)
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [])
