@@ -37,18 +37,22 @@ export default function NewTodoRecord() {
   const contentRef = useRef(null);
   const {notificationRef, confirmationRef} = useContext(modalContext)
 
-  const selectedTodoRecord = useSelector(() => selectTodoRecordsById(store.getState(), todoRecordId))
+  const selectedTodoRecord = useSelector(globalState => selectTodoRecordsById(globalState, todoRecordId))
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState(selectedTodoRecord?.collection)
-  const [selectedEndDate, setSelectedEndDate] = useState(selectedTodoRecord?.endDate)
+  const [selectedEndDate, setSelectedEndDate] = useState(new Date(selectedTodoRecord?.dateEnd))
+
+  useEffect(() => {
+
+  }, [selectedTodoRecord])
 
   const addNewTodoRecord = useCallback(async event => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    const newDate = ((new Date(selectedEndDate)).toString() == "Invalid Date")?selectedTodoRecord.dateEnd:(new Date(selectedEndDate)).toString()
+    //const newDate = ((new Date(selectedEndDate)).toString() == "Invalid Date")?selectedTodoRecord.dateEnd:(new Date(selectedEndDate)).toString()
     const alteredTodoRecord = {
       id : selectedTodoRecord.id,
       title : formData.get("title"),
-      dateEnd : newDate.slice(0, 15),
+      dateEnd : new Date(`${selectedEndDate.getMonth() + 1}/${selectedEndDate.getDate()}/${selectedEndDate.getFullYear()} 11:59:59 PM`).toString(),
       content : contentRef.current.content(),
       collection : selectedTodosCollectionId
     }

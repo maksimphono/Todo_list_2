@@ -88,6 +88,11 @@ function dateReducer(state, action) {
 import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
 import { useNavigate } from 'react-router-dom'
+import { store } from '../../../Context/Redux/store'
+
+function useStoreState() {
+    return useSelector(state => state)
+}
 
 export default function CalendarView() {
     const [state, dispatch] = useReducer(dateReducer, {
@@ -102,11 +107,13 @@ export default function CalendarView() {
 
     const navigate = useNavigate()
 
-    const selectCollectionByTodoRecord = useCallback((entry) => useSelector(globalState => selectCollectionRecordsById(globalState, entry.collection)), [])
+    const storeState = useStoreState()
+    //const selectCollectionByTodoRecord = useSelectorById([state.year, state.month])
+    const selectCollectionByTodoRecord = (entry) => selectCollectionRecordsById(storeState, entry.collection)
 
-    const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [state.month, state.year])
+    const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [])
 
-    const navigateToViewByDay = useCallback((date) => navigate(`records_by_date/${date.toISOString()}`), [])
+    const navigateToViewByDay = (date) => navigate(`records_by_date/${date.toISOString()}`)
 
     let dayIndex = -1
 
