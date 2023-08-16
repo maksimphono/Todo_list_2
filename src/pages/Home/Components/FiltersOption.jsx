@@ -31,54 +31,60 @@ const formData = {
     searchFieldValue : ""
 }
 
-const formSlice = createSlice({
-    name : "formSlice",
-    initialState : formData,
-    reducers : {
-        init : (state, action) => {
-            const filtersInStore = store.getState().filterTodoRecords
-            const newState = {}
+function useFormSlice() {
+    const storeState = useReduxStoreState()
 
-            if (!filtersInStore.filtersEnabled)
-                return formData
-            
-            for (let field in filtersInStore) {
-                newState[field] = filtersInStore[field]
+    const slice = useMemo(() => createSlice({
+        name : "formSlice",
+        initialState : formData,
+        reducers : {
+            init : (state, action) => {
+                const filtersInStore = storeState.filterTodoRecords
+                const newState = {}
+    
+                if (!filtersInStore.filtersEnabled)
+                    return formData
+                
+                for (let field in filtersInStore) {
+                    newState[field] = filtersInStore[field]
+                }
+                newState.selectedEndDateTo = (newState?.selectedEndDateTo)?(new Date(newState?.selectedEndDateTo)):""
+                newState.selectedEndDateFrom = (newState?.selectedEndDateFrom)?(new Date(newState?.selectedEndDateFrom)):""
+                return newState
+            },
+            setSearchFieldValue : (state, action) => {
+                return {...state, searchFieldValue : action.payload}
+            },
+            setEndDateTo : (state, action) => {
+                return {...state, selectedEndDateTo : action.payload}
+            },
+            setEndDateFrom : (state, action) => {
+                return {...state, selectedEndDateFrom : action.payload}
+            },
+            setCollectionIds : (state, action) => {
+                const selectedCollectionIds = {...(state.selectedCollectionIds)}
+                if (selectedCollectionIds[action.payload]) {
+                    selectedCollectionIds[action.payload] = false
+                } else {
+                    selectedCollectionIds[action.payload] = true
+                }
+                return {...state, selectedCollectionIds};
+            },
+            setAllCollectionIds : (state, action) => {
+                const selectedCollectionIds = {...(state.selectedCollectionIds)}
+                for (let id of action.payload.ids) {
+                    selectedCollectionIds[id] = !!action.payload.value;
+                }
+                return {...state, selectedCollectionIds}
+            },
+            resetData : (state, action) => {
+                return {...formData}
             }
-            newState.selectedEndDateTo = (newState?.selectedEndDateTo)?(new Date(newState?.selectedEndDateTo)):""
-            newState.selectedEndDateFrom = (newState?.selectedEndDateFrom)?(new Date(newState?.selectedEndDateFrom)):""
-            return newState
-        },
-        setSearchFieldValue : (state, action) => {
-            return {...state, searchFieldValue : action.payload}
-        },
-        setEndDateTo : (state, action) => {
-            return {...state, selectedEndDateTo : action.payload}
-        },
-        setEndDateFrom : (state, action) => {
-            return {...state, selectedEndDateFrom : action.payload}
-        },
-        setCollectionIds : (state, action) => {
-            const selectedCollectionIds = {...(state.selectedCollectionIds)}
-            if (selectedCollectionIds[action.payload]) {
-                selectedCollectionIds[action.payload] = false
-            } else {
-                selectedCollectionIds[action.payload] = true
-            }
-            return {...state, selectedCollectionIds};
-        },
-        setAllCollectionIds : (state, action) => {
-            const selectedCollectionIds = {...(state.selectedCollectionIds)}
-            for (let id of action.payload.ids) {
-                selectedCollectionIds[id] = !!action.payload.value;
-            }
-            return {...state, selectedCollectionIds}
-        },
-        resetData : (state, action) => {
-            return {...formData}
         }
-    }
-})
+    }), [])
+
+    return slice
+}
 
 // context so every inner component can get access to that form data
 const FormContext = createContext()
@@ -86,7 +92,7 @@ const FormContext = createContext()
 function SelectCollections() {
     const globalState = useReduxStoreState()
     const collectionsRecords = useSelector(() => selectAllCollectionRecords(globalState));
-    const [state, dispatch] = useContext(FormContext); // access to the data of the form
+    const [state, dispatch, actions] = useContext(FormContext); // access to the data of the form
 
     return (
         <label name = "selectedCollection">
@@ -100,7 +106,7 @@ function SelectCollections() {
                             type="checkbox"
                             checked = {Object.values(state.selectedCollectionIds).every(v => v)}
                             onChange = {(event) => {
-                                dispatch(formSlice.actions.setAllCollectionIds({value : event.target.checked, ids : selectCollectionRecordsIds(globalState)}))
+                                dispatch(actions.setAllCollectionIds({value : event.target.checked, ids : selectCollectionRecordsIds(globalState)}))
                             }}
                         />
                         <span style = {{color : "#000"}}>All</span>
@@ -116,7 +122,7 @@ function SelectCollections() {
                                 type="checkbox"
                                 checked = {!!state.selectedCollectionIds[record.id]}
                                 onChange = {(event) => {
-                                    dispatch(formSlice.actions.setCollectionIds(record.id))
+                                    dispatch(actions.setCollectionIds(record.id))
                                 }}
                             />
                             <span style = {{color : ((parseInt((record?.color || "#000").slice(1, 7), 16) > 0x7fffff)?"#000":"#eee")}}>{record.name}</span>
@@ -128,16 +134,20 @@ function SelectCollections() {
     )
 }
 
+function useInitSlice(dispatch, slice) {
+    useEffect(() => {
+        dispatch(slice.actions.init());
+    }, [])
+}
+
 export default function FiltersOption() {
+    const formSlice = useFormSlice()
+
     const [state, dispatch] = useReducer(formSlice.reducer, formSlice.getInitialState()) // create state and 'dispatch' method
     const globalDispatch = useDispatch();
     const globalState = useReduxStoreState()
 
-    useEffect(() => {
-        dispatch(formSlice.actions.init());
-        console.log("Filters:")
-        console.dir(state)
-    }, [])
+    useInitSlice(dispatch, formSlice)
 
     const handleApplyfilters = event => {
         event.preventDefault()
@@ -175,7 +185,7 @@ export default function FiltersOption() {
     }, [todoLoadStatus, collectionsLoadStatus])
 
     return (
-        <FormContext.Provider value = {[state, dispatch]}>
+        <FormContext.Provider value = {[state, dispatch, formSlice.actions]}>
             <form className = {style["filter_option"]} onSubmit = {handleApplyfilters}>
                 <label name = "searchbar">
                     Search by title
