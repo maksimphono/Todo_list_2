@@ -1,53 +1,17 @@
 import React, { useEffect, useMemo, useReducer, useState, useRef, useCallback } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
+
+import { useNavigate } from 'react-router-dom'
+
+import useReduxStoreState from '../../../hooks/useReduxStoreState'
+import { switchView, setCalendar, setList } from '../homePageViewModeSlice'
+import useFilteredSortedRecords from '../hooks/useFilteredSortedRecords'
+import useFillMonth from '../hooks/useFillMonth'
 
 // style
 import style from "../styles/Calendar.module.scss"
-
-Array.range = (start, stop, step = 1) => {
-    return Array.from((function* () {
-        for (let i = start; i < stop; i += step) {
-            yield i
-        }
-    })())
-}
-
-
-function fillMonth(year, month) {
-    let monthAsTable = []
-
-    const daysInMonths = new Map([
-            [1, 31],
-            [2, (new Date(`${year}-02-29`) != "Invalid Date")?29:28],
-            [3, 31],
-            [4, 30],
-            [5, 31],
-            [6, 30],
-            [7, 31],
-            [8, 31],
-            [9, 30],
-            [10, 31],
-            [11, 30],
-            [12, 31]
-    ])
-
-    const firstDay = new Date(`${year}-${month}-1`)
-    const firstDayOfWeek = firstDay.getDay()
-    const prevMonth = (month - 1) || 12
-    const nextMonth = (month !== 12)?(month + 1):1
-    const yearOfNextMonth = (nextMonth === 1)?(year + 1):year
-    const yearOfPrevMonth = (prevMonth === 12)?(year - 1):year
-    
-    for (let day = daysInMonths.get(prevMonth) - firstDayOfWeek + 1; day <= daysInMonths.get(prevMonth); day++) {
-        monthAsTable.push(new Date(`${yearOfPrevMonth}/${prevMonth}/${day} 11:59:59 PM`))
-    }
-    monthAsTable = [...monthAsTable, ...Array.range(1, daysInMonths.get(month) + 1).map(day => (new Date(`${year}/${month}/${day} 11:59:59 PM`)))]
-
-    monthAsTable = [...monthAsTable, ...Array.range(1, 42 - monthAsTable.length + 1).map(day => (new Date(`${yearOfNextMonth}/${nextMonth}/${day} 11:59:59 PM`)))]
-
-    return monthAsTable
-}
 
 function isToday(date) {
     let _date = date
@@ -96,12 +60,6 @@ function dateReducer(state, action) {
     }
 }
 
-import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
-import { useNavigate } from 'react-router-dom'
-import useReduxStoreState from '../../../hooks/useReduxStoreState'
-import { switchView, setCalendar, setList } from '../homePageViewModeSlice'
-import useFilteredSortedRecords from '../hooks/useFilteredSortedRecords'
-
 export default function CalendarView() {
     const [state, dispatch] = useReducer(dateReducer, {
         __proto__ : null, 
@@ -109,15 +67,13 @@ export default function CalendarView() {
         year : +(new Date().getFullYear())
     })
 
-    const todoRecords = useFilteredSortedRecords({filterDeadline : false})
-
     const navigate = useNavigate()
-
     const globalDispatch = useDispatch()
     const storeState = useReduxStoreState()
+    
+    const todoRecords = useFilteredSortedRecords({filterDeadline : false})
     const selectCollectionByTodoRecord = (entry) => selectCollectionRecordsById(storeState, entry.collection)
-
-    const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [])
+    const monthAsTable = useFillMonth(state.year, state.month)
 
     const navigateToViewByDay = (date) => {
         globalDispatch(setList())
@@ -177,8 +133,3 @@ export default function CalendarView() {
     </>
   )
 }
-
-/*
-(new Date(entry.dateEnd).getDate() === monthAsTable[dayIndex].day) && 
-                                        (new Date(entry.dateEnd).getMonth() + 1 === monthAsTable[dayIndex].month)
-*/

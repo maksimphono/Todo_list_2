@@ -80,6 +80,16 @@ import { TodoRecordsListByDay } from './pages/Home/TodoRecordsList'
 function App() {
   const [count, setCount] = useState(0)
 
+  useEffect(() => {
+    Array.range = (start, stop, step = 1) => {
+      return Array.from((function* () {
+          for (let i = start; i < stop; i += step) {
+              yield i
+          }
+      })())
+  }
+  }, [])
+
   return (
     <Provider store = {store}>
     
