@@ -147,14 +147,19 @@ export default function CalendarView() {
                             <td key = {key}
                                 title = {(isToday(monthAsTable[dayIndex]))?"today":""}
                                 onClick = {() => navigateToViewByDay(dateToNavigateTo)}>
-                                <span>{monthAsTable[dayIndex].getDate()}</span>
+                                <span className = {style["day"]}>{monthAsTable[dayIndex].getDate()}</span>
                                 {todoRecords
                                     .filter(entry => (
                                         new Date(entry.dateEnd).getTime() === monthAsTable[dayIndex].getTime()
                                     )
                                     )
                                     .map(entry => (
-                                        <div style = {{background : selectCollectionByTodoRecord(entry).color}}></div>
+                                        <span 
+                                            className = {style["todo_record"]} 
+                                            style = {{background : selectCollectionByTodoRecord(entry).color}
+                                        }>
+                                            {entry.title}
+                                        </span>
                                     ))}
                             </td>
                             )}
