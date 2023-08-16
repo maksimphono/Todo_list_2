@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useReducer, useState, useRef, useCallback } from 'react'
 
-import style from "../styles/Calendar.module.scss"
 import { useDispatch, useSelector } from 'react-redux'
+
+// style
+import style from "../styles/Calendar.module.scss"
 
 Array.range = (start, stop, step = 1) => {
     return Array.from((function* () {
@@ -10,6 +12,7 @@ Array.range = (start, stop, step = 1) => {
         }
     })())
 }
+
 
 function fillMonth(year, month) {
     let monthAsTable = []

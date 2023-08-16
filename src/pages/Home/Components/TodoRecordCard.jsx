@@ -2,20 +2,18 @@ import React, { useEffect, useRef, useMemo, useState, useTransition, useContext 
 
 import {removeOneTodoRecord} from "../../../Context/Redux/utilities"
 
-import { store } from '../../../Context/Redux/store';
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice';
 import { NavLink } from 'react-router-dom';
-import { selectTodoRecordsById } from '../../../Context/Redux/todoRecordsSlice';
 
+import modalContext from '../../../Context/modalContext';
 
+import { useDispatch, useSelector } from 'react-redux';
+import useReduxStoreState from '../../../hooks/useReduxStoreState';
 
 // <styles>
 import style from "../styles/TodoRecordCard.module.scss";
-import { useDispatch, useSelector } from 'react-redux';
 
 // </styles>
-
-import modalContext from '../../../Context/modalContext';
 
 function CardControlBtns({todoRecordId, collectionId}) {
   const dispatch = useDispatch();
@@ -40,19 +38,19 @@ function CardControlBtns({todoRecordId, collectionId}) {
 
 function DateStamp({date}) {
   const newDate = useMemo(() => {
-    const dayOfWeeks = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     const convertedDate = new Date(date)
     
     return convertedDate.toString().slice(0, 15)
   }, [])
-  
+
   return (
     <span className ={style["date-stamp"]}>{newDate}</span>
   )
 }
 
 export default function TodoRecordCard({cardData}) {
-  const todoCollection = useSelector(() => selectCollectionRecordsById(store.getState(), cardData.collection))
+  const storeState = useReduxStoreState()
+  const todoCollection = useSelector(() => selectCollectionRecordsById(storeState, cardData.collection))
   const textColor = useMemo(() => ((parseInt(todoCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [todoCollection])
 
   const newCardData = useMemo(() => {
