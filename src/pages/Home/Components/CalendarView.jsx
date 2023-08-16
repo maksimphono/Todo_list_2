@@ -104,16 +104,10 @@ function useStoreState() {
 
 import { switchView, setCalendar, setList } from '../homePageViewModeSlice'
 
-export default function CalendarView() {
-    const [state, dispatch] = useReducer(dateReducer, {
-        __proto__ : null, 
-        month : +(new Date().getMonth()),
-        year : +(new Date().getFullYear())
-    })
-
+function useFilteredSortedRecords({filterDeadline} = {filterDeadline : false}) {
     const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
     const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
-    
+
     const sortingFunction = useCallback((a, b) => {
         if (todoRecordsSortParams.parameter == null) 
             // if sorting is disabled (not set or was reset)
@@ -135,11 +129,11 @@ export default function CalendarView() {
         }
     }, [todoRecordsSortParams.parameter, todoRecordsSortParams.reversed])
 
-    const todoRecords = useSelector((state) => {
+    return useSelector((state) => {
         let resultList = null
 
         resultList = selectAllTodoRecords(state)
-        //console.dir(todoRecordsFilters.filtersEnabled)
+
         if (todoRecordsFilters.filtersEnabled) {
             resultList = resultList
                 .filter(record => [
@@ -152,14 +146,16 @@ export default function CalendarView() {
         }
         return resultList.sort(sortingFunction)
     })
+}
 
-    /*
-    const todoRecords = useSelector(globalState => {
-        return selectAllTodoRecords(globalState)
-            .filter()
-
+export default function CalendarView() {
+    const [state, dispatch] = useReducer(dateReducer, {
+        __proto__ : null, 
+        month : +(new Date().getMonth()),
+        year : +(new Date().getFullYear())
     })
-    */
+
+    const todoRecords = useFilteredSortedRecords()
 
     const navigate = useNavigate()
 

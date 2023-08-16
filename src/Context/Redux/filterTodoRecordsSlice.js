@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {__proxy__ : null, filtersEnabled : false}
+const initialState = {__proto__ : null, filtersEnabled : false}
 
 const filtersSlice = createSlice({
     name : "filterTodoRecords",
