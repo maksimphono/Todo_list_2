@@ -20,8 +20,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { viewModeList, viewModeCalendar, switchView, setCalendar } from './homePageViewModeSlice';
 
-//export const { homePageViewModeReducer } = homePageViewModeSlice.reducer
-
 export function TodoRecordsListByDay() {
     const navigate = useNavigate()
     const dispatch = useDispatch()

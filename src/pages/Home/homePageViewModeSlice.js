@@ -22,5 +22,4 @@ const homePageViewModeSlice = createSlice({
 export const switchView = homePageViewModeSlice.actions.switch
 export const { setCalendar, setList } = homePageViewModeSlice.actions
 
-
 export default homePageViewModeSlice.reducer

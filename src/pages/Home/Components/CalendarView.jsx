@@ -110,7 +110,56 @@ export default function CalendarView() {
         month : +(new Date().getMonth()),
         year : +(new Date().getFullYear())
     })
-    const todoRecords = useSelector(globalState => selectAllTodoRecords(globalState).filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
+
+    const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
+    const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
+    
+    const sortingFunction = useCallback((a, b) => {
+        if (todoRecordsSortParams.parameter == null) 
+            // if sorting is disabled (not set or was reset)
+            return a.id.localeCompare(b.id) // just compare ids
+
+        let [comparableA, comparableB] = [a, b]
+
+        if (todoRecordsSortParams.reversed) {
+            comparableA = b
+            comparableB = a
+        }
+        switch (todoRecordsSortParams.parameter) {
+            case "dateEnd":
+                return new Date(comparableA.dateEnd) - new Date(comparableB.dateEnd)
+            case ("collection"):
+                return comparableA.collection.localeCompare(comparableB.collection)
+            case ("title"):
+                return comparableA.title.localeCompare(comparableB.title)
+        }
+    }, [todoRecordsSortParams.parameter, todoRecordsSortParams.reversed])
+
+    const todoRecords = useSelector((state) => {
+        let resultList = null
+
+        resultList = selectAllTodoRecords(state)
+        //console.dir(todoRecordsFilters.filtersEnabled)
+        if (todoRecordsFilters.filtersEnabled) {
+            resultList = resultList
+                .filter(record => [
+                    record => new Date(record.dateEnd).getFullYear() === state.year && new Date(record.dateEnd).getMonth() === state.month,
+                    record.title.includes(todoRecordsFilters.searchFieldValue), // todo record title contains inputted string
+                    todoRecordsFilters.selectedCollectionIds[record.collection] // todo record belongs to one of selected collections
+                    ].every(v => !!v)
+                )
+                
+        }
+        return resultList.sort(sortingFunction)
+    })
+
+    /*
+    const todoRecords = useSelector(globalState => {
+        return selectAllTodoRecords(globalState)
+            .filter()
+
+    })
+    */
 
     const navigate = useNavigate()
 
