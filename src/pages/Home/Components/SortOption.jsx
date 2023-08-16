@@ -1,6 +1,4 @@
-import React, { useCallback } from 'react'
-import { useMemo } from 'react'
-import { useId } from 'react'
+import React, { useCallback, useEffect, useMemo, useId } from 'react'
 import { createSlice } from '@reduxjs/toolkit'
 
 import style from "../styles/SortOption.module.scss"
@@ -52,8 +50,6 @@ const parameterItems = [
     {title : "Title", name : "title"}, 
     {title : "collection", name : "collection"}
 ]
-
-import { useEffect } from 'react'
 
 export default function SortOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formSlice.getInitialState())

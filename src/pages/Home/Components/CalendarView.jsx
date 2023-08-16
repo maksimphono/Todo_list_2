@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useReducer, useState, useRef, useCallback } 
 
 import style from "../styles/Calendar.module.scss"
 import { createSlice } from '@reduxjs/toolkit'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 Array.range = (start, stop, step = 1) => {
     return Array.from((function* () {
@@ -102,6 +102,8 @@ function useStoreState() {
     return useSelector(state => state)
 }
 
+import { switchView, setCalendar, setList } from '../homePageViewModeSlice'
+
 export default function CalendarView() {
     const [state, dispatch] = useReducer(dateReducer, {
         __proto__ : null, 
@@ -112,12 +114,16 @@ export default function CalendarView() {
 
     const navigate = useNavigate()
 
+    const globalDispatch = useDispatch()
     const storeState = useStoreState()
     const selectCollectionByTodoRecord = (entry) => selectCollectionRecordsById(storeState, entry.collection)
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [])
 
-    const navigateToViewByDay = (date) => navigate(`records_by_date/${date.toISOString()}`)
+    const navigateToViewByDay = (date) => {
+        globalDispatch(setList())
+        navigate(`records_by_date/${date.toISOString()}`)
+    }
 
     let dayIndex = -1
 

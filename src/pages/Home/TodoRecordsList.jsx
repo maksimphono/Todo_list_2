@@ -16,21 +16,23 @@ import { selectAllCollectionRecords } from '../../Context/Redux/todoCollectionsS
 import { store } from '../../Context/Redux/store';
  
 import CalendarView from './Components/CalendarView';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export const viewModeList = Symbol("viewModeList")
-export const viewModeCalendar = Symbol("viewModeCalendar")
+import { viewModeList, viewModeCalendar, switchView, setCalendar } from './homePageViewModeSlice';
+
+//export const { homePageViewModeReducer } = homePageViewModeSlice.reducer
 
 export function TodoRecordsListByDay() {
-  const {date : specifiedDate} = useParams()
-  console.log("Date : ", specifiedDate)
-  
-  //const todoRecords = useSelector(state => state.todoRecords).filter(entry => new Date(entry.dateEnd).toLocaleString() === specifiedDate)
-  
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const switchViewMode = useCallback(() => {dispatch(setCalendar()); navigate("/")}, [])
+
+    const viewMode = useSelector(state => state.homePageViewMode)
+
   return (
     <>
       <div id = {style["todo_records"]}>
-        <Tooltip disableCalendar = {true}/>
+        <Tooltip viewMode = {viewMode} switchViewMode = {switchViewMode}/>
         <CardsRecordsCollectionByDay />
       </div>
     </>
@@ -38,14 +40,13 @@ export function TodoRecordsListByDay() {
 }
 
 export default function TodoRecordsList() {
-  const [viewMode, setViewMod] = useState(viewModeList)
+    const dispatch = useDispatch()
+    const switchViewMode = () => dispatch(switchView())
 
-  const switchViewMode = useCallback(() => setViewMod(mode => 
-      mode === viewModeCalendar?( viewModeList ):( viewModeCalendar )), 
-  [])
-  
-  return (
-    <>
+    const viewMode = useSelector(state => state.homePageViewMode)
+
+    return (
+      <>
       <div id = {style["todo_records"]}>
         <Tooltip viewMode = {viewMode} switchViewMode = {switchViewMode}/>
         {(viewMode === viewModeList)?
