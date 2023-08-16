@@ -11,82 +11,19 @@
 
 import React, { useEffect, useId, useMemo, useReducer, useRef, useState, createContext, useContext } from 'react'
 
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAllCollectionRecords, selectCollectionRecordsById, selectCollectionRecordsIds } from '../../../Context/Redux/todoCollectionsSlice';
+import { setFilters, resetFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
+import useReduxStoreState from '../../../hooks/useReduxStoreState';
+
+import useFormSlice, { useInitSlice } from '../hooks/useFilterParametersFormSlice';
+
 import DatePicker from 'react-datepicker';
 // <styles>
 import style from "../styles/FiltersOption.module.scss"
 import styled_buttons from "../../../buttons.module.scss"
 
-import { createSlice } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAllCollectionRecords, selectCollectionRecordsById, selectCollectionRecordsIds } from '../../../Context/Redux/todoCollectionsSlice';
-import { store } from '../../../Context/Redux/store';
-import { setFilters, resetFilters } from '../../../Context/Redux/filterTodoRecordsSlice';
-import useReduxStoreState from '../../../hooks/useReduxStoreState';
-
-const formData = {
-    __proto__ : null,
-    selectedEndDateTo : "",
-    selectedEndDateFrom : "",
-    selectedCollectionIds : Object.create(null),
-    searchFieldValue : ""
-}
-
-function useFormSlice() {
-    const storeState = useReduxStoreState()
-
-    const slice = useMemo(() => createSlice({
-        name : "formSlice",
-        initialState : formData,
-        reducers : {
-            init : (state, action) => {
-                const filtersInStore = storeState.filterTodoRecords
-                const newState = {}
-    
-                if (!filtersInStore.filtersEnabled)
-                    return formData
-                
-                for (let field in filtersInStore) {
-                    newState[field] = filtersInStore[field]
-                }
-                newState.selectedEndDateTo = (newState?.selectedEndDateTo)?(new Date(newState?.selectedEndDateTo)):""
-                newState.selectedEndDateFrom = (newState?.selectedEndDateFrom)?(new Date(newState?.selectedEndDateFrom)):""
-                return newState
-            },
-            setSearchFieldValue : (state, action) => {
-                return {...state, searchFieldValue : action.payload}
-            },
-            setEndDateTo : (state, action) => {
-                return {...state, selectedEndDateTo : action.payload}
-            },
-            setEndDateFrom : (state, action) => {
-                return {...state, selectedEndDateFrom : action.payload}
-            },
-            setCollectionIds : (state, action) => {
-                const selectedCollectionIds = {...(state.selectedCollectionIds)}
-                if (selectedCollectionIds[action.payload]) {
-                    selectedCollectionIds[action.payload] = false
-                } else {
-                    selectedCollectionIds[action.payload] = true
-                }
-                return {...state, selectedCollectionIds};
-            },
-            setAllCollectionIds : (state, action) => {
-                const selectedCollectionIds = {...(state.selectedCollectionIds)}
-                for (let id of action.payload.ids) {
-                    selectedCollectionIds[id] = !!action.payload.value;
-                }
-                return {...state, selectedCollectionIds}
-            },
-            resetData : (state, action) => {
-                return {...formData}
-            }
-        }
-    }), [])
-
-    return slice
-}
-
-// context so every inner component can get access to that form data
+// context will be used so every inner component can get access to that form data
 const FormContext = createContext()
 
 function SelectCollections() {
@@ -132,12 +69,6 @@ function SelectCollections() {
             </details>
         </label>
     )
-}
-
-function useInitSlice(dispatch, slice) {
-    useEffect(() => {
-        dispatch(slice.actions.init());
-    }, [])
 }
 
 export default function FiltersOption() {
