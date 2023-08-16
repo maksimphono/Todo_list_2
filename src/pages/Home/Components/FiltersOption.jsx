@@ -34,6 +34,20 @@ const formSlice = createSlice({
     name : "formSlice",
     initialState : formData,
     reducers : {
+        init : (state, action) => {
+            const filtersInStore = store.getState().filterTodoRecords
+            const newState = {}
+
+            if (!filtersInStore.filtersEnabled)
+                return formData
+            
+            for (let field in filtersInStore) {
+                newState[field] = filtersInStore[field]
+            }
+            newState.selectedEndDateTo = (newState?.selectedEndDateTo)?(new Date(newState?.selectedEndDateTo)):""
+            newState.selectedEndDateFrom = (newState?.selectedEndDateFrom)?(new Date(newState?.selectedEndDateFrom)):""
+            return newState
+        },
         setSearchFieldValue : (state, action) => {
             return {...state, searchFieldValue : action.payload}
         },
@@ -117,6 +131,12 @@ export default function FiltersOption() {
     const globalDispatch = useDispatch();
     const searchFieldRef = useRef(null);
 
+    useEffect(() => {
+        dispatch(formSlice.actions.init());
+        console.log("Filters:")
+        console.dir(state)
+    }, [])
+
     const handleApplyfilters = event => {
         event.preventDefault()
         globalDispatch(setFilters(JSON.parse(JSON.stringify(state))))
@@ -140,14 +160,17 @@ export default function FiltersOption() {
     
     useEffect(() => {
         //console.log("Set true")
-        dispatch(
-            formSlice.actions
-                .setAllCollectionIds({
-                    value : true,
-                    ids : selectCollectionRecordsIds(store.getState())
-                }
+        if (!store.getState().filterTodoRecords.filtersEnabled) {
+            dispatch(
+                formSlice.actions
+                    .setAllCollectionIds({
+                        value : true,
+                        ids : selectCollectionRecordsIds(store.getState())
+                    }
+                )
             )
-        )
+        }
+        
     }, [todoLoadStatus, collectionsLoadStatus])
 
     return (
@@ -174,7 +197,7 @@ export default function FiltersOption() {
                     <DatePicker
                         selected = {state.selectedEndDateFrom}
                         onChange = {(date) => dispatch(formSlice.actions.setEndDateFrom(date))}
-                        dateFormat = "dd.MM.yyyy"
+                        dateFormat = "dd-MM-yyyy"
                         placeholderText='Select a Date'
                     />
                     <button 
@@ -190,7 +213,7 @@ export default function FiltersOption() {
                     <DatePicker
                         selected = {state.selectedEndDateTo}
                         onChange = {(date) => dispatch(formSlice.actions.setEndDateTo(date))}
-                        dateFormat = "dd.MM.yyyy"
+                        dateFormat = "dd-MM-yyyy"
                         placeholderText='Select a Date'
                     />
                     <button 

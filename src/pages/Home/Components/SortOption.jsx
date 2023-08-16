@@ -16,6 +16,14 @@ const formSlice = createSlice({
     name : "sortParametersForm",
     initialState : formData,
     reducers : {
+        init : (state, action) => {
+            const globalState = store.getState().sortTodoRecords
+            
+            if (globalState.parameter == null)
+                return formData
+            else
+                return globalState
+        },
         setParameter : (state, action) => {
             return {
                 ...state, 
@@ -37,6 +45,7 @@ const formSlice = createSlice({
 import { setSortParams, resetSortParams } from '../../../Context/Redux/sortTodoRecordsSlice'
 import { useReducer } from 'react'
 import { useDispatch } from 'react-redux'
+import { store } from '../../../Context/Redux/store'
 
 const parameterItems = [
     {title : "Date", name : "dateEnd"}, 
@@ -44,11 +53,17 @@ const parameterItems = [
     {title : "collection", name : "collection"}
 ]
 
+import { useEffect } from 'react'
+
 export default function SortOption() {
     const [state, dispatch] = useReducer(formSlice.reducer, formSlice.getInitialState())
     const globalDispatch = useDispatch()
     const namePrefix = useId()
     const parameterRadioName = useMemo(() => namePrefix + "sort_parameter", []) 
+
+    useEffect(() => {
+        dispatch(formSlice.actions.init())
+    }, [])
 
     const handleSubmit = useCallback(event => {
         event.preventDefault()
