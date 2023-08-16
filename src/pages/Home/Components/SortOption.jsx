@@ -1,72 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useId } from 'react'
-import { createSlice } from '@reduxjs/toolkit'
-
-import style from "../styles/SortOption.module.scss"
-import styled_buttons from "../../../buttons.module.scss"
-
-const formData = {
-    __proto__ : null,
-    reversed : false,
-    parameter : null
-}
-
-function useFormSlice() {
-    const storeState = useReduxStoreState()
-    let slice = useMemo(() => {
-        return createSlice({
-            name : "sortParametersForm",
-            initialState : formData,
-            reducers : {
-                init : (state, action) => {
-                    const globalState = storeState.sortTodoRecords
-    
-                    if (globalState.parameter == null)
-                        return formData
-                    else
-                        return globalState
-                },
-                setParameter : (state, action) => {
-                    return {
-                        ...state, 
-                        parameter : action.payload
-                    }
-                },
-                setReversed : (state, action) => {
-                    return {
-                        ...state,
-                        reversed : action.payload
-                    }
-                },
-                reset : () => {
-                    return {...formData}
-                }
-            }
-        })
-    }, [])
-
-    return slice
-}
 
 import { setSortParams, resetSortParams } from '../../../Context/Redux/sortTodoRecordsSlice'
 import { useReducer } from 'react'
 import { useDispatch } from 'react-redux'
-import { store } from '../../../Context/Redux/store'
-import useReduxStoreState from '../../../hooks/useReduxStoreState'
+
+import useFormSlice from '../hooks/useSortParametersFormSlice'
+import useSliceInit from '../hooks/useSliceInit'
+
+// styles
+import style from "../styles/SortOption.module.scss"
+import styled_buttons from "../../../buttons.module.scss"
 
 const parameterItems = [
     {title : "Date", name : "dateEnd"}, 
     {title : "Title", name : "title"}, 
     {title : "collection", name : "collection"}
 ]
-
-function useInitSortSlice() {
-    const formSlice = useFormSlice()
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(formSlice.actions.init())
-    }, [])
-}
 
 export default function SortOption() {
     const formSlice = useFormSlice()
@@ -75,11 +24,7 @@ export default function SortOption() {
     const namePrefix = useId()
     const parameterRadioName = useMemo(() => namePrefix + "sort_parameter", []) 
 
-    //useInitSortSlice()
-    
-    useEffect(() => {
-        dispatch(formSlice.actions.init())
-    }, [])
+    useSliceInit(dispatch, formSlice)
 
     const handleSubmit = useCallback(event => {
         event.preventDefault()
