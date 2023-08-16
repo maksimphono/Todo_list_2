@@ -45,10 +45,9 @@ export default function NewTodoRecord() {
 
   }, [selectedTodoRecord])
 
-  const addNewTodoRecord = useCallback(async event => {
+  const alterTodoRecord = useCallback(async event => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    //const newDate = ((new Date(selectedEndDate)).toString() == "Invalid Date")?selectedTodoRecord.dateEnd:(new Date(selectedEndDate)).toString()
     const alteredTodoRecord = {
       id : selectedTodoRecord.id,
       title : formData.get("title"),
@@ -84,7 +83,7 @@ export default function NewTodoRecord() {
         <div id = {style["checkout_todo_record"]}>
             <Tooltip />
 
-            <form onSubmit={addNewTodoRecord}>
+            <form onSubmit={alterTodoRecord}>
 
               <label className = {style["record-title"]}>
                 <h2>Title:</h2>

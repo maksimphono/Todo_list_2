@@ -89,6 +89,8 @@
             height: auto;
 
             td {
+                $border-radius: 10px;
+
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -96,30 +98,29 @@
                 height: auto;
                 gap: 0;
                 border: 2px solid $color-dark;
-                border-radius: 10px;
+                outline: none;
+                border-radius: $border-radius;
                 cursor: pointer;
                 overflow: hidden;
 
-                &:hover {
-                    span {
-                        transform: scale(2) translateX(-25%) translateY(-25%);
-                    }
+                &[title='today'] {
+                    border: 3px solid red;
                 }
+
 
                 span {
                     position: absolute;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    top: 50%;
-                    left: 50%;
-                    transform: translateX(-50%) translateY(-50%);
+                    top: 0;
+                    right: 0;
                     padding: 3px;
                     height: 26px;
                     aspect-ratio: 1/1;
                     border: none;
                     background-color: #fff;
-                    border-radius: 50%;
+                    border-bottom-left-radius: $border-radius;
                     box-shadow: 0 0 5px $color-dark;
                     overflow: hidden;
                     transition: .5s;

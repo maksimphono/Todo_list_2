@@ -56,14 +56,12 @@ export default function TodoRecordCard({cardData}) {
   const textColor = useMemo(() => ((parseInt(todoCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [todoCollection])
 
   const newCardData = useMemo(() => {
-    console.dir(cardData)
-    if (1)
       return {
-        id : cardData.id,
-        title : cardData?.title || "Title",
-        dateEnd : cardData?.dateEnd || new Date().toString(),
-        collection : cardData?.collection || "Collection",
-        content : cardData?.content || "Lorem ipsum dolor sit amet consectetur adipisicing elit. At nisi facilis praesentium reprehenderit facere vero quis debitis iste, vel, accusantium sit velit non hic fugiat soluta nemo maxime impedit iure!"
+          id : cardData.id,
+          title : cardData?.title || "Title",
+          dateEnd : cardData?.dateEnd || new Date().toLocaleString(),
+          collection : cardData?.collection || "Collection",
+          content : cardData?.content || "Lorem ipsum dolor sit amet consectetur adipisicing elit. At nisi facilis praesentium reprehenderit facere vero quis debitis iste, vel, accusantium sit velit non hic fugiat soluta nemo maxime impedit iure!"
       }
   }, [cardData.id, cardData.title, cardData.dateEnd, cardData.collection, cardData.content])
 

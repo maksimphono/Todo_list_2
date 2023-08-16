@@ -47,6 +47,15 @@ function fillMonth(year, month) {
     return monthAsTable
 }
 
+function isToday(date) {
+    let _date = date
+    const today = new Date()
+    if (!(_date instanceof Date)) {
+        _date = new Date(_date)
+    }
+    return ([_date.getDate() === today.getDate(), _date.getMonth() === today.getMonth(), _date.getFullYear() === today.getFullYear()].every(v => !!v))
+}
+
 const monthsNames = "January February March April May June July August September October November December".split(" ")
 
 const incMonth = Symbol("incMonth")
@@ -88,7 +97,6 @@ function dateReducer(state, action) {
 import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
 import { useNavigate } from 'react-router-dom'
-import { store } from '../../../Context/Redux/store'
 
 function useStoreState() {
     return useSelector(state => state)
@@ -102,13 +110,9 @@ export default function CalendarView() {
     })
     const todoRecords = useSelector(globalState => selectAllTodoRecords(globalState).filter(entry => new Date(entry.dateEnd).getFullYear() === state.year && new Date(entry.dateEnd).getMonth() === state.month))
 
-    //console.log("Todos : ")
-    //console.table(todoRecords)
-
     const navigate = useNavigate()
 
     const storeState = useStoreState()
-    //const selectCollectionByTodoRecord = useSelectorById([state.year, state.month])
     const selectCollectionByTodoRecord = (entry) => selectCollectionRecordsById(storeState, entry.collection)
 
     const monthAsTable = useMemo(() => fillMonth(state.year, state.month + 1), [])
@@ -140,7 +144,9 @@ export default function CalendarView() {
                             dayIndex++
                             const dateToNavigateTo = monthAsTable[dayIndex]
                             return ( 
-                            <td key = {key} onClick = {() => navigateToViewByDay(dateToNavigateTo)}>
+                            <td key = {key}
+                                title = {(isToday(monthAsTable[dayIndex]))?"today":""}
+                                onClick = {() => navigateToViewByDay(dateToNavigateTo)}>
                                 <span>{monthAsTable[dayIndex].getDate()}</span>
                                 {todoRecords
                                     .filter(entry => (
