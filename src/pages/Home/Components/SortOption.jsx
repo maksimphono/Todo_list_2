@@ -10,35 +10,42 @@ const formData = {
     parameter : null
 }
 
-const formSlice = createSlice({
-    name : "sortParametersForm",
-    initialState : formData,
-    reducers : {
-        init : (state, action) => {
-            const globalState = store.getState().sortTodoRecords
-            
-            if (globalState.parameter == null)
-                return formData
-            else
-                return globalState
-        },
-        setParameter : (state, action) => {
-            return {
-                ...state, 
-                parameter : action.payload
+function useFormSlice() {
+    const storeState = useReduxStoreState()
+    let slice = useMemo(() => {
+        return createSlice({
+            name : "sortParametersForm",
+            initialState : formData,
+            reducers : {
+                init : (state, action) => {
+                    const globalState = storeState.sortTodoRecords
+    
+                    if (globalState.parameter == null)
+                        return formData
+                    else
+                        return globalState
+                },
+                setParameter : (state, action) => {
+                    return {
+                        ...state, 
+                        parameter : action.payload
+                    }
+                },
+                setReversed : (state, action) => {
+                    return {
+                        ...state,
+                        reversed : action.payload
+                    }
+                },
+                reset : () => {
+                    return {...formData}
+                }
             }
-        },
-        setReversed : (state, action) => {
-            return {
-                ...state,
-                reversed : action.payload
-            }
-        },
-        reset : () => {
-            return {...formData}
-        }
-    }
-})
+        })
+    }, [])
+
+    return slice
+}
 
 import { setSortParams, resetSortParams } from '../../../Context/Redux/sortTodoRecordsSlice'
 import { useReducer } from 'react'
@@ -52,19 +59,24 @@ const parameterItems = [
     {title : "collection", name : "collection"}
 ]
 
-function useInitSortSlice(dispatch) {
-    const state = useReduxStoreState()
+function useInitSortSlice() {
+    const formSlice = useFormSlice()
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        dispatch(formSlice.actions.init(state))
+        dispatch(formSlice.actions.init())
     }, [])
 }
 
 export default function SortOption() {
+    const formSlice = useFormSlice()
     const [state, dispatch] = useReducer(formSlice.reducer, formSlice.getInitialState())
     const globalDispatch = useDispatch()
     const namePrefix = useId()
     const parameterRadioName = useMemo(() => namePrefix + "sort_parameter", []) 
 
+    //useInitSortSlice()
+    
     useEffect(() => {
         dispatch(formSlice.actions.init())
     }, [])
