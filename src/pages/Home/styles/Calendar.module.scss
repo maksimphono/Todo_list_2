@@ -76,15 +76,16 @@
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(6, 1fr);
-        gap: 1px;
+        gap: 0px;
         width: 100%;
         max-height: 100%;
-        border-radius: 10px;
+        //border-radius: 10px;
+        border: 1px solid $color-dark;
 
         tr {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
+            gap: 0px;
             width: 100%;
             height: auto;
 
@@ -96,18 +97,23 @@
                 grid-template-rows: repeat(3, 1fr);
                 width: auto;
                 height: auto;
+                min-height: 90px;
                 padding-top: 28px;
                 gap: 0;
-                border: 2px solid $color-dark;
+                border: 1px solid $color-dark;
                 outline: none;
-                border-radius: $border-radius;
+                //border-radius: $border-radius;
                 cursor: pointer;
                 overflow: hidden;
+                transition: .5s;
 
                 &[title='today'] {
                     border: 3px solid red;
                 }
 
+                &:hover {
+                    background-color: $color4;
+                }
 
                 span.day {
                     position: absolute;
