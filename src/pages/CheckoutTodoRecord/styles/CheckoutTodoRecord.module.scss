@@ -18,11 +18,11 @@
         display: grid;
         grid-template-columns: repeat(6, 1fr);
         height: auto;
-        width: 100%;
-        gap: 10px;
+        width: 80%;
+        column-gap: 10px;
         padding: max(1%, 10px);
 
-        & input, button, a, p, select {
+        & button, a {
             box-shadow: 0 0px 3px #000;
         }
         
@@ -52,7 +52,7 @@
                 color: $color-dark;
                 background-color: #ddd;
                 border: none;
-                border-radius: 15px;
+                border-radius: 15px 15px 0 0;
             }
             
         }
@@ -141,15 +141,23 @@
         }
     }
 
+    @media screen and (max-width : $query-tablet-width) {
+        & > form {
+            width: 90%;
+        }
+    }
+
     @media screen and (max-width : $query-phone-width) {
         grid-template-rows: 1fr auto auto;
 
         & > form {
+            width: 100%;
+
             & > button, & > a {
                 width: 70%;
 
                 &:not(&.success-btn) {
-                    margin-top: 0;
+                    margin-top: 10px;
                 }
 
                 &.success-btn {

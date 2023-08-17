@@ -86,12 +86,10 @@ export default function NewTodoRecord() {
             <form onSubmit={alterTodoRecord}>
 
               <label className = {style["record-title"]}>
-                <h2>Title:</h2>
                 <input name = "title" type="text" defaultValue={selectedTodoRecord?.title || ""} />
               </label>
 
               <label className = {style["record-content"]}>
-                <h2>Content:</h2>              
                 <EditableField defaultValue = {selectedTodoRecord?.content} ref = {contentRef}/>
               </label>
 
