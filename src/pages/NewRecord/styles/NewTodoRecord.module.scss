@@ -18,14 +18,10 @@
         display: grid;
         grid-template-columns: repeat(6, 1fr);
         height: auto;
-        width: 100%;
-        gap: 10px;
+        width: 80%;
+        column-gap: 15px;
         padding: max(1%, 10px);
 
-        & input, button, a, p, select {
-            box-shadow: 0 0px 3px #000;
-        }
-        
         & > label {
             font-family: Arial, Helvetica, sans-serif;
             font-size: large;
@@ -33,11 +29,13 @@
 
         & > label.record-title,
         & > label.record-content {
+            position: relative;
             grid-column: 1/span 6;
             display: flex;
             flex-direction: column;
             font-family: Arial, Helvetica, sans-serif;
             font-size: large;
+            
             & > h2 {
                 padding: 5px 10px;
             }
@@ -45,6 +43,7 @@
         & > label.record-title {
 
             & > input {
+                all: unset;
                 height: auto;
                 padding: 10px 20px;
                 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -52,7 +51,7 @@
                 color: $color-dark;
                 background-color: #ddd;
                 border: none;
-                border-radius: 15px;
+                border-radius: 15px 15px 0 0;
             }
             
         }
@@ -108,6 +107,7 @@
             font-family: Arial, Helvetica, sans-serif;
             font-size: 20px;
             text-decoration: none;
+            box-shadow: 0 0 6px $color-dark;
             color: $color-dark;
             transition: .5s;
             cursor: pointer;
@@ -135,10 +135,17 @@
         }
     }
 
+    @media screen and (max-width : $query-tablet-width) {
+        & > form {
+            width: 90%;
+        }
+    }
+
     @media screen and (max-width : $query-phone-width) {
         grid-template-rows: 1fr auto auto;
 
         & > form {
+            width: 100%;
             & > button, & > a {
                 width: 70%;
 
@@ -150,7 +157,7 @@
                 &.secondary-btn {
                     justify-self: center;
                     grid-column: 1/span 6;
-                    margin-top: 0;
+                    //margin-top: 0;
                     //grid-row: 3/4;
                 }
             }
