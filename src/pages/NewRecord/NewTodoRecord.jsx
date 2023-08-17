@@ -64,12 +64,10 @@ export default function NewTodoRecord() {
             <form onSubmit={addNewTodoRecord}>
 
               <label className = {style["record-title"]}>
-                <h2>Title:</h2>
-                <input name = "title" type="text" />
+                <input name = "title" placeholder = "Title" type="text" />
               </label>
 
               <label className = {style["record-content"]}>
-                <h2>Content:</h2>              
                 <EditableField ref = {contentRef}/>
               </label>
 
