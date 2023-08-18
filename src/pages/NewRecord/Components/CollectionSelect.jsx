@@ -12,7 +12,7 @@ import style from "../styles/CollectionSelect.module.scss"
 import SelectCollectionDropdown from './SelectCollectionDropdown';
 import modalContext from '../../../Context/modalContext';
 
-export default function CollectionSelect() {
+export default function CollectionSelect({onBlur}) {
   const {selectedTodosCollectionId} = useContext(selectedTodosCollectionContext)
   const {modalRef} = useContext(modalContext)
 
@@ -49,7 +49,7 @@ export default function CollectionSelect() {
         <h2>
             Collection
         </h2>
-        <details id = {detailsId} name="collection" onClick = {() => setOpen(v => !v)}>
+        <details onBlur={onBlur} id = {detailsId} name="collection" onClick = {() => setOpen(v => !v)}>
             <summary 
                 onClick = {() => setOpen(v => !v)}
                 style = {{

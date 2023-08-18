@@ -52,6 +52,10 @@
                 background-color: #ddd;
                 border: none;
                 border-radius: 15px 15px 0 0;
+
+                &[data-invalid='true'] {
+                    color: red;
+                }
             }
             
         }
@@ -146,6 +150,11 @@
 
         & > form {
             width: 100%;
+            
+            input, p {
+                font-size: medium !important;
+            }
+            
             & > button, & > a {
                 width: 70%;
 

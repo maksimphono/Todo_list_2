@@ -17,7 +17,7 @@ import { store } from "../../../Context/Redux/store";
 
 function CollectionOption({id}) {
     const dispatch = useDispatch();
-    const {setSelectedTodosCollectionId} = useContext(selectedTodosCollectionContext);
+    const {setSelectedTodosCollectionId, inputName} = useContext(selectedTodosCollectionContext);
     const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), id))
     const {modalRef} = useContext(modalContext)
 
@@ -64,8 +64,9 @@ function CollectionOption({id}) {
                   background : selectedCollection?.color || "#000",
                   borderTop: `1px solid #fff`
                 }}
-                name = "select-collection-item" 
-                type="radio" 
+                name = {inputName}
+                type="radio"
+                value = {id}
                 onClick = {event => setSelectedTodosCollectionId(id)} 
               />
             </label>

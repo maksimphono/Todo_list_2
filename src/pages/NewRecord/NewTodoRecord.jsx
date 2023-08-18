@@ -30,6 +30,8 @@ import {createTodoRecord} from "../../Context/Redux/utilities"
 
 import modalContext from '../../Context/modalContext';
 
+import { Formik } from 'formik';
+
 export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -63,42 +65,82 @@ export default function NewTodoRecord() {
 
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
 
+  const validateForm = useCallback(values => {
+      const errors = {__proto__ : null}
+      if (!values.title){
+          errors.title = "Title can not be empty!"
+      }
+      if (!selectedTodosCollectionId) {
+          errors.collection = "Collection must be specified!"
+      }
+      console.log("End", values.selectedEndDate)
+      if (!values.selectedEndDate) {
+          errors.dateEnd = "Deadline must be specified!"
+      }
+      console.table(errors)
+      return errors
+  }, [selectedTodosCollectionId, selectedEndDate])
+
   return (
     <>
         <div id = {style["new_todo_record"]}>
             <Tooltip />
 
-            <form onSubmit={addNewTodoRecord}>
+            <Formik
+              initialValues={{title : ""}}
+              validate = {validateForm}
+            >
+            {
+              ({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur
+              }) => (
+                <form onSubmit={addNewTodoRecord}>
 
               <label className = {style["record-title"]}>
-                <input name = "title" placeholder = "Title" type="text" />
+                <input 
+                  data-invalid = {!!(touched?.title && errors?.title)}
+                  name = "title"
+                  placeholder = {(touched?.title && errors?.title)?(errors?.title):"Title"}
+                  type="text" 
+                  value = {values.title} 
+                  onChange = {handleChange} 
+                  onBlur = {handleBlur}
+                  />
+                  
               </label>
 
               <label className = {style["record-content"]}>
                 <EditableField ref = {contentRef}/>
               </label>
 
-              <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId}}>
-                <CollectionSelect />
+              <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "select-collection-item"}}>
+                <CollectionSelect onBlur = {handleBlur}/>
               </selectedTodosCollectionContext.Provider>
               
 
               <label className = {style["end-date"]}>
                 <h2>End date</h2>
-                
+
+                {(errors?.dateEnd) && (touched?.dateEnd) && (<span className = {style["invalid"]}>{errors.dateEnd}</span>)}
                 <DatePicker
                   selected = {selectedEndDate}
-                  onChange = {setSelectedEndDate}
+                  onChange = {value => {handleChange({target : {name : "selectedEndDate", type : "date", value : value}}); setSelectedEndDate(value)}}
+                  onBlur = {() => {touched.dateEnd = true}}
                   dateFormat = "dd/MM/yyyy"
                   placeholderText='Select a Date'
-                ></DatePicker>  
+                ></DatePicker>
               </label>
-              
+
               <button className = {style["success-btn"]} type = "submit">Create</button>
               <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
             </form>
-
-            
+              )
+            }
+            </Formik>
             
         </div>
 
