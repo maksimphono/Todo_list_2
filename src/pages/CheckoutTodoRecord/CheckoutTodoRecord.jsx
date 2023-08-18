@@ -24,11 +24,17 @@ import style from "./styles/CheckoutTodoRecord.module.scss";
 export const selectedTodosCollectionContext = createContext()
 
 import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
-import { store } from '../../Context/Redux/store';
 
 import {removeOneTodoRecord, alterOneTodoRecord} from "../../Context/Redux/utilities"
 import modalContext from '../../Context/modalContext';
 
+import { todoRecordsStorageThunks } from '../../Context/Redux/todoRecordsSlice';
+import { collectionsRecordsThunks } from '../../Context/Redux/todoCollectionsSlice';
+
+function setInitialState(dispatch) {
+  dispatch(todoRecordsStorageThunks.loadAll())
+  dispatch(collectionsRecordsThunks.loadAll())
+}
 
 export default function NewTodoRecord() {
   const { id : todoRecordId } = useParams();
@@ -37,13 +43,18 @@ export default function NewTodoRecord() {
   const contentRef = useRef(null);
   const {notificationRef, confirmationRef} = useContext(modalContext)
 
+  const todoRecordsLoadStatus = useSelector(state => state.todoRecords.loadstatus)
+  const collectionsLoadStatus = useSelector(state => state.todoRecordsCollection.loadstatus)
+
+  useEffect(() => {
+         // only for tests, actifically add some records to state, so I don't have to add it manually
+      if (todoRecordsLoadStatus == "idle" && collectionsLoadStatus == "idle")
+        setInitialState(dispatch)
+  }, [])
+
   const selectedTodoRecord = useSelector(globalState => selectTodoRecordsById(globalState, todoRecordId))
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState(selectedTodoRecord?.collection)
   const [selectedEndDate, setSelectedEndDate] = useState(new Date(selectedTodoRecord?.dateEnd))
-
-  useEffect(() => {
-
-  }, [selectedTodoRecord])
 
   const alterTodoRecord = useCallback(async event => {
     event.preventDefault()
