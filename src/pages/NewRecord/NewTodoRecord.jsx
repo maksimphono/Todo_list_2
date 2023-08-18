@@ -129,7 +129,7 @@ export default function NewTodoRecord() {
                 <DatePicker
                   selected = {selectedEndDate}
                   onChange = {value => {handleChange({target : {name : "selectedEndDate", type : "date", value : value}}); setSelectedEndDate(value)}}
-                  onBlur = {() => {touched.dateEnd = true}}
+                  onBlur = {() => {handleChange({target : {name : "selectedEndDate", type : "date", value : selectedEndDate}}); touched.dateEnd = true}}
                   dateFormat = "dd/MM/yyyy"
                   placeholderText='Select a Date'
                 ></DatePicker>
