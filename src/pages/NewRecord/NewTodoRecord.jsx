@@ -70,7 +70,7 @@ export default function NewTodoRecord() {
       if (!values.title){
           errors.title = "Title can not be empty!"
       }
-      if (!selectedTodosCollectionId) {
+      if (!values.selectedTodosCollectionId) {
           errors.collection = "Collection must be specified!"
       }
       console.log("End", values.selectedEndDate)
@@ -118,7 +118,7 @@ export default function NewTodoRecord() {
               </label>
 
               <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "select-collection-item"}}>
-                <CollectionSelect onBlur = {handleBlur}/>
+                <CollectionSelect invalid = {!!(errors?.collection && touched?.collection)} onBlur = {() => {handleChange({target : {name : "selectedTodosCollectionId", type : "number", value : selectedTodosCollectionId}}); touched.collection = true}}/>
               </selectedTodosCollectionContext.Provider>
               
 

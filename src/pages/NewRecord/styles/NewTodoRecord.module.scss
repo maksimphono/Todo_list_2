@@ -75,7 +75,7 @@
             height: auto;
             z-index: 0;
 
-            &[data-invalid='true'] input {
+            &[data-invalid='true'] input[type='text'] {
                 font-size: medium;
                 color: red;
                 border: 2px solid $color-danger;

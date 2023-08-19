@@ -12,7 +12,7 @@ import style from "../styles/CollectionSelect.module.scss"
 import SelectCollectionDropdown from './SelectCollectionDropdown';
 import modalContext from '../../../Context/modalContext';
 
-export default function CollectionSelect({onBlur}) {
+export default function CollectionSelect({onBlur, invalid}) {
   const {selectedTodosCollectionId} = useContext(selectedTodosCollectionContext)
   const {modalRef} = useContext(modalContext)
 
@@ -45,7 +45,7 @@ export default function CollectionSelect({onBlur}) {
 
   return (
     <>
-    <label ref = {labelRef} htmlFor = {detailsId} className = {style["select-collection"]}>
+    <label data-invalid = {invalid} ref = {labelRef} htmlFor = {detailsId} className = {style["select-collection"]}>
         <h2>
             Collection
         </h2>
