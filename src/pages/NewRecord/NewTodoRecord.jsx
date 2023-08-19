@@ -122,16 +122,15 @@ export default function NewTodoRecord() {
               </selectedTodosCollectionContext.Provider>
               
 
-              <label className = {style["end-date"]}>
+              <label data-invalid = {!!(errors?.dateEnd && touched?.dateEnd)} className = {style["end-date"]}>
                 <h2>End date</h2>
 
-                {(errors?.dateEnd) && (touched?.dateEnd) && (<span className = {style["invalid"]}>{errors.dateEnd}</span>)}
                 <DatePicker
                   selected = {selectedEndDate}
                   onChange = {value => {handleChange({target : {name : "selectedEndDate", type : "date", value : value}}); setSelectedEndDate(value)}}
                   onBlur = {() => {handleChange({target : {name : "selectedEndDate", type : "date", value : selectedEndDate}}); touched.dateEnd = true}}
                   dateFormat = "dd/MM/yyyy"
-                  placeholderText='Select a Date'
+                  placeholderText={(errors?.dateEnd && touched?.dateEnd)?(errors.dateEnd):'Select a Date'}
                 ></DatePicker>
               </label>
 
