@@ -1,47 +1,51 @@
 import { useRef, useEffect, useContext, useCallback, forwardRef, useImperativeHandle, useId, useMemo } from "react";
 
 import NewCollectionForm from "./NewCollectionForm";
+import EditCollectionForm from "./EditCollectionForm";
 
 import {selectedTodosCollectionContext} from "../NewTodoRecord.jsx"
 import modalContext from "../../../Context/modalContext.js";
 
+import { selectAllCollectionRecords, selectCollectionRecordsById } from "../../../Context/Redux/todoCollectionsSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+import useReduxStoreState from "../../../hooks/useReduxStoreState"
+
 // styles
 import style from "../styles/SelectCollection.module.scss"//"../styles/SelectCollection.module.scss"
 import styled_buttons from "../../../buttons.module.scss";
-import { selectAllCollectionRecords, removeOne, selectCollectionRecordsById } from "../../../Context/Redux/todoCollectionsSlice";
-import { useDispatch, useSelector } from "react-redux";
 
-import EditCollectionForm from "./EditCollectionForm";
-import { store } from "../../../Context/Redux/store";
-
+const COLLECTION_DELETION_WARNING = "Warning! After deleting a collection, all todo records, belonging to that collection will be deleted as well!\nProceed?"
+const COLLECTION_DELETION_SUCCESS = "Collection deleted"
+const ACTION_CANCELED = "Action canceled"
 
 function CollectionOption({id, onChange, onBlur}) {
+    const storeState = useReduxStoreState()
     const dispatch = useDispatch();
     const {setSelectedTodosCollectionId, inputName} = useContext(selectedTodosCollectionContext);
-    const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), id))
+    const selectedCollection = useSelector(() => selectCollectionRecordsById(storeState, id))
     const {modalRef} = useContext(modalContext)
 
     const editCollectionFormId = useId()
     const radioInput = useRef(null);
     const textColor = useMemo(() => ((parseInt(selectedCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
-    const borderColor = useMemo(() => ((parseInt(selectedCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [selectedCollection?.color])
 
     const handleRemoveCollection = useCallback(async (collectionId) => {      
       try {
-        await confirmationRef.current.show("Warning! After deleting a collection, all todo records, belonging to that collection will be deleted as well!\nProceed?")
-        await removeOneCollectionRecord({dispatch, id : collectionId, state : store.getState()})
-        notificationRef.current.pop({variant : "info", text : "Collection deleted"})
+        await confirmationRef.current.show(COLLECTION_DELETION_WARNING)
+        await removeOneCollectionRecord({dispatch, id : collectionId, state : storeState})
+        notificationRef.current.pop({variant : "info", text : COLLECTION_DELETION_SUCCESS})
         modalRef.current.close()
       } catch (error) {
         modalRef.current.close()
         if (error === Refused) {
-          notificationRef.current.pop({variant : "info", text : "Action refused"})
+          notificationRef.current.pop({variant : "info", text : ACTION_CANCELED})
         }
         else
           notificationRef.current.pop({variant : "warning", text : error.toString()})
       }
       
-    }, [modalRef, store])
+    }, [modalRef, storeState])
 
     const startEditCollectionRecord = useCallback(event => {
       modalRef.current.setTitle("Edit collection");
@@ -61,7 +65,7 @@ function CollectionOption({id, onChange, onBlur}) {
               <input 
                 ref = {radioInput} 
                 style = {{
-                  background : selectedCollection?.color || "#000",
+                  background : selectedCollection?.color || "",
                   borderTop: `1px solid #fff`
                 }}
                 name = {inputName}
@@ -96,7 +100,7 @@ export default function SelectCollection({visiable, onChange, onBlur}) {
           <li className = {style["add-collection"]}>
             <button 
               type = "button" 
-              onClick = {() => {showNewCollectionDialog()}}
+              onClick = {showNewCollectionDialog}
             >
               Add
             </button>

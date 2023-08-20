@@ -32,6 +32,15 @@ import modalContext from '../../Context/modalContext';
 
 import { Formik } from 'formik';
 
+const COLLECTION_SELECTION_PLACEHOLDER = "Select collection";
+const DEADLINE_SELECTION_PLACEHOLDER = "Select deadline"
+const TITLE_INPUT_PLACEHOLDER = "Title"
+const CONTENT_INPUT_PLACEHOLDER = "Content"
+
+const COLLECTION_SELECTION_ERROR = "Collection must be specified";
+const DEADLINE_SELECTION_ERROR = "Deadline must be specified"
+const TITLE_INPUT_ERROR = "Title can't be empty"
+
 export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -67,18 +76,16 @@ export default function NewTodoRecord() {
 
   const validateForm = useCallback(values => {
       const errors = {__proto__ : null}
-      console.dir(values)
       if (!values.title){
-          errors.title = "Title can not be empty!"
+          errors.title = TITLE_INPUT_ERROR
       }
       if (!values.selectedTodosCollectionId) {
-          errors.collection = "Collection must be specified!"
+          errors.collection = COLLECTION_SELECTION_ERROR
       }
       
-      if (!values.selectedEndDate) {
-          errors.dateEnd = "Deadline must be specified!"
+      if (!values.dateEnd) {
+          errors.dateEnd = DEADLINE_SELECTION_ERROR
       }
-      console.table(errors)
       return errors
   }, [selectedTodosCollectionId, selectedEndDate])
 
@@ -106,47 +113,49 @@ export default function NewTodoRecord() {
               }) => (
                 <form onSubmit={addNewTodoRecord}>
 
-              <label className = {style["record-title"]}>
-                <input 
-                  data-invalid = {!!(touched?.title && errors?.title)}
-                  name = "title"
-                  placeholder = {(touched?.title && errors?.title)?(errors?.title):"Title"}
-                  type="text" 
-                  value = {values.title} 
-                  onChange = {(event) => {handleChange(event); console.dir(touched)}}
-                  onBlur = {handleBlur}
-                  />
-                  
-              </label>
+                  <label className = {style["record-title"]}>
+                    <input 
+                      data-invalid = {!!(touched?.title && errors?.title)}
+                      name = "title"
+                      placeholder = {(touched?.title && errors?.title)?(errors?.title):TITLE_INPUT_PLACEHOLDER}
+                      type="text" 
+                      value = {values.title} 
+                      onChange = {(event) => {handleChange(event)}}
+                      onBlur = {handleBlur}
+                      />
+                      
+                  </label>
 
-              <label className = {style["record-content"]}>
-                <EditableField ref = {contentRef}/>
-              </label>
+                  <label className = {style["record-content"]}>
+                    <EditableField placeholder = {CONTENT_INPUT_PLACEHOLDER} ref = {contentRef}/>
+                  </label>
 
-              <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "selectedTodosCollectionId"}}>
-                <CollectionSelect 
-                    placeholder = {!!(errors?.collection && touched?.collection)?errors?.collection:"Select collection"}
-                    invalid = {!!(errors?.collection && touched?.collection)} 
-                    onChange = {event => {handleChange(event)}}
-                    onBlur = {() => {handleBlur({target : {name : "selectedTodosCollectionId"}}); touched.collection = true}}/>
-              </selectedTodosCollectionContext.Provider>
-              
+                  <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "selectedTodosCollectionId"}}>
+                    <CollectionSelect 
+                        placeholder = {!!(errors?.collection && touched?.selectedTodosCollectionId)?errors?.collection:COLLECTION_SELECTION_PLACEHOLDER}
+                        invalid = {!!(errors?.collection && touched?.selectedTodosCollectionId)} 
+                        onChange = {event => {handleChange(event)}}
+                        onBlur = {() => {handleBlur({target : {name : "selectedTodosCollectionId"}})}}/>
+                  </selectedTodosCollectionContext.Provider>
 
-              <label data-invalid = {!!(errors?.dateEnd && touched?.dateEnd)} className = {style["end-date"]}>
-                <h2>End date</h2>
+                  <label 
+                      data-invalid = {!!(errors?.dateEnd && touched?.dateEnd)} 
+                      className = {style["end-date"]}
+                  >
+                      <h2>End date</h2>
 
-                <DatePicker
-                  selected = {selectedEndDate}
-                  onChange = {value => {handleChange({target : {name : "selectedEndDate", type : "date", value : value}}); setSelectedEndDate(value)}}
-                  onBlur = {() => {handleChange({target : {name : "selectedEndDate", type : "date", value : selectedEndDate}}); touched.dateEnd = true}}
-                  dateFormat = "dd/MM/yyyy"
-                  placeholderText={(errors?.dateEnd && touched?.dateEnd)?(errors.dateEnd):'Select a Date'}
-                ></DatePicker>
-              </label>
+                      <DatePicker
+                          selected = {selectedEndDate}
+                          onChange = {value => {handleChange({target : {name : "dateEnd", type : "date", value : value}}); setSelectedEndDate(value)}}
+                          onBlur = {() => {handleBlur({target : {name : "dateEnd"}})}}
+                          dateFormat = "dd/MM/yyyy"
+                          placeholderText={(errors?.dateEnd && touched?.dateEnd)?(errors.dateEnd):DEADLINE_SELECTION_PLACEHOLDER}
+                      ></DatePicker>
+                  </label>
 
-              <button className = {style["success-btn"]} type = "submit">Create</button>
-              <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
-            </form>
+                  <button className = {style["success-btn"]} type = "submit">Create</button>
+                  <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
+                </form>
               )
             }
             </Formik>

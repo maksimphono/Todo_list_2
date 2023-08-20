@@ -45,7 +45,11 @@ export default function CollectionSelect({onBlur, invalid, onChange, placeholder
 
   return (
     <>
-    <label data-invalid = {invalid} ref = {labelRef} htmlFor = {detailsId} className = {style["select-collection"]}>
+    <label 
+        data-invalid = {invalid} 
+        ref = {labelRef} 
+        htmlFor = {detailsId} 
+        className = {style["select-collection"]}>
         <h2>
             Collection
         </h2>
@@ -53,11 +57,11 @@ export default function CollectionSelect({onBlur, invalid, onChange, placeholder
             <summary
                 onClick = {() => setOpen(v => !v)}
                 style = {{
-                background : selectedCollection?.color || "#000", 
-                color: selectedCollectionTextColor
+                background : selectedCollection?.color || "", 
+                color: (selectedCollection)?selectedCollectionTextColor:""
                   }}
             >
-                {selectedCollection?.name || placeholder}
+                {(!invalid && !!selectedCollection)?(selectedCollection.name):placeholder}
             </summary>
         </details>
         <SelectCollectionDropdown visiable = {open} onChange = {onChange} onBlur = {onBlur}/>

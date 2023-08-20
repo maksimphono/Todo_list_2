@@ -16,7 +16,9 @@
     font-size: large;
 
     &[data-invalid='true'] summary {
-        border: 2px solid red;
+        border: 2px solid $color-danger;
+        color: $color-danger;
+        background-color: #ddd;
     }
 
     h2 {
@@ -55,6 +57,10 @@
                 
     @media screen and (max-width : $query-tablet-width) {
         
+        & summary, input {
+            font-size: medium;
+        }
+
         & > details {
             grid-column: 1/span 2;
         }
