@@ -1,36 +1,31 @@
 // <components>
-import React, { useCallback, useEffect, useReducer, useRef, useMemo, useId, useState, createContext, useContext } from 'react'
+import React, { useCallback, useRef, useState, createContext, useContext } from 'react'
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
-import $ from "jquery"
 import CollectionSelect from "./Components/CollectionSelect"
 import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import "./styles/ReactDatePicker.scss"
-import SelectCollectionDropdown from './Components/SelectCollectionDropdown';
 
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { addOne } from '../../Context/Redux/todoRecordsSlice';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import { addOneTodoRecord, selectAllCollectionRecords, selectCollectionRecordsById } from "../../Context/Redux/todoCollectionsSlice"
-import { store } from '../../Context/Redux/store';
 
 // </components>
 
+import { Refused } from '../../UI/Components/Confirmation/Confirmation';
+import {createTodoRecord} from "../../Context/Redux/utilities"
+import modalContext from '../../Context/modalContext';
+import { Formik } from 'formik';
+
 // <styles>
 import style from "./styles/NewTodoRecord.module.scss";
+import "react-datepicker/dist/react-datepicker.css"
+import "./styles/ReactDatePicker.scss"
+
 
 // </styles>
 
+
 export const selectedTodosCollectionContext = createContext()
-
-import {createTodoRecord} from "../../Context/Redux/utilities"
-
-import modalContext from '../../Context/modalContext';
-
-import { Formik } from 'formik';
 
 const COLLECTION_SELECTION_PLACEHOLDER = "Select collection";
 const DEADLINE_SELECTION_PLACEHOLDER = "Select deadline"
@@ -41,7 +36,8 @@ const COLLECTION_SELECTION_ERROR = "Collection must be specified";
 const DEADLINE_SELECTION_ERROR = "Deadline must be specified"
 const TITLE_INPUT_ERROR = "Title can't be empty"
 
-import { Refused } from '../../UI/Components/Confirmation/Confirmation';
+const ACTION_CANCELED = "Action canceled"
+const CREATED_SUCCESSFULLY = "Record created"
 
 export default function NewTodoRecord() {
   const navigate = useNavigate();
@@ -52,8 +48,7 @@ export default function NewTodoRecord() {
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
 
-  const addNewTodoRecord = useCallback(async values => {
-    event.preventDefault()
+  const handleFormSubmit = useCallback(async values => {
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
       title : values["title"],
@@ -65,13 +60,13 @@ export default function NewTodoRecord() {
     try {
         await confirmationRef.current.show("Create?")
         await createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId);
-        notificationRef.current.pop({variant : "success", text : "Record created"})
+        notificationRef.current.pop({variant : "success", text : CREATED_SUCCESSFULLY})
         navigate("/")
 
     } catch (error) {
       switch (error) {
           case Refused:
-              notificationRef.current.pop({variant : "info", text : "Action canceled"})
+              notificationRef.current.pop({variant : "info", text : ACTION_CANCELED})
               break;
           default:
               notificationRef.current.pop({variant : "warning", text : error.toString()})
@@ -94,10 +89,6 @@ export default function NewTodoRecord() {
       }
       return errors
   }, [selectedTodosCollectionId, selectedEndDate])
-
-  const handleFormSubmit = (values) => {
-      addNewTodoRecord(values)
-  }
 
   return (
     <>
@@ -166,9 +157,7 @@ export default function NewTodoRecord() {
               )
             }
             </Formik>
-            
         </div>
-
     </>
   )
 }
