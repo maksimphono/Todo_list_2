@@ -67,6 +67,7 @@ export default function NewTodoRecord() {
 
   const validateForm = useCallback(values => {
       const errors = {__proto__ : null}
+      console.dir(values)
       if (!values.title){
           errors.title = "Title can not be empty!"
       }
@@ -124,9 +125,10 @@ export default function NewTodoRecord() {
 
               <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "selectedTodosCollectionId"}}>
                 <CollectionSelect 
+                    placeholder = {!!(errors?.collection && touched?.collection)?errors?.collection:"Select collection"}
                     invalid = {!!(errors?.collection && touched?.collection)} 
                     onChange = {event => {handleChange(event)}}
-                    onBlur = {() => {handleChange({target : {name : "selectedTodosCollectionId", type : "number", value : selectedTodosCollectionId}}); touched.collection = true}}/>
+                    onBlur = {() => {handleBlur({target : {name : "selectedTodosCollectionId"}}); touched.collection = true}}/>
               </selectedTodosCollectionContext.Provider>
               
 

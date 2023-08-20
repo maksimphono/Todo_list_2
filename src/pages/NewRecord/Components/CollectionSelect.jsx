@@ -12,7 +12,7 @@ import style from "../styles/CollectionSelect.module.scss"
 import SelectCollectionDropdown from './SelectCollectionDropdown';
 import modalContext from '../../../Context/modalContext';
 
-export default function CollectionSelect({onBlur, invalid, onChange}) {
+export default function CollectionSelect({onBlur, invalid, onChange, placeholder}) {
   const {selectedTodosCollectionId} = useContext(selectedTodosCollectionContext)
   const {modalRef} = useContext(modalContext)
 
@@ -57,7 +57,7 @@ export default function CollectionSelect({onBlur, invalid, onChange}) {
                 color: selectedCollectionTextColor
                   }}
             >
-                {selectedCollection?.name || ""}
+                {selectedCollection?.name || placeholder}
             </summary>
         </details>
         <SelectCollectionDropdown visiable = {open} onChange = {onChange} onBlur = {onBlur}/>
