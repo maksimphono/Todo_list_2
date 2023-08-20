@@ -41,6 +41,8 @@ const COLLECTION_SELECTION_ERROR = "Collection must be specified";
 const DEADLINE_SELECTION_ERROR = "Deadline must be specified"
 const TITLE_INPUT_ERROR = "Title can't be empty"
 
+import { Refused } from '../../UI/Components/Confirmation/Confirmation';
+
 export default function NewTodoRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -50,26 +52,30 @@ export default function NewTodoRecord() {
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
   const [selectedEndDate, setSelectedEndDate] = useState(null)
 
-  const addNewTodoRecord = useCallback(async event => {
+  const addNewTodoRecord = useCallback(async values => {
     event.preventDefault()
-    const formData = new FormData(event.target)
-    console.log(formData.get("title"))
     const newTodoRecord = {
       id : new Date().toString().slice(0, 24),
-      title : formData.get("title"),
+      title : values["title"],
       dateEnd : new Date(`${selectedEndDate.getMonth() + 1}/${selectedEndDate.getDate()}/${selectedEndDate.getFullYear()} 11:59:59 PM`).toString(),
       content : contentRef.current.content(),
       collection : selectedTodosCollectionId
     }
 
     try {
-      await confirmationRef.current.show("Create?")
-      await createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId);
-      notificationRef.current.pop({variant : "success", text : "Record created"})
-      navigate("/")
+        await confirmationRef.current.show("Create?")
+        await createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId);
+        notificationRef.current.pop({variant : "success", text : "Record created"})
+        navigate("/")
 
     } catch (error) {
-      notificationRef.current.pop({variant : "warning", text : error.toString()})
+      switch (error) {
+          case Refused:
+              notificationRef.current.pop({variant : "info", text : "Action canceled"})
+              break;
+          default:
+              notificationRef.current.pop({variant : "warning", text : error.toString()})
+      }
     }
 
   }, [selectedTodosCollectionId, contentRef, selectedEndDate])
@@ -89,9 +95,8 @@ export default function NewTodoRecord() {
       return errors
   }, [selectedTodosCollectionId, selectedEndDate])
 
-  const checkBeforeSubmission = (values) => {
-      const errors = validateForm(values)
-      if (errors.length > 1) return null
+  const handleFormSubmit = (values) => {
+      addNewTodoRecord(values)
   }
 
   return (
@@ -102,6 +107,7 @@ export default function NewTodoRecord() {
             <Formik
               initialValues={{title : ""}}
               validate = {validateForm}
+              onSubmit={handleFormSubmit}
             >
             {
               ({
@@ -109,9 +115,10 @@ export default function NewTodoRecord() {
                 errors,
                 touched,
                 handleChange,
-                handleBlur
+                handleBlur,
+                handleSubmit
               }) => (
-                <form onSubmit={addNewTodoRecord}>
+                <form onSubmit={handleSubmit}>
 
                   <label className = {style["record-title"]}>
                     <input 
