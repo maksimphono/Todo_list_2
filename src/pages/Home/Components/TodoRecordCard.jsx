@@ -85,7 +85,7 @@ export default function TodoRecordCard({cardData}) {
         >
             <h3 className ={style["title"]}>{newCardData.title}</h3>
             <DateStamp date = {newCardData.dateEnd}/>
-            <span className ={style["type"]}>Belongs to collection "<b>{todoCollection.name}</b>"</span>
+            <span className ={style["type"]}>Collection "<b>{todoCollection.name}</b>"</span>
             <CardControlBtns todoRecordId = {newCardData.id} collectionId = {newCardData.collection}/>
             <p className={style["content"]}>{newCardData.content}</p>
         </div>
