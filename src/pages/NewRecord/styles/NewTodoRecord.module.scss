@@ -104,46 +104,68 @@
             
         }
 
-        & > button, & > a {
-            grid-column: 2/span 1;
+        & > .buttons {
+            grid-column: 1/span 6;
             display: flex;
+            width: 100%;
+            height: auto;
+            padding-top: 20px;
             justify-content: center;
             align-items: center;
-            min-width: max-content;
-            width: 150%;
-            height: auto;
-            padding: 10px 20px;
-            margin-top: 20px;
-            border-radius: 15px;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 20px;
-            text-decoration: none;
-            box-shadow: 0 0 6px $color-dark;
-            color: $color-dark;
-            transition: .5s;
-            cursor: pointer;
-            
-            &:hover {
-                filter: brightness(70%);
-                box-shadow: 0 0 7px $color-dark;
-            }
+            gap: 20px;
 
-            &.success-btn {
-                justify-self: end;
-                grid-column: 3/span 1;
-                background-color: $color4;
-                border: 2px solid $color4;
+            & > button, & > a {
+                grid-column: 2/span 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: max-content;
+                width: auto;
+                max-width: 200px;
+                height: 47px;
+                padding: 10px 20px;
+                //margin-top: 20px;
+                border-radius: 15px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+                text-decoration: none;
+                box-shadow: 0 0 6px $color-dark;
+                color: $color-dark;
+                transition: .5s;
+                cursor: pointer;
+                
+                &:hover {
+                    filter: brightness(70%);
+                    box-shadow: 0 0 7px $color-dark;
+                }
+
+                &.success-btn {
+                    justify-self: end;
+                    grid-column: 3/span 1;
+                    background-color: $color4;
+                    border: 2px solid $color4;
+                    
+                }
+                &.delete-btn {
+                    justify-self: center;
+                    grid-column: 3/span 2;
+                    color: #ddd;
+                    border: 2px solid $color-danger;
+                    background-color: $color-danger;
+                    //grid-row: 2/3;
+                }
+                &[name='cancel']{
+                    justify-self: start;
+                    grid-column: 4/span 1;
+                    border: 2px solid #dbdbdb;
+                    background-color: #dbdbdb;
+                    
+                }
                 
             }
-            &[name='cancel']{
-                justify-self: start;
-                grid-column: 4/span 1;
-                border: 2px solid #dbdbdb;
-                background-color: #dbdbdb;
-                
-            }
-            
         }
+
+        
     }
 
     @media screen and (max-width : $query-tablet-width) {
@@ -161,22 +183,34 @@
             input, p {
                 font-size: medium !important;
             }
-            
-            & > button, & > a {
-                width: 70%;
 
-                &.success-btn {
-                    justify-self: center;
-                    grid-column: 1/span 6;
-                    //grid-row: 2/3;
-                }
-                &.secondary-btn {
-                    justify-self: center;
-                    grid-column: 1/span 6;
-                    //margin-top: 0;
-                    //grid-row: 3/4;
+            & > .buttons {
+                flex-direction: column;
+
+                & > button, & > a {
+                    width: 70%;
+    
+                    &.success-btn {
+                        justify-self: center;
+                        grid-column: 1/span 6;
+                        //grid-row: 2/3;
+                    }
+                    &.delete-btn {
+                        justify-self: center;
+                        grid-column: 1/span 6;
+                        
+                        //grid-row: 2/3;
+                    }
+                    &.secondary-btn {
+                        justify-self: center;
+                        grid-column: 1/span 6;
+                        //margin-top: 0;
+                        //grid-row: 3/4;
+                    }
                 }
             }
+            
+            
             
         }
     }

@@ -5,8 +5,8 @@ import EditableField from './Components/EditableField';
 import CollectionSelect from "./Components/CollectionSelect"
 import DatePicker from "react-datepicker"
 
-import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { NavLink, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // </components>
@@ -20,6 +20,8 @@ import { Formik } from 'formik';
 import style from "./styles/NewTodoRecord.module.scss";
 import "react-datepicker/dist/react-datepicker.css"
 import "./styles/ReactDatePicker.scss"
+import { selectTodoRecordsById } from '../../Context/Redux/todoRecordsSlice';
+import useReduxStoreState from '../../hooks/useReduxStoreState';
 
 
 // </styles>
@@ -40,13 +42,16 @@ const ACTION_CANCELED = "Action canceled"
 const CREATED_SUCCESSFULLY = "Record created"
 
 export default function NewTodoRecord() {
+  const {id : selectedTodoRecordId} = useParams()
+  //const storeState = useReduxStoreState()
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
   const {notificationRef, confirmationRef} = useContext(modalContext)
 
-  const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState("")
-  const [selectedEndDate, setSelectedEndDate] = useState(null)
+  const selectedTodoRecord = useSelector((state) => selectTodoRecordsById(state, selectedTodoRecordId))
+  const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState(selectedTodoRecord?.collection || "")
+  const [selectedEndDate, setSelectedEndDate] = useState(selectedTodoRecord?(new Date(selectedTodoRecord?.dateEnd)):"")
 
   const handleFormSubmit = useCallback(async values => {
     const newTodoRecord = {
@@ -96,7 +101,7 @@ export default function NewTodoRecord() {
             <Tooltip />
 
             <Formik
-              initialValues={{title : ""}}
+              initialValues={{}}
               validate = {validateForm}
               onSubmit={handleFormSubmit}
             >
@@ -116,7 +121,8 @@ export default function NewTodoRecord() {
                       data-invalid = {!!(touched?.title && errors?.title)}
                       name = "title"
                       placeholder = {(touched?.title && errors?.title)?(errors?.title):TITLE_INPUT_PLACEHOLDER}
-                      type="text" 
+                      type="text"
+                      defaultValue={selectedTodoRecord?.title || ""}
                       value = {values.title} 
                       onChange = {(event) => {handleChange(event)}}
                       onBlur = {handleBlur}
@@ -125,7 +131,11 @@ export default function NewTodoRecord() {
                   </label>
 
                   <label className = {style["record-content"]}>
-                    <EditableField placeholder = {CONTENT_INPUT_PLACEHOLDER} ref = {contentRef}/>
+                    <EditableField 
+                        placeholder = {CONTENT_INPUT_PLACEHOLDER} 
+                        ref = {contentRef}
+                        defaultValue = {selectedTodoRecord?.content || ""}
+                    />
                   </label>
 
                   <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "selectedTodosCollectionId"}}>
@@ -151,8 +161,11 @@ export default function NewTodoRecord() {
                       ></DatePicker>
                   </label>
 
-                  <button className = {style["success-btn"]} type = "submit">Create</button>
-                  <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
+                  <div className = {style["buttons"]}>
+                      <button className = {style["success-btn"]} type = "submit">{(selectedTodoRecord)?"Create":"Save"}</button>
+                      {selectedTodoRecord && <button className = {style["delete-btn"]} type = "button" name = "delete">Delete</button>}
+                      <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
+                  </div>
                 </form>
               )
             }

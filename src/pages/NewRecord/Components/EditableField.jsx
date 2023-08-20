@@ -6,10 +6,10 @@ import style from  "../styles/EditableField.module.scss";
 
 // </styles>
 
-export default forwardRef(function EditableField({placeholder}, ref) {
+export default forwardRef(function EditableField({placeholder, defaultValue}, ref) {
   const pRef = useRef(null);
   const placeHolderId = useId()
-  const [showPlaceHolder, setShowPlaceHolder] = useState(true)
+  const [showPlaceHolder, setShowPlaceHolder] = useState(!defaultValue)
 
   useImperativeHandle(ref, () => {
     return {
@@ -30,9 +30,9 @@ export default forwardRef(function EditableField({placeholder}, ref) {
   
   return (
     <>
-        <p className = {style["placeholder"]} hidden = {!showPlaceHolder}>{placeholder}</p>
+        <p className = {style["placeholder"]} hidden = {(!showPlaceHolder)}>{placeholder}</p>
         <p ref = {pRef} className = {style["editable-field"]} contentEditable = {true} onFocus={handleFocus} onBlur = {handleBlur}>
-            
+            {defaultValue || ""}
         </p>
     </>
   )

@@ -99,7 +99,7 @@ function App() {
           <Route index element = {<TodoRecordsList />}/>
           <Route path = "records_by_date/:date" element = {<TodoRecordsListByDay />}/>
           <Route path="NewTodoRecord" element = {<NewTodoRecord/>}/>
-          <Route path = "CheckoutRecord/:id" element = {<CheckoutTodoRecord />}/>
+          <Route path = "CheckoutRecord/:id" element = {<NewTodoRecord />}/>
         </Route>
         <Route path = "tests">
           <Route path = "add" element = {<TestComponent/>}/>
