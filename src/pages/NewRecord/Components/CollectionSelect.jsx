@@ -12,7 +12,7 @@ import style from "../styles/CollectionSelect.module.scss"
 import SelectCollectionDropdown from './SelectCollectionDropdown';
 import modalContext from '../../../Context/modalContext';
 
-export default function CollectionSelect({onBlur, invalid}) {
+export default function CollectionSelect({onBlur, invalid, onChange}) {
   const {selectedTodosCollectionId} = useContext(selectedTodosCollectionContext)
   const {modalRef} = useContext(modalContext)
 
@@ -23,7 +23,7 @@ export default function CollectionSelect({onBlur, invalid}) {
   const [open, setOpen] = useState(false);
   const labelRef = useRef(null)
   
-  const handleBlur = useCallback((event) => {
+  const handleDropdownBlur = useCallback((event) => {
     if ((labelRef?.current?.contains(event.target))) {
       if (event.target.tagName == "SUMMARY") {
         setOpen(v => !v)
@@ -37,9 +37,9 @@ export default function CollectionSelect({onBlur, invalid}) {
   }, [modalRef, labelRef])
 
   useEffect(() => {
-    document.addEventListener("click", handleBlur)
+    document.addEventListener("click", handleDropdownBlur)
     return () => {
-      document.removeEventListener("click", handleBlur)
+      document.removeEventListener("click", handleDropdownBlur)
     }
   }, [])
 
@@ -49,8 +49,8 @@ export default function CollectionSelect({onBlur, invalid}) {
         <h2>
             Collection
         </h2>
-        <details onBlur={onBlur} id = {detailsId} name="collection" onClick = {() => setOpen(v => !v)}>
-            <summary 
+        <details onBlur = {onBlur} id = {detailsId} name="collection_dropdown" onClick = {() => setOpen(v => !v)}>
+            <summary
                 onClick = {() => setOpen(v => !v)}
                 style = {{
                 background : selectedCollection?.color || "#000", 
@@ -60,7 +60,7 @@ export default function CollectionSelect({onBlur, invalid}) {
                 {selectedCollection?.name || ""}
             </summary>
         </details>
-        <SelectCollectionDropdown visiable = {open} />
+        <SelectCollectionDropdown visiable = {open} onChange = {onChange} onBlur = {onBlur}/>
     </label>
     
     </>

@@ -15,7 +15,7 @@ import EditCollectionForm from "./EditCollectionForm";
 import { store } from "../../../Context/Redux/store";
 
 
-function CollectionOption({id}) {
+function CollectionOption({id, onChange, onBlur}) {
     const dispatch = useDispatch();
     const {setSelectedTodosCollectionId, inputName} = useContext(selectedTodosCollectionContext);
     const selectedCollection = useSelector(() => selectCollectionRecordsById(store.getState(), id))
@@ -65,9 +65,10 @@ function CollectionOption({id}) {
                   borderTop: `1px solid #fff`
                 }}
                 name = {inputName}
+                onBlur = {onBlur}
                 type="radio"
                 value = {id}
-                onClick = {event => setSelectedTodosCollectionId(id)} 
+                onChange = {(event) => {setSelectedTodosCollectionId(id); onChange(event)}}
               />
             </label>
 
@@ -77,7 +78,7 @@ function CollectionOption({id}) {
     )
   }
 
-export default function SelectCollection({visiable}) {
+export default function SelectCollection({visiable, onChange, onBlur}) {
     const {modalRef} = useContext(modalContext)
     const newCollectionFormId = useId();
     const allColection = useSelector(selectAllCollectionRecords)
@@ -101,7 +102,7 @@ export default function SelectCollection({visiable}) {
             </button>
           </li>
           {allColection.map((item) => 
-            <CollectionOption key = {item.id} id = {item.id} />
+            <CollectionOption key = {item.id} id = {item.id} onChange = {onChange} onBlur = {onBlur}/>
           )}
       </ul>
       </>

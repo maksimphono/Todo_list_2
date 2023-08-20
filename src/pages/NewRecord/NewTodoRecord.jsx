@@ -73,13 +73,18 @@ export default function NewTodoRecord() {
       if (!values.selectedTodosCollectionId) {
           errors.collection = "Collection must be specified!"
       }
-      console.log("End", values.selectedEndDate)
+      
       if (!values.selectedEndDate) {
           errors.dateEnd = "Deadline must be specified!"
       }
       console.table(errors)
       return errors
   }, [selectedTodosCollectionId, selectedEndDate])
+
+  const checkBeforeSubmission = (values) => {
+      const errors = validateForm(values)
+      if (errors.length > 1) return null
+  }
 
   return (
     <>
@@ -107,7 +112,7 @@ export default function NewTodoRecord() {
                   placeholder = {(touched?.title && errors?.title)?(errors?.title):"Title"}
                   type="text" 
                   value = {values.title} 
-                  onChange = {handleChange} 
+                  onChange = {(event) => {handleChange(event); console.dir(touched)}}
                   onBlur = {handleBlur}
                   />
                   
@@ -117,8 +122,11 @@ export default function NewTodoRecord() {
                 <EditableField ref = {contentRef}/>
               </label>
 
-              <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "select-collection-item"}}>
-                <CollectionSelect invalid = {!!(errors?.collection && touched?.collection)} onBlur = {() => {handleChange({target : {name : "selectedTodosCollectionId", type : "number", value : selectedTodosCollectionId}}); touched.collection = true}}/>
+              <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "selectedTodosCollectionId"}}>
+                <CollectionSelect 
+                    invalid = {!!(errors?.collection && touched?.collection)} 
+                    onChange = {event => {handleChange(event)}}
+                    onBlur = {() => {handleChange({target : {name : "selectedTodosCollectionId", type : "number", value : selectedTodosCollectionId}}); touched.collection = true}}/>
               </selectedTodosCollectionContext.Provider>
               
 
