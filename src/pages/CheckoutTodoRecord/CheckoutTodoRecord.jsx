@@ -96,6 +96,8 @@ export default function NewTodoRecord() {
         <div id = {style["checkout_todo_record"]}>
             <Tooltip />
 
+            
+
             <form onSubmit={alterTodoRecord}>
 
               <label className = {style["record-title"]}>
