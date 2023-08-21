@@ -5,7 +5,7 @@ import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollecti
 
 import { store } from '../../../Context/Redux/store'
 
-import {selectedTodosCollectionContext} from "../NewTodoRecord";
+import {selectedTodosCollectionContext} from "../TodoRecord";
 
 import style from "../styles/CollectionSelect.module.scss"
 

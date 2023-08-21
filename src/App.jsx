@@ -1,17 +1,11 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Navbar from "./Navbar"
 import Layout from "./Layout"
 import { Route, Routes, BrowserRouter } from 'react-router-dom'
 import TodoRecordsList from './pages/Home/TodoRecordsList'
-import NewTodoRecord from "./pages/NewRecord/NewTodoRecord"
-import CheckoutTodoRecord from './pages/CheckoutTodoRecord/CheckoutTodoRecord'
+import NewTodoRecord from "./pages/NewRecord/TodoRecord"
+//import CheckoutTodoRecord from './pages/CheckoutTodoRecord/CheckoutTodoRecord'
 import { Provider } from 'react-redux'
 import { store } from './Context/Redux/store'
-import ModalContext from "./Context/modalContext"
-import Confirmation from "./UI/Components/Confirmation/Confirmation";
-
 import { todoRecordsStorageThunks } from './Context/Redux/todoRecordsSlice'
 import { collectionsRecordsThunks } from './Context/Redux/todoCollectionsSlice'
 
@@ -57,17 +51,8 @@ const collectionsJSON = [
 
 function TestComponent() {
     useEffect(() => {
-        console.log("Records")
         store.dispatch(todoRecordsStorageThunks.saveMany(TodoRecordsJSON))
         store.dispatch(collectionsRecordsThunks.saveMany(collectionsJSON))
-        //store.dispatch(loadAllCollections())
-        //store.dispatch(loadAllTodoRecords())
-        //todoRecordsDataAdapter.saveMany(TodoRecordsJSON)
-        //todoCollectionsDataAdapter.saveMany(collectionsJSON)
-        //todoCollectionsDataAdapter.saveOne(collectionsJSON[0])
-        //console.dir(todoRecordsDataAdapter.loadOne(1))
-        //todoRecordsDataAdapter.removeOne(2)
-        //todoRecordsDataAdapter.saveOne(TodoRecordsJSON[1])
     }, [])
   
     return <></>

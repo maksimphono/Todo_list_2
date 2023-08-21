@@ -11,21 +11,19 @@ import { useNavigate } from 'react-router-dom';
 
 // </components>
 
+import { alterOneTodoRecord, removeOneTodoRecord } from '../../Context/Redux/utilities';
 import { Refused } from '../../UI/Components/Confirmation/Confirmation';
 import {createTodoRecord} from "../../Context/Redux/utilities"
 import modalContext from '../../Context/modalContext';
 import { Formik } from 'formik';
 
 // <styles>
-import style from "./styles/NewTodoRecord.module.scss";
+import style from "./styles/TodoRecord.module.scss";
 import "react-datepicker/dist/react-datepicker.css"
 import "./styles/ReactDatePicker.scss"
 import { selectTodoRecordsById } from '../../Context/Redux/todoRecordsSlice';
-import useReduxStoreState from '../../hooks/useReduxStoreState';
-
 
 // </styles>
-
 
 export const selectedTodosCollectionContext = createContext()
 
@@ -44,8 +42,6 @@ const ALTERED_SUCCESSFULLY = "Record saved"
 
 const CHECKOUT_EXISTING__MODE = "checkoutExisting"
 const CREATE_NEW__MODE = "createNew"
-
-import { alterOneTodoRecord, removeOneTodoRecord } from '../../Context/Redux/utilities';
 
 export default function NewTodoRecord() {
   const {id : selectedTodoRecordId} = useParams()
@@ -146,7 +142,7 @@ export default function NewTodoRecord() {
           errors.dateEnd = DEADLINE_SELECTION_ERROR
       }
       return errors
-  }, [selectedTodosCollectionId, selectedEndDate])
+  }, [])
 
   return (
     <>
