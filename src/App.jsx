@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Layout from "./Layout"
 import { Route, Routes, BrowserRouter } from 'react-router-dom'
 import TodoRecordsList from './pages/Home/TodoRecordsList'
-import NewTodoRecord from "./pages/NewRecord/TodoRecord"
+import NewTodoRecord from "./pages/NewRecord/SingleTodoRecord"
 //import CheckoutTodoRecord from './pages/CheckoutTodoRecord/CheckoutTodoRecord'
 import { Provider } from 'react-redux'
 import { store } from './Context/Redux/store'

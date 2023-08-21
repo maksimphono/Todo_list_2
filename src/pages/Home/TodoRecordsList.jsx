@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useId, useState } from 'react'
 import Tooltip from './Components/Tooltip';
 import Cards , {CardsRecordsCollectionByDay} from './Components/CardsRecordsList.jsx';
 
@@ -40,6 +40,7 @@ export function TodoRecordsListByDay() {
 export default function TodoRecordsList() {
     const dispatch = useDispatch()
     const switchViewMode = () => dispatch(switchView())
+    const creationMenuId = useId()
 
     const viewMode = useSelector(state => state.homePageViewMode)
 
@@ -54,6 +55,15 @@ export default function TodoRecordsList() {
         :
             <></>
         }
+        <label className = {style["creation__menu"]} onClick = {({target}) => console.dir(target)}>
+            <span>+</span>
+            <ul data-open = "false">
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </label>
+        
       </div>
     </>
   )
