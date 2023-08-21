@@ -1,0 +1,65 @@
+@import "./variables.module.scss";
+
+.dropdown {
+    position: fixed;
+    bottom: 3%;
+    right: 3%;
+    display: flex;
+    
+    z-index: 99;
+
+    label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: max-content;
+        height: max-content;
+
+        input {
+            all: unset;
+            display: flex;
+            width: 50px;
+            aspect-ratio: 1/1;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 5px $color-dark;
+            opacity: .7;
+            transition: .3s;
+
+            &:checked {
+                transform: rotate(90deg);
+                opacity: 1;
+            }
+        }
+    }
+
+    .dropdown__body {
+        position: absolute;
+        bottom: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px 0;
+        width: 100%;
+        height: auto;
+
+        &[hidden] {
+            display: none;
+        }
+
+        button, a {
+            all: unset;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 5px $color-dark;
+        }
+    }
+
+}

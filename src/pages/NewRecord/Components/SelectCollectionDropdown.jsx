@@ -55,7 +55,7 @@ function CollectionOption({id, onChange, onBlur}) {
         <button className = {styled_buttons["danger-btn"]} type = "button" onClick = {() => handleRemoveCollection(id)}>Delete</button>
       ]);
       modalRef.current.showModal()
-    }, [id, modalRef, editCollectionFormId])
+    }, [id, modalRef])
 
     return (
       <>

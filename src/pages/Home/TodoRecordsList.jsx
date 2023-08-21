@@ -5,6 +5,7 @@ import Cards , {CardsRecordsCollectionByDay} from './Components/CardsRecordsList
 // <styles>
 import style from "./styles/TodoRecordsList.module.scss";
 import { useDispatch, useSelector } from 'react-redux';
+import dropdown_styles from "./styles/Dropdown.module.scss";
 //import "./styles/TodoRecordCard.module.scss"
 
 // </styles>
@@ -38,6 +39,7 @@ export function TodoRecordsListByDay() {
 }
 
 import Dropdown from '../../UI/Components/Dropdown/Dropdown';
+import { NavLink } from 'react-router-dom';
 
 export default function TodoRecordsList() {
     const dispatch = useDispatch()
@@ -57,7 +59,10 @@ export default function TodoRecordsList() {
         :
             <></>
         }
-        <Dropdown />
+        <Dropdown styles = {dropdown_styles}>
+            <button>+</button>
+            <NavLink>=</NavLink>
+        </Dropdown>
         
       </div>
     </>

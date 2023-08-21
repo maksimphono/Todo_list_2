@@ -2,7 +2,7 @@
 import { useEffect, useId, useState } from "react"
 import $ from "jquery"
 
-export default function Dropdown({children}) {
+export default function Dropdown({children, styles}) {
     const [open, setOpen] = useState(false)
     const selfId = "" + new Date().getTime()
 
@@ -19,16 +19,12 @@ export default function Dropdown({children}) {
     }, [])
     
     return (
-        <div id = {selfId}>
-            <label htmlFor="">
+        <div id = {selfId} className = {styles["dropdown"]}>
+            <label>
                 <input type="checkbox" checked = {open} onChange={() => setOpen(v => !v)} />
             </label>
-            <div hidden = {!open}>
-                <ul>
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                </ul>
+            <div hidden = {!open} className = {styles["dropdown__body"]}>
+                {children}
             </div>
         </div>
     )
