@@ -82,18 +82,34 @@ function CollectionOption({id, onChange, onBlur}) {
     )
   }
 
+function useNewCollectionDialog(modalContext, styled_buttons) {
+    const {modalRef} = useContext(modalContext)
+    const newCollectionFormId = useId()
+
+    const envokedMethod = useCallback(() => {
+        modalRef.current.setTitle("New collection");
+        modalRef.current.setBody(<NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />);
+        modalRef.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons["success-btn"]} type = "submit">Create</button>]);
+        modalRef.current.showModal()
+    }, [modalRef, newCollectionFormId])
+
+    return envokedMethod;
+}
+
 export default function SelectCollection({visiable, onChange, onBlur}) {
     const {modalRef} = useContext(modalContext)
     const newCollectionFormId = useId();
     const allColection = useSelector(selectAllCollectionRecords)
     
-    const showNewCollectionDialog = useCallback(() => {
+    const showNewCollectionDialog = useNewCollectionDialog(modalContext, styled_buttons)
+    /*
+    useCallback(() => {
       modalRef.current.setTitle("New collection");
       modalRef.current.setBody(<NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />);
       modalRef.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons["success-btn"]} type = "submit">Create</button>]);
       modalRef.current.showModal()
     }, [modalRef, newCollectionFormId])
-
+    */
     return (
       <>
       <ul style = {(!visiable)?{display : "none"}:{}} className = {style["select-collection-list"]}>
