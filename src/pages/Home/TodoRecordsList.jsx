@@ -6,6 +6,7 @@ import Cards , {CardsRecordsCollectionByDay} from './Components/CardsRecordsList
 import style from "./styles/TodoRecordsList.module.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import dropdown_styles from "./styles/Dropdown.module.scss";
+import styled_buttons from "../../buttons.module.scss"
 //import "./styles/TodoRecordCard.module.scss"
 
 // </styles>
@@ -45,8 +46,7 @@ import useNewCollectionDialog from '../../hooks/useNewCollectionDialog';
 export default function TodoRecordsList() {
     const dispatch = useDispatch()
     const switchViewMode = () => dispatch(switchView())
-    const creationMenuId = useId()
-    const showNewCollectionDialog = useNewCollectionDialog()
+    const showNewCollectionDialog = useNewCollectionDialog(styled_buttons)
 
     const viewMode = useSelector(state => state.homePageViewMode)
 
@@ -63,7 +63,7 @@ export default function TodoRecordsList() {
         }
         <Dropdown styles = {dropdown_styles}>
             <button onClick={showNewCollectionDialog}>+</button>
-            <NavLink>=</NavLink>
+            <NavLink to = "NewTodoRecord">=</NavLink>
         </Dropdown>
         
       </div>
