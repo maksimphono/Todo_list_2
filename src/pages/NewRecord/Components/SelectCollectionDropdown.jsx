@@ -1,6 +1,6 @@
-import { useRef, useEffect, useContext, useCallback, forwardRef, useImperativeHandle, useId, useMemo } from "react";
+import { useRef, useEffect, useContext, useCallback, forwardRef, useImperativeHandle, useId, useMemo, Suspense } from "react";
 
-import NewCollectionForm from "./NewCollectionForm";
+//import NewCollectionForm from "./NewCollectionForm";
 import EditCollectionForm from "./EditCollectionForm";
 
 import {selectedTodosCollectionContext} from "../SingleTodoRecord.jsx"
@@ -82,18 +82,24 @@ function CollectionOption({id, onChange, onBlur}) {
     )
   }
 
+import { lazy } from "react";
+
 function useNewCollectionDialog(modalContext, styled_buttons) {
+    const NewCollectionForm = lazy(() => import("./NewCollectionForm"))
+
     const {modalRef} = useContext(modalContext)
     const newCollectionFormId = useId()
 
-    const envokedMethod = useCallback(() => {
+    return useCallback(() => {
         modalRef.current.setTitle("New collection");
-        modalRef.current.setBody(<NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />);
+        modalRef.current.setBody(
+            <Suspense fallback = {<div>Loading...</div>}>
+                <NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />
+            </Suspense>
+        );
         modalRef.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons["success-btn"]} type = "submit">Create</button>]);
         modalRef.current.showModal()
-    }, [modalRef, newCollectionFormId])
-
-    return envokedMethod;
+    }, [modalRef, newCollectionFormId, NewCollectionForm])
 }
 
 export default function SelectCollection({visiable, onChange, onBlur}) {
@@ -102,6 +108,7 @@ export default function SelectCollection({visiable, onChange, onBlur}) {
     const allColection = useSelector(selectAllCollectionRecords)
     
     const showNewCollectionDialog = useNewCollectionDialog(modalContext, styled_buttons)
+
     /*
     useCallback(() => {
       modalRef.current.setTitle("New collection");
