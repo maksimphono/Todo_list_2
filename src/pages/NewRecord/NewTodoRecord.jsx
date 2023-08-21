@@ -1,5 +1,5 @@
 // <components>
-import React, { useCallback, useRef, useState, createContext, useContext } from 'react'
+import React, { useCallback, useMemo, useRef, useState, createContext, useContext } from 'react'
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
 import CollectionSelect from "./Components/CollectionSelect"
@@ -40,22 +40,47 @@ const TITLE_INPUT_ERROR = "Title can't be empty"
 
 const ACTION_CANCELED = "Action canceled"
 const CREATED_SUCCESSFULLY = "Record created"
+const ALTERED_SUCCESSFULLY = "Record saved"
+
+const CHECKOUT_EXISTING__MODE = "checkoutExisting"
+const CREATE_NEW__MODE = "createNew"
+
+import { alterOneTodoRecord, removeOneTodoRecord } from '../../Context/Redux/utilities';
 
 export default function NewTodoRecord() {
   const {id : selectedTodoRecordId} = useParams()
-  //const storeState = useReduxStoreState()
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const contentRef = useRef(null);
   const {notificationRef, confirmationRef} = useContext(modalContext)
 
-  const selectedTodoRecord = useSelector((state) => selectTodoRecordsById(state, selectedTodoRecordId))
+  const selectedTodoRecord = useSelector((state) => selectTodoRecordsById(state, selectedTodoRecordId) || null)
+  const componentMode = useMemo(() => selectedTodoRecord?(CHECKOUT_EXISTING__MODE):(CREATE_NEW__MODE), [])
+  const formInitialValues = useMemo(() => {
+      switch (componentMode) {
+          case CHECKOUT_EXISTING__MODE:
+              return {__proto__ : null,
+                  title : selectedTodoRecord?.title || "",
+                  selectedTodosCollectionId : selectedTodoRecord?.collection || "",
+                  dateEnd : selectedTodoRecord?.dateEnd || "",
+                  content : selectedTodoRecord?.content || ""
+              }
+          default:
+              return {__proto__ : null,
+                  title : "",
+                  selectedTodosCollectionId : "",
+                  dateEnd : "",
+                  content : ""
+              }
+      }
+  }, [])
+  
   const [selectedTodosCollectionId, setSelectedTodosCollectionId] = useState(selectedTodoRecord?.collection || "")
   const [selectedEndDate, setSelectedEndDate] = useState(selectedTodoRecord?(new Date(selectedTodoRecord?.dateEnd)):"")
 
   const handleFormSubmit = useCallback(async values => {
-    const newTodoRecord = {
-      id : new Date().toString().slice(0, 24),
+    const todoRecordData = {
+      id : (componentMode === CHECKOUT_EXISTING__MODE)?(selectedTodoRecord.id):(new Date().toString().slice(0, 24)),
       title : values["title"],
       dateEnd : new Date(`${selectedEndDate.getMonth() + 1}/${selectedEndDate.getDate()}/${selectedEndDate.getFullYear()} 11:59:59 PM`).toString(),
       content : contentRef.current.content(),
@@ -63,9 +88,18 @@ export default function NewTodoRecord() {
     }
 
     try {
-        await confirmationRef.current.show("Create?")
-        await createTodoRecord(dispatch, newTodoRecord, selectedTodosCollectionId);
-        notificationRef.current.pop({variant : "success", text : CREATED_SUCCESSFULLY})
+        if (componentMode === CHECKOUT_EXISTING__MODE) {
+            await confirmationRef.current.show("Are you sure you want to save the changes?")
+            await alterOneTodoRecord({dispatch, alteredTodoRecord : todoRecordData})
+            notificationRef.current.pop({variant : "success", text : ALTERED_SUCCESSFULLY})
+        }
+        else if (componentMode === CREATE_NEW__MODE) {
+            await confirmationRef.current.show("Create new record?")
+            await createTodoRecord(dispatch, todoRecordData, selectedTodosCollectionId);
+            notificationRef.current.pop({variant : "success", text : CREATED_SUCCESSFULLY})
+        } else {
+            notificationRef.current.pop({variant : "warning", text : "Unknown action!"})
+        }
         navigate("/")
 
     } catch (error) {
@@ -78,7 +112,26 @@ export default function NewTodoRecord() {
       }
     }
 
-  }, [selectedTodosCollectionId, contentRef, selectedEndDate])
+  }, [selectedTodosCollectionId, contentRef, selectedEndDate, selectedTodoRecord])
+
+  const handleRecordDelete = async event => {
+      if (componentMode !== CHECKOUT_EXISTING__MODE) return;
+      try {
+        await confirmationRef.current.show("Are you sure you want to delete that record?")
+        await removeOneTodoRecord({dispatch, todoRecordId : selectedTodoRecord?.id, collectionId : selectedTodoRecord?.collection})
+        notificationRef.current.pop({variant : "info", text : "Record deleted"})
+        navigate("/")
+      } catch(error) {
+        switch (error) {
+          case Refused:
+              notificationRef.current.pop({variant : "info", text : ACTION_CANCELED})
+              break;
+          default:
+              notificationRef.current.pop({variant : "danger", text : error.toString()})
+              break;
+        }
+      }
+  }
 
   const validateForm = useCallback(values => {
       const errors = {__proto__ : null}
@@ -101,9 +154,9 @@ export default function NewTodoRecord() {
             <Tooltip />
 
             <Formik
-              initialValues={{}}
+              initialValues={formInitialValues}
               validate = {validateForm}
-              onSubmit={handleFormSubmit}
+              onSubmit={event => {handleFormSubmit(event)}}
             >
             {
               ({
@@ -114,19 +167,19 @@ export default function NewTodoRecord() {
                 handleBlur,
                 handleSubmit
               }) => (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(event) => {handleSubmit(event)}}>
 
                   <label className = {style["record-title"]}>
                     <input 
-                      data-invalid = {!!(touched?.title && errors?.title)}
-                      name = "title"
-                      placeholder = {(touched?.title && errors?.title)?(errors?.title):TITLE_INPUT_PLACEHOLDER}
-                      type="text"
-                      defaultValue={selectedTodoRecord?.title || ""}
-                      value = {values.title} 
-                      onChange = {(event) => {handleChange(event)}}
-                      onBlur = {handleBlur}
-                      />
+                        data-invalid = {!!(touched?.title && errors?.title)}
+                        name = "title"
+                        placeholder = {(touched?.title && errors?.title)?(errors?.title):TITLE_INPUT_PLACEHOLDER}
+                        type="text"
+                        defaultValue={formInitialValues.title}
+                        value = {values.title} 
+                        onChange = {(event) => {handleChange(event)}}
+                        onBlur = {handleBlur}
+                    />
                       
                   </label>
 
@@ -134,13 +187,13 @@ export default function NewTodoRecord() {
                     <EditableField 
                         placeholder = {CONTENT_INPUT_PLACEHOLDER} 
                         ref = {contentRef}
-                        defaultValue = {selectedTodoRecord?.content || ""}
+                        defaultValue = {formInitialValues.content}
                     />
                   </label>
 
                   <selectedTodosCollectionContext.Provider value = {{selectedTodosCollectionId, setSelectedTodosCollectionId, inputName : "selectedTodosCollectionId"}}>
                     <CollectionSelect 
-                        placeholder = {!!(errors?.collection && touched?.selectedTodosCollectionId)?errors?.collection:COLLECTION_SELECTION_PLACEHOLDER}
+                        placeholder = {!!(errors?.collection && touched?.selectedTodosCollectionId)?(errors?.collection):COLLECTION_SELECTION_PLACEHOLDER}
                         invalid = {!!(errors?.collection && touched?.selectedTodosCollectionId)} 
                         onChange = {event => {handleChange(event)}}
                         onBlur = {() => {handleBlur({target : {name : "selectedTodosCollectionId"}})}}/>
@@ -162,8 +215,8 @@ export default function NewTodoRecord() {
                   </label>
 
                   <div className = {style["buttons"]}>
-                      <button className = {style["success-btn"]} type = "submit">{(selectedTodoRecord)?"Create":"Save"}</button>
-                      {selectedTodoRecord && <button className = {style["delete-btn"]} type = "button" name = "delete">Delete</button>}
+                      <button className = {style["success-btn"]} type = "submit">{(selectedTodoRecord)?"Save":"Create"}</button>
+                      {(componentMode === CHECKOUT_EXISTING__MODE)?(<button className = {style["delete-btn"]} type = "button" name = "delete" onClick = {(event) => handleRecordDelete(event)}>Delete</button>):(<></>)}
                       <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
                   </div>
                 </form>

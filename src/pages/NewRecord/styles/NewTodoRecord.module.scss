@@ -108,7 +108,7 @@
             grid-column: 1/span 6;
             display: flex;
             width: 100%;
-            height: auto;
+            height: max-content;
             padding-top: 20px;
             justify-content: center;
             align-items: center;
@@ -124,7 +124,6 @@
                 max-width: 200px;
                 height: 47px;
                 padding: 10px 20px;
-                //margin-top: 20px;
                 border-radius: 15px;
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 20px;
@@ -185,33 +184,24 @@
             }
 
             & > .buttons {
-                flex-direction: column;
+                justify-content: space-evenly;
+                gap: 0;
 
                 & > button, & > a {
-                    width: 70%;
-    
-                    &.success-btn {
-                        justify-self: center;
-                        grid-column: 1/span 6;
-                        //grid-row: 2/3;
-                    }
+                    height: 50px;
+                    aspect-ratio: 1/1;
+                    border-radius: 50%;
+                    //background-color: #0000 !important;
+                    box-shadow: 0 0 3px $color-dark;
+                    overflow: hidden;
+                    color: #0000;
+
                     &.delete-btn {
-                        justify-self: center;
-                        grid-column: 1/span 6;
-                        
+                       color: #0000;
                         //grid-row: 2/3;
-                    }
-                    &.secondary-btn {
-                        justify-self: center;
-                        grid-column: 1/span 6;
-                        //margin-top: 0;
-                        //grid-row: 3/4;
                     }
                 }
             }
-            
-            
-            
         }
     }
     

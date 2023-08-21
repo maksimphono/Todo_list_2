@@ -1,4 +1,4 @@
-import React, {forwardRef, useId, useImperativeHandle, useRef, useState} from 'react'
+import React, {forwardRef, useEffect, useId, useImperativeHandle, useRef, useState} from 'react'
 import $ from "jquery"
 
 // <styles>
@@ -27,12 +27,16 @@ export default forwardRef(function EditableField({placeholder, defaultValue}, re
         setShowPlaceHolder(true)
       }
   }
+
+  useEffect(() => {
+      if (defaultValue) pRef.current.innerHTML = defaultValue
+  }, [])
   
   return (
     <>
         <p className = {style["placeholder"]} hidden = {(!showPlaceHolder)}>{placeholder}</p>
         <p ref = {pRef} className = {style["editable-field"]} contentEditable = {true} onFocus={handleFocus} onBlur = {handleBlur}>
-            {defaultValue || ""}
+            
         </p>
     </>
   )
