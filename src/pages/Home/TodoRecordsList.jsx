@@ -40,11 +40,13 @@ export function TodoRecordsListByDay() {
 
 import Dropdown from '../../UI/Components/Dropdown/Dropdown';
 import { NavLink } from 'react-router-dom';
+import useNewCollectionDialog from '../../hooks/useNewCollectionDialog';
 
 export default function TodoRecordsList() {
     const dispatch = useDispatch()
     const switchViewMode = () => dispatch(switchView())
     const creationMenuId = useId()
+    const showNewCollectionDialog = useNewCollectionDialog()
 
     const viewMode = useSelector(state => state.homePageViewMode)
 
@@ -60,7 +62,7 @@ export default function TodoRecordsList() {
             <></>
         }
         <Dropdown styles = {dropdown_styles}>
-            <button>+</button>
+            <button onClick={showNewCollectionDialog}>+</button>
             <NavLink>=</NavLink>
         </Dropdown>
         

@@ -19,12 +19,15 @@ const COLLECTION_DELETION_WARNING = "Warning! After deleting a collection, all t
 const COLLECTION_DELETION_SUCCESS = "Collection deleted"
 const ACTION_CANCELED = "Action canceled"
 
+import { Refused } from "../../../UI/Components/Confirmation/Confirmation";
+import { removeOneCollectionRecord } from "../../../Context/Redux/utilities";
+
 function CollectionOption({id, onChange, onBlur}) {
     const storeState = useReduxStoreState()
     const dispatch = useDispatch();
     const {setSelectedTodosCollectionId, inputName} = useContext(selectedTodosCollectionContext);
     const selectedCollection = useSelector(() => selectCollectionRecordsById(storeState, id))
-    const {modalRef} = useContext(modalContext)
+    const {modalRef, notificationRef, confirmationRef} = useContext(modalContext)
 
     const editCollectionFormId = useId()
     const radioInput = useRef(null);
@@ -82,41 +85,15 @@ function CollectionOption({id, onChange, onBlur}) {
     )
   }
 
-import { lazy } from "react";
-
-function useNewCollectionDialog(modalContext, styled_buttons) {
-    const NewCollectionForm = lazy(() => import("./NewCollectionForm"))
-
-    const {modalRef} = useContext(modalContext)
-    const newCollectionFormId = useId()
-
-    return useCallback(() => {
-        modalRef.current.setTitle("New collection");
-        modalRef.current.setBody(
-            <Suspense fallback = {<div>Loading...</div>}>
-                <NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />
-            </Suspense>
-        );
-        modalRef.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons["success-btn"]} type = "submit">Create</button>]);
-        modalRef.current.showModal()
-    }, [modalRef, newCollectionFormId, NewCollectionForm])
-}
+import useNewCollectionDialog from "../../../hooks/useNewCollectionDialog";
 
 export default function SelectCollection({visiable, onChange, onBlur}) {
     const {modalRef} = useContext(modalContext)
     const newCollectionFormId = useId();
     const allColection = useSelector(selectAllCollectionRecords)
     
-    const showNewCollectionDialog = useNewCollectionDialog(modalContext, styled_buttons)
+    const showNewCollectionDialog = useNewCollectionDialog(styled_buttons)
 
-    /*
-    useCallback(() => {
-      modalRef.current.setTitle("New collection");
-      modalRef.current.setBody(<NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />);
-      modalRef.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons["success-btn"]} type = "submit">Create</button>]);
-      modalRef.current.showModal()
-    }, [modalRef, newCollectionFormId])
-    */
     return (
       <>
       <ul style = {(!visiable)?{display : "none"}:{}} className = {style["select-collection-list"]}>
