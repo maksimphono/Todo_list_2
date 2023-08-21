@@ -37,6 +37,8 @@ export function TodoRecordsListByDay() {
   )
 }
 
+import Dropdown from '../../UI/Components/Dropdown/Dropdown';
+
 export default function TodoRecordsList() {
     const dispatch = useDispatch()
     const switchViewMode = () => dispatch(switchView())
@@ -55,14 +57,7 @@ export default function TodoRecordsList() {
         :
             <></>
         }
-        <label className = {style["creation__menu"]} onClick = {({target}) => console.dir(target)}>
-            <span>+</span>
-            <ul data-open = "false">
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </label>
+        <Dropdown />
         
       </div>
     </>
