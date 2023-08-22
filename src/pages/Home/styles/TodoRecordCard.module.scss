@@ -4,6 +4,7 @@
     --bg-main-color: #e77e28;
     --text-color: #000;
     
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,6 +17,7 @@
     padding: 15px;
     font-family: Arial, Helvetica, sans-serif;
     background-image: linear-gradient(var(--bg-main-color), var(--bg-main-color), var(--bg-main-color), var(--bg-main-color), #eee);
+    //background-color: #fff;
     border: none;
     border-radius: 20px;
     box-shadow: 2px 2px 9px $color-dark;
@@ -25,6 +27,26 @@
     transition: .5s;
     overflow: hidden;
     z-index: 1;
+
+    * {
+        z-index: 1;
+    }
+
+    svg.background_up,
+    svg.background_down {
+        position: absolute;
+        width: 100%;
+        height: auto;
+        left: 0;
+        z-index: 0;
+
+        &.background_down {
+            bottom: 0;
+        }
+        &.background_up {
+            top: 0;
+        }
+    }
 
     .title,
     .type,
