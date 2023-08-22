@@ -25,6 +25,7 @@
             box-shadow: 0 0 5px $color-dark;
             opacity: .7;
             transition: .3s;
+            z-index: 100;
 
             &:checked {
                 transform: rotate(90deg);
@@ -32,6 +33,7 @@
             }
         }
     }
+    
 
     .dropdown__body {
         position: absolute;
@@ -50,7 +52,6 @@
         }
 
         button, a {
-            all: unset;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -59,7 +60,40 @@
             border-radius: 50%;
             background-color: #fff;
             box-shadow: 0 0 5px $color-dark;
+            //animation: roll_out_up .5s ease 1 forwards;
+            //animation: none;
+            text-decoration: none;
+            color: $color-dark;
+            border: none;
+            z-index: 99;
+
+            &:first-child {
+                transform: translateY(110px) rotate(360deg);
+            }
+            
+            &:nth-child(2) {
+                transform: translateY(60px) rotate(360deg);
+            }
+            
+            &.roll_up {
+                animation: roll_out_up .5s ease 1 forwards;
+                &:nth-child(2) {
+                    animation-delay: .3s;
+                }
+            }
+            &.roll_down {
+                animation: roll_out_up .5s ease 1 reverse;
+                &:nth-child(2) {
+                    animation-delay: .3s;
+                }
+            }
+            
         }
     }
+}
 
+@keyframes roll_out_up {
+    to {
+        transform: translateY(0) rotate(0);
+    }
 }

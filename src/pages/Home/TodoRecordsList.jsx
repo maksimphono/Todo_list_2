@@ -62,8 +62,8 @@ export default function TodoRecordsList() {
             <></>
         }
         <Dropdown styles = {dropdown_styles}>
-            <button onClick={showNewCollectionDialog}>+</button>
-            <NavLink to = "NewTodoRecord">=</NavLink>
+            <button className={dropdown_styles["roll_up"]} onClick={showNewCollectionDialog}>+</button>
+            <NavLink className={dropdown_styles["roll_up"]} to = "NewTodoRecord">=</NavLink>
         </Dropdown>
         
       </div>
