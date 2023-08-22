@@ -149,7 +149,7 @@ export default function CardsRecordsCollection() {
     return (
         <>
             <div className = {style["cards"]}>
-                {TodoRecords.map(rec => <TodoRecordCard key = {rec.id} cardData = {rec}/>)}
+                {TodoRecords.map((rec, i) => <TodoRecordCard key = {rec.id} cardData = {rec} index = {i}/>)}
             </div>
         </>
     )

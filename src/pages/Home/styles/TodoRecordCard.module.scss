@@ -3,6 +3,7 @@
 .todo-record-card {
     --bg-main-color: #e77e28;
     --text-color: #000;
+    --appear-delay: 0;
     
     position: relative;
     display: flex;
@@ -26,6 +27,8 @@
     position: relative;
     transition: .5s;
     overflow: hidden;
+    animation: appear .5s ease 1 both;
+    animation-delay: var(--appear-delay);
     z-index: 1;
 
     * {
@@ -217,4 +220,13 @@
     $maincolor: $color-danger;
     @include ui-button($maincolor);
     background: $color-danger;
+}
+
+@keyframes appear {
+    from {
+        transform: translateX(1000px) translateY(1000px);
+    } 
+    to {
+        transform: translateX(0px) translateY(0px);
+    }
 }

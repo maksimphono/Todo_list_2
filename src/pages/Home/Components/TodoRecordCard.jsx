@@ -48,7 +48,7 @@ function DateStamp({date}) {
   )
 }
 
-export default function TodoRecordCard({cardData}) {
+export default function TodoRecordCard({cardData, index}) {
   const storeState = useReduxStoreState()
   const todoCollection = useSelector(() => selectCollectionRecordsById(storeState, cardData.collection))
   const textColor = useMemo(() => ((parseInt(todoCollection.color.slice(1, 7), 16) > 0x7fffff)?"#000":"#eee"), [todoCollection])
@@ -80,7 +80,7 @@ export default function TodoRecordCard({cardData}) {
           ref = {componentMainBody} 
           onClick = {handleBodyClick}
           data-show-content = {contentVisiable}
-          style = {{"--bg-main-color" : todoCollection.color, "--text-color" : textColor}}
+          style = {{"--bg-main-color" : todoCollection.color, "--text-color" : textColor, "--appear-delay" : `${(0.1 * +index)}s`}}
           className = {style["todo-record-card"]}
         >
             <svg className = {style["background_down"]} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#fff" fill-opacity="1" d="M0,160L40,149.3C80,139,160,117,240,133.3C320,149,400,203,480,192C560,181,640,107,720,101.3C800,96,880,160,960,192C1040,224,1120,224,1200,202.7C1280,181,1360,139,1400,117.3L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
