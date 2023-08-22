@@ -73,7 +73,9 @@
     }
     a {
         color: $color2;
-        display: inline-block;
+        display: inline-flex;
+        align-items: end;
+        gap: 5px;
         width: auto;
         text-decoration: none;
         
@@ -119,7 +121,7 @@
             grid-template-rows: 1fr auto auto auto 70%;
             gap: 5px;
             padding-top: 10px;
-            background: rgba(113, 171, 228, 0.7);
+            background: rgba(113, 171, 228, 0.9);
             border: 3px solid $color-dark;
             width: 60vw;
             height: 100%;
