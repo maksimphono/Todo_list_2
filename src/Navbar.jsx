@@ -11,7 +11,7 @@ export default function Navbar() {
         </div>
         <button className = "navbar-toggler"></button>
         <ul>
-            <li><Link to="/">Home</Link></li>
+            <li><Link to="/"><span class="material-symbols-outlined">done</span>Home</Link></li>
             <li><Link to="/NewTodoRecord">New</Link></li>
             <li><Link to="/">Analize</Link></li>
             <button>P</button>

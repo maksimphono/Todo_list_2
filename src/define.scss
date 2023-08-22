@@ -1,16 +1,40 @@
 $color1: #D4AFB9;
-    $color2: #D1CFE2;
-    $color3: #9CADCE;
-    $color4: #7EC4CF;
-    $color5: #52B2CF;
+$color2: #D1CFE2;
+$color3: #9CADCE;
+$color4: #7EC4CF;
+$color5: #52B2CF;
 
-    $color-danger: #cf6352;
-    $color-info: #bad7e3;
-    $color-dark: #242526;
-    $color-success: #8fb866;
-    $color-warning: #d7bf77;
-    $color-secondary: #dbdbdb;
+$color-danger: #cf6352;
+$color-info: #bad7e3;
+$color-dark: #242526;
+$color-success: #8fb866;
+$color-warning: #d7bf77;
+$color-secondary: #dbdbdb;
 
-    $query-phone-width: 400px;
-    $query-tablet-width: 800px;
-    $query-desktop-width: 1000px;
+$query-phone-width: 400px;
+$query-tablet-width: 800px;
+$query-desktop-width: 1000px;
+
+@font-face {
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    font-weight: 100 700;
+    src: url(./assets/Google_icons.woff2) format('woff2');
+  }
+  
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -moz-font-feature-settings: 'liga';
+    -moz-osx-font-smoothing: grayscale;
+}
+  
