@@ -13,8 +13,7 @@ export default function Navbar() {
         <ul>
             <li><Link to="/"><span className="material-symbols-outlined">home</span> Home</Link></li>
             <li><Link to="/NewTodoRecord"><span className="material-symbols-outlined">add</span> New</Link></li>
-            <li><Link to="/">Analize</Link></li>
-            <button>P</button>
+            <button><span className="material-symbols-outlined">search</span></button>
         </ul>            
     </nav>
   )

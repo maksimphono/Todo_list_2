@@ -29,7 +29,7 @@ function CardControlBtns({todoRecordId, collectionId}) {
   return (
       <>
       <ul className = {style["control-buttons"]}>
-          <button className = {style["success-btn"]} onClick = {handleComplete}>Complete</button>
+          <button className = {style["success-btn"]} onClick = {handleComplete}><span className="material-symbols-outlined">check_circle</span>Complete</button>
           <NavLink className = {style["info-btn"]} to = {`/CheckoutRecord/${todoRecordId}`}>Check out</NavLink>
       </ul>
       </>
@@ -44,7 +44,10 @@ function DateStamp({date}) {
   }, [])
 
   return (
-    <span className ={style["date-stamp"]}>{newDate}</span>
+    <>
+      <span className ={style["date-stamp"]}><span className="material-symbols-outlined">date_range</span>{newDate}</span>
+    </>
+    
   )
 }
 

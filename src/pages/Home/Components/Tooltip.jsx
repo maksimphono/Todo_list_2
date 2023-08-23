@@ -54,11 +54,16 @@ export default function Tooltip({switchViewMode, viewMode}) {
                 className={style["switch_view"]} 
                 onClick = {switchViewMode}
             >
-                {(viewMode === viewModeList)?"Calendar":"List"}
+                {(viewMode === viewModeList)?
+                    <><span className="material-symbols-outlined">calendar_month</span>Calendar</>
+                :
+                <><span className="material-symbols-outlined">format_list_bulleted</span>List</>
+                }
+                
             </button>
 
             <DropdownTool
-                summary = "Filter"
+                summary = {<><span className="material-symbols-outlined">filter</span>Filter</>}
                 forceShrink = {expandedDropdown == "SortOption"} 
                 onExpand = {() => setExpandedDropdown("FiltersOption")}
                 onShrink = {() => setExpandedDropdown("")}
@@ -66,7 +71,7 @@ export default function Tooltip({switchViewMode, viewMode}) {
                 <FiltersOption />
             </DropdownTool>
             <DropdownTool
-                summary = "Sort"
+                summary = {<><span className="material-symbols-outlined">sort</span>Sort</>}
                 forceShrink = {expandedDropdown == "FiltersOption"}
                 onExpand = {() => setExpandedDropdown("SortOption")}
                 onShrink = {() => setExpandedDropdown("")}
