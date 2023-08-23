@@ -43,6 +43,24 @@ const ALTERED_SUCCESSFULLY = "Record saved"
 const CHECKOUT_EXISTING__MODE = "checkoutExisting"
 const CREATE_NEW__MODE = "createNew"
 
+function NewRecord_Header() {
+    return (<>
+        <header>
+            <h1>Add new todo record</h1>
+            <p>Please make sure to specify collection, which your new todo record belongs to. Also don't forget to specify date of deadline</p>
+        </header>
+    </>)
+}
+
+function CheckoutRecord_Header() {
+    return (<>
+      <header>
+        <h1>Customize your todo record</h1>
+        <p>You can edit your record as you like, or delete it completely.</p>
+      </header>
+    </>)
+}
+
 export default function NewTodoRecord() {
   const {id : selectedTodoRecordId} = useParams()
   const navigate = useNavigate();
@@ -147,7 +165,11 @@ export default function NewTodoRecord() {
   return (
     <>
         <div id = {style["new_todo_record"]}>
-            <Tooltip />
+            {componentMode === CREATE_NEW__MODE?
+                <NewRecord_Header />
+            :
+                <CheckoutRecord_Header />
+            }
 
             <Formik
               initialValues={formInitialValues}
@@ -199,7 +221,7 @@ export default function NewTodoRecord() {
                       data-invalid = {!!(errors?.dateEnd && touched?.dateEnd)} 
                       className = {style["end-date"]}
                   >
-                      <h2>End date</h2>
+                      <h2><span className="material-symbols-outlined">pending_actions</span> Deadline</h2>
 
                       <DatePicker
                           selected = {selectedEndDate}
@@ -211,9 +233,9 @@ export default function NewTodoRecord() {
                   </label>
 
                   <div className = {style["buttons"]}>
-                      <button className = {style["success-btn"]} type = "submit">{(selectedTodoRecord)?"Save":"Create"}</button>
-                      {(componentMode === CHECKOUT_EXISTING__MODE)?(<button className = {style["delete-btn"]} type = "button" name = "delete" onClick = {(event) => handleRecordDelete(event)}>Delete</button>):(<></>)}
-                      <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/">Cancel</NavLink>
+                      <button className = {style["success-btn"]} type = "submit">{(selectedTodoRecord)?(<><span className="material-symbols-outlined">task</span>Save</>):(<><span className="material-symbols-outlined">add_task</span> Create</>)}</button>
+                      {(componentMode === CHECKOUT_EXISTING__MODE)?(<button className = {style["delete-btn"]} type = "button" name = "delete" onClick = {(event) => handleRecordDelete(event)}><span className="material-symbols-outlined">delete</span> Delete</button>):(<></>)}
+                      <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/"><span className="material-symbols-outlined">close</span> Cancel</NavLink>
                   </div>
                 </form>
               )
