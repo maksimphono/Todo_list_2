@@ -47,8 +47,8 @@ export default forwardRef(function (props, ref) {
             <form method = "dialog">
                 <h2>Confirm action</h2>
                 <p>{text}</p>
-                <button ref = {confirmBtnRef} className = {styled_buttons["success-btn"]}>Confirm</button>
-                <button ref = {rejectBtnRef} className = {styled_buttons["warning-btn"]}>Reject</button>
+                <button ref = {confirmBtnRef} className = {styled_buttons["success-btn"]}><span className="material-symbols-outlined">check</span>Confirm</button>
+                <button ref = {rejectBtnRef} className = {styled_buttons["warning-btn"]}><span className="material-symbols-outlined">close</span>Reject</button>
             </form>
         </dialog>
     )

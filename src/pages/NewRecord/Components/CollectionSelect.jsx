@@ -51,7 +51,7 @@ export default function CollectionSelect({onBlur, invalid, onChange, placeholder
         htmlFor = {detailsId} 
         className = {style["select-collection"]}>
         <h2>
-            Collection
+            <span className="material-symbols-outlined">category</span> Collection
         </h2>
         <details onBlur = {onBlur} id = {detailsId} name="collection_dropdown" onClick = {() => setOpen(v => !v)}>
             <summary

@@ -31,7 +31,7 @@ export default forwardRef(function Modal(props, ref) {
                     {footer.map((item, key) => <li key = {key}>{item}</li>)}
                     <li><form method = "dialog"><button className = {styles_buttons["secondary-btn"]} value = {"cancel"} formMethod={"dialog"} onClick={() => dialogRef.current.close()}>Cancel</button></form></li>
                 </ul>
-                <button className = {style["cancel-X-btn"]}>x</button>
+                <button className = {style["cancel-X-btn"]}><span className="material-symbols-outlined">close</span></button>
             </div>
         </dialog>
     </>

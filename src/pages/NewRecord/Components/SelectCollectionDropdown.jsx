@@ -79,7 +79,7 @@ function CollectionOption({id, onChange, onBlur}) {
               />
             </label>
 
-            <button className = {style["edit-collection"]} type = "button" onClick={startEditCollectionRecord}>Edit</button>
+            <button className = {style["edit-collection"]} type = "button" onClick={startEditCollectionRecord}><span className="material-symbols-outlined">edit</span>Edit</button>
           </li>
       </>
     )
@@ -102,7 +102,7 @@ export default function SelectCollection({visiable, onChange, onBlur}) {
               type = "button" 
               onClick = {showNewCollectionDialog}
             >
-              Add
+              <span className="material-symbols-outlined">add</span>Add
             </button>
           </li>
           {allColection.map((item) => 

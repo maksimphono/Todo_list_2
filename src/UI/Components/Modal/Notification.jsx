@@ -28,9 +28,8 @@ export default forwardRef(function(props, ref) {
     <dialog ref = {dialogRef} className = {style["notification"]} data-variant = {variant} open = {false}>
         <p>{text}</p>
         <form method = "dialog">
-          <button className = {style["cancel-X-btn"]} value = {"cancel"} formMethod={"dialog"} onClick={() => dialogRef.current.close()}>x</button>
+          <button className = {style["cancel-X-btn"]} value = {"cancel"} formMethod={"dialog"} onClick={() => dialogRef.current.close()}><span className="material-symbols-outlined">close</span></button>
         </form>
-        
     </dialog>
   )
 })

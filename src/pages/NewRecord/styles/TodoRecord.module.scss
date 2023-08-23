@@ -10,8 +10,18 @@
     grid-template-rows: 1fr auto;
     gap: 10px;
     height: max-content;
-    margin-top: $tooltip-height;
+    margin-top: 30px;
+    //margin-top: $tooltip-height;
     padding-bottom: 30px;
+
+    & > header {
+        grid-column: 1/span 6;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 80%;
+        padding-inline: 2%;
+    }
 
     & > form {
         grid-column: 1/span 6;
