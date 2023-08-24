@@ -49,22 +49,24 @@ export default function SortOption() {
                             checked = {state.parameter == parameterItem.name}
                             onChange = {event => dispatch(formSlice.actions.setParameter(parameterItem.name))}
                         />
-                        <input 
-                            type="checkbox"
-                            className = {style["reversed"]} 
-                            checked = {state.parameter == parameterItem.name && state.reversed}
-                            onChange = {() => state.parameter == parameterItem.name && dispatch(formSlice.actions.setReversed(!state.reversed))}
-                        />
+                        <label className = {style["reversed"]}>
+                            <input 
+                                type="checkbox"
+                                checked = {state.parameter == parameterItem.name && state.reversed}
+                                onChange = {() => state.parameter == parameterItem.name && dispatch(formSlice.actions.setReversed(!state.reversed))}
+                            />
+                            <span title='icon' className="material-symbols-outlined">expand_more</span>
+                        </label>
                     </label>
             ))}
             
-            <button className = {styled_buttons["success-btn"]}>Apply</button>
+            <button className = {styled_buttons["success-btn"]}><span title='icon' className="material-symbols-outlined">check</span> Apply</button>
             <button 
                 className = {styled_buttons["secondary-btn"]} 
                 type = "button" 
                 onClick = {handleReset}
             >
-                    Reset
+                    <span title='icon' className="material-symbols-outlined">restart_alt</span> Reset
             </button>
         </form>
     </>

@@ -130,7 +130,7 @@ export default function FiltersOption() {
                         name = 'clear' 
                         onClick = {() => dispatch(formSlice.actions.setSearchFieldValue(""))}
                     >
-                        x
+                        <span title='icon' className="material-symbols-outlined">close</span>
                     </button>
                 </label>
                 <SelectCollections />
@@ -147,7 +147,7 @@ export default function FiltersOption() {
                         name = 'clear' 
                         onClick = {() => dispatch(formSlice.actions.setEndDateFrom(""))}
                     >
-                        x
+                        <span title='icon' className="material-symbols-outlined">close</span>
                     </button>
                 </label>
                 <label name = 'datepick'>
@@ -163,11 +163,11 @@ export default function FiltersOption() {
                         name = 'clear' 
                         onClick = {() => dispatch(formSlice.actions.setEndDateTo(""))}
                     >
-                        x
+                        <span title='icon' className="material-symbols-outlined">close</span>
                     </button>
                 </label>
-                <button className = {styled_buttons["success-btn"]} type='submit'>Apply filters</button>
-                <button className = {styled_buttons["secondary-btn"]} onClick = {handleFiltersReset} type = "button">Reset</button>
+                <button className = {styled_buttons["success-btn"]} type='submit'><span title='icon' className="material-symbols-outlined">check</span> Apply filters</button>
+                <button className = {styled_buttons["secondary-btn"]} onClick = {handleFiltersReset} type = "button"><span title='icon' className="material-symbols-outlined">restart_alt</span> Reset</button>
 
             </form>
         </FormContext.Provider>
