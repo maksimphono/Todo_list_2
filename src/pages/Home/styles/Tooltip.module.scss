@@ -116,18 +116,36 @@
                 color: #eee;
             }
 
-            @media screen and (min-width : $query-desktop-width) {
-                max-width: 200%;
-            }
+        }
+    }
+    @media screen and (min-width : $query-desktop-width) {
+        details .options {
+            max-width: 200%;
+        }        
+    }
 
-            @media screen and (max-width : $query-tablet-width) {
-                min-width: 97vw;
-            }
-            @media screen and (max-width : $query-phone-width) {
-                min-width: 97vw;
-                //min-width: 95vw;
+    @media screen and (max-width : $query-tablet-width) {
+        details .options {
+            min-width: 97vw;
+        }
+            
+    }
+    @media screen and (max-width : $query-phone-width) {
+        
+        details.tool > summary, button.switch_view {
+            font-size: 0;
+    
+            span {
+                font-size: 20px;
             }
         }
 
+        .options {
+            min-width: 97vw;
+        }
+            
+
+            //min-width: 95vw;
     }
+
 }

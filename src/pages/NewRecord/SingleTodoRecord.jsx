@@ -233,9 +233,9 @@ export default function NewTodoRecord() {
                   </label>
 
                   <div className = {style["buttons"]}>
-                      <button className = {style["success-btn"]} type = "submit">{(selectedTodoRecord)?(<><span className="material-symbols-outlined">task</span>Save</>):(<><span className="material-symbols-outlined">add_task</span> Create</>)}</button>
-                      {(componentMode === CHECKOUT_EXISTING__MODE)?(<button className = {style["delete-btn"]} type = "button" name = "delete" onClick = {(event) => handleRecordDelete(event)}><span className="material-symbols-outlined">delete</span> Delete</button>):(<></>)}
-                      <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/"><span className="material-symbols-outlined">close</span> Cancel</NavLink>
+                      <button className = {style["success-btn"]} type = "submit">{(selectedTodoRecord)?(<><span title = "icon" className="material-symbols-outlined">task</span>Save</>):(<><span title = "icon" className="material-symbols-outlined">add_task</span> Create</>)}</button>
+                      {(componentMode === CHECKOUT_EXISTING__MODE)?(<button className = {style["delete-btn"]} type = "button" name = "delete" onClick = {(event) => handleRecordDelete(event)}><span title = "icon" className="material-symbols-outlined icon">delete</span> Delete</button>):(<></>)}
+                      <NavLink className = {style["secondary-btn"]} name = 'cancel' to = "/"><span className="material-symbols-outlined" title = "icon">close</span> Cancel</NavLink>
                   </div>
                 </form>
               )

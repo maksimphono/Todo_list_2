@@ -1,14 +1,16 @@
 @import "./variables.module.scss";
 
 .filter_option {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-items: stretch;
     gap: 5px;
     width: 100%;
+    max-width: 100%;
     height: 100%;
-    padding: 20px;
-    
+    padding: 10px 0 20px 0;
+
     & > button {
         &:first-of-type {
             justify-self: end;
@@ -16,6 +18,7 @@
         &:last-of-type {
             justify-self: start;
         }
+        //display: none !important;
         width: 70%;
         height: 40px;
         border-radius: 15px;
@@ -38,20 +41,20 @@
         max-width: 100%;
         //overflow-x: hidden;
         padding: 10px;
-        
+        padding-inline: 30px;
         font-family: Arial, Helvetica, sans-serif;
         font-size: larger;
         
 
 
         &:not([name='datepick']) {
+            //padding-inline: 30px;
             & > input[type='text'], details {
                 all: unset;
                 display: block;
-                width: auto;
+                width: 95%;
                 height: 40px;
-                padding: auto;
-                padding-inline: 10px;
+                padding-inline-start: 5%;
                 color: $color-dark;
                 background-color: #eee;
                 border: none;
@@ -119,7 +122,7 @@
             & > button[name='clear'] {
                 all: unset;
                 position: absolute;
-                right: 15px;
+                right: 30px;
                 bottom: 15px;
                 display: flex;
                 justify-content: center;
@@ -142,7 +145,7 @@
             & > button {
                 all: unset;
                 position: absolute;
-                right: 15px;
+                right: 30px;
                 top: 39px;
                 display: flex;
                 justify-content: center;

@@ -204,11 +204,10 @@
                     //background-color: #0000 !important;
                     box-shadow: 0 0 3px $color-dark;
                     overflow: hidden;
-                    color: #0000;
+                    font-size: 0;
 
-                    &.delete-btn {
-                       color: #0000;
-                        //grid-row: 2/3;
+                    span[title='icon'] {
+                        font-size: 30px;
                     }
                 }
             }
