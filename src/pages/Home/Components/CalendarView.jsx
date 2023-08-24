@@ -85,14 +85,14 @@ export default function CalendarView() {
     return (
     <>
         <table className={style["calendar"]}>
-            <button onClick = {() => dispatch({type : decMonth})}></button>
+            <button onClick = {() => dispatch({type : decMonth})}><span title='icon' className="material-symbols-outlined">arrow_back</span></button>
             <h2>{monthsNames[state.month]}</h2>
             <select name="select-year" value = {state.year} onChange={event => dispatch({type : setYear, payload : event.target.value})}>
                 {Array.range(new Date().getFullYear(), 2050).map(n => 
                     <option>{n}</option>
                 )}
             </select>
-            <button onClick = {() => dispatch({type : incMonth})}></button>
+            <button onClick = {() => dispatch({type : incMonth})}><span title='icon' className="material-symbols-outlined">arrow_forward</span></button>
             <thead>
                 <tr>
                     {"SUN MON TUE WEN THU FRI SAT".split(" ").map(day => <th>{day}</th>)}
