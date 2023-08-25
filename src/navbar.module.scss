@@ -12,7 +12,7 @@
     height: 60px;
     padding: 0 1%;
     background: $color-dark;
-    font-family: Arial;
+    font-family: "Mulish", Arial;
     z-index: 300;
 
     .brand {
@@ -64,6 +64,7 @@
             border: none;
             border-radius: 20px;
             transition: .5s;
+            font-family: Arial;
             cursor: pointer;
             
             &:hover {

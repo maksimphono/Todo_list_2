@@ -9,7 +9,7 @@ export default function Navbar() {
         <div className = {style["brand"]}>
             <Link to="/" />
         </div>
-        <button className = {style["navbar-toggler"]}></button>
+        <button className = {style["navbar-toggler"]}><span className="material-symbols-outlined">reorder</span></button>
         <ul>
             <li><Link to="/"><span className="material-symbols-outlined">home</span> Home</Link></li>
             <li><Link to="/NewTodoRecord"><span className="material-symbols-outlined">add</span> New</Link></li>

@@ -15,12 +15,22 @@ $query-phone-width: 400px;
 $query-tablet-width: 800px;
 $query-desktop-width: 1000px;
 
+$primary-font: "Mulish";
+$secondary-font: Arial;
+
 @font-face {
     font-family: 'Material Symbols Outlined';
     font-style: normal;
     font-weight: 100 700;
     src: url(./assets/Google_icons.woff2) format('woff2');
   }
+
+@font-face {
+    font-family: "Mulish";
+    src: url(./assets/Mulish_Google_font.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 100 700;
+}
   
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
