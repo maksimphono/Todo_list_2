@@ -4,14 +4,12 @@
     display: grid;
     flex-direction: column;
     justify-items: center;
-
     align-items: center;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr auto;
     gap: 10px;
     height: max-content;
     margin-top: 30px;
-    //margin-top: $tooltip-height;
     padding-bottom: 30px;
 
     & > header {
@@ -21,6 +19,7 @@
         gap: 10px;
         width: 80%;
         padding-inline: 2%;
+        font-family: $primary-font, $secondary-font, sans-serif;
     }
 
     & > form {
@@ -33,7 +32,7 @@
         padding: max(1%, 10px);
 
         & > label {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: $primary-font, $secondary-font, sans-serif;
             font-size: large;
         }
 
@@ -135,7 +134,7 @@
                 height: 47px;
                 padding: 10px 20px;
                 border-radius: 15px;
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: $primary-font, $secondary-font, sans-serif;
                 font-size: 20px;
                 text-decoration: none;
                 box-shadow: 0 0 6px $color-dark;

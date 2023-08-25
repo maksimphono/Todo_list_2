@@ -18,11 +18,10 @@
         &:last-of-type {
             justify-self: start;
         }
-        //display: none !important;
         width: 70%;
         height: 40px;
         border-radius: 15px;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: $primary-font, $secondary-font, sans-serif;
         font-size: larger;
         margin-inline: 5px;
         transition: .3s;
@@ -42,7 +41,7 @@
         //overflow-x: hidden;
         padding: 10px;
         padding-inline: 30px;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: $primary-font, $secondary-font, sans-serif;
         font-size: larger;
         
 

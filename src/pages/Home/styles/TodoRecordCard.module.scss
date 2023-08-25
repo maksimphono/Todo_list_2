@@ -14,11 +14,9 @@
     width: auto;
     max-width: 100%;
     height: max-content;
-    //min-height: 100px;
     padding: 15px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: $primary-font, $secondary-font, sans-serif;
     background-image: linear-gradient(var(--bg-main-color), var(--bg-main-color), var(--bg-main-color), var(--bg-main-color), #eee);
-    //background-color: #fff;
     border: none;
     border-radius: 20px;
     box-shadow: 2px 2px 9px $color-dark;
