@@ -11,8 +11,8 @@ node_modules
 #dist
 #dist-ssr
 #*.local
-public
-src
+#public
+#src
 
 
 # Editor directories and files
