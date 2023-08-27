@@ -78,7 +78,7 @@ function App() {
   return (
     <Provider store = {store}>
     
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path = "/" element = {<Layout />}>
           <Route index element = {<TodoRecordsList />}/>
@@ -91,7 +91,7 @@ function App() {
           <Route index element = {<CalendarView/>}/>
         </Route>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
     </Provider>
   )
 }
