@@ -43,7 +43,11 @@ export default function NewCollectionForm({id, closeModal}) {
         </label>
         <label className = {style_NewCollectionForm["color-picker"]}>
           <h3>Collection color</h3>
-          <input name = "color" type="color" />
+          <div className = {style_NewCollectionForm["custom-input-color"]}>
+            <img  src="/src/assets/icons/color-input-component-icon.png" alt="" />
+          </div>
+          
+          <input hidden name = "color" type="color" />
         </label>      
       </form>
     )
