@@ -1,20 +1,21 @@
 import { lazy, useCallback, useContext, Suspense, useId } from "react"
-import modalContext from "../Context/modalContext"
+//import modalContext from "../Context/modalContext"
+import useModal from "./useModal"
 
 export default function useNewCollectionDialog(styled_buttons) {
     const NewCollectionForm = lazy(() => import("../pages/NewRecord/Components/NewCollectionForm"))
 
-    const {modalRef} = useContext(modalContext)
+    const modal = useModal()
     const newCollectionFormId = useId()
 
     return useCallback(() => {
-        modalRef.current.setTitle("New collection");
-        modalRef.current.setBody(
+        modal.current.setTitle("New collection");
+        modal.current.setBody(
             <Suspense fallback = {<div>Loading...</div>}>
-                <NewCollectionForm id = {newCollectionFormId} closeModal = {modalRef.current.close} />
+                <NewCollectionForm id = {newCollectionFormId} closeModal = {modal.current.close} />
             </Suspense>
         );
-        modalRef.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons && styled_buttons["success-btn"] || ""} type = "submit">Create</button>]);
-        modalRef.current.showModal()
-    }, [modalRef, newCollectionFormId, NewCollectionForm])
+        modal.current.setFooter([<button form = {newCollectionFormId} className = {styled_buttons && styled_buttons["success-btn"] || ""} type = "submit">Create</button>]);
+        modal.current.showModal()
+    }, [modal.current, newCollectionFormId, NewCollectionForm])
 }
