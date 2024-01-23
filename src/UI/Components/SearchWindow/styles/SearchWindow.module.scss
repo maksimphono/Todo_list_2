@@ -1,0 +1,134 @@
+@import "../../../../define.scss";
+
+.search__dialog {
+  background: $color-dark;
+  border-radius: 12px;
+  width: 512px;
+  height: 239px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  overflow: hidden;
+}
+.input {
+  padding-inline: 20px 40px;
+  color: $color2;
+  background-color: #fff0;
+  border: none;
+  text-align: left;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  width: 100%;
+  height: 50px;
+  
+}
+.cancel-X-btn {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  aspect-ratio: 1/1;
+  background-color: #0000;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+.rounded-rectangle {
+  background: #d9d9d9;
+  border-radius: 10px;
+  width: 20px;
+  height: 177px;
+  position: absolute;
+  left: 487px;
+  top: 53px;
+}
+.searched-records {
+  background: #0000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 98%;
+  height: 175px;
+  padding: 10px 10px;
+  overflow: auto;
+
+  .record {
+    //background: $color2;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    padding-inline: 10px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    width: 100%;
+    height: 30px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    span {
+      font-family: "Segoe UI", sans-serif;
+      color: #fff;
+  
+      &:last-child{
+        margin-left: auto;
+      }
+    }
+
+    .sep-bar {
+      display: block;
+      position: relative;
+      top: 2px;
+      margin-inline: 10px;
+      width: 15px;
+      height: 2px;
+      background-color: #fff;
+    }
+
+    &:hover {
+      background: $color2;
+
+      & span {
+        color: #000;
+
+        &.sep-bar {
+          background-color: #000;
+        }
+      }
+    }
+  }
+
+  
+
+  &::-webkit-scrollbar {
+      width: 17px;
+  }
+    &::-webkit-scrollbar-track {
+      background: $color2;
+      border-radius: 10px;
+      height: auto;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #3e3b3b;
+      border-radius: 10px;
+      height: auto;
+    }
+}
+
+.separation-bar {
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 1px 0 0 0;
+  width: 515px;
+  height: 0px;
+  position: absolute;
+  left: 0px;
+  top: 50px;
+  transform-origin: 0 0;
+  transform: rotate(-0.111deg) scale(1, 1);
+}

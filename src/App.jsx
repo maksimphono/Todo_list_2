@@ -62,6 +62,7 @@ import CardsRecordsList from './pages/Home/Components/CardsRecordsList'
 import CalendarView from './pages/Home/Components/CalendarView'
 import { TodoRecordsListByDay } from './pages/Home/TodoRecordsList'
 
+import SearchWindow from './UI/Components/SearchWindow/SearchWindow'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -87,8 +88,7 @@ function App() {
           <Route path = "CheckoutRecord/:id" element = {<NewTodoRecord />}/>
         </Route>
         <Route path = "tests">
-          <Route path = "add" element = {<TestComponent/>}/>
-          <Route index element = {<CalendarView/>}/>
+          <Route index element = {<SearchWindow/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
