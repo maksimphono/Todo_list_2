@@ -1,22 +1,33 @@
-import React from 'react'
-import { forwardRef, useImperativeHandle, useRef, useEffect } from 'react'
+import React, { useMemo } from 'react'
+import { forwardRef, useImperativeHandle, useRef, useEffect, useState } from 'react'
+
+import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
+import { todoRecordsStorageThunks } from '../../../Context/Redux/todoRecordsSlice'
 
 // <styles>
 import style from "./styles/SearchWindow.module.scss"
+import { useDispatch, useSelector } from 'react-redux'
 
 // </styles>
 
-function SearchedRecord({name, collection}) {
+function SearchedRecord({title, collection, due}) {
     return (
         <div className = {style["record"]}>
-            <span className = {style["name"]}>Todo 1</span><span className = {style["sep-bar"]}></span><span>Col 1</span>
-            <span className = {style["date-due"]}>Jan 12, 2024</span>
+            <span className = {style["name"]}>{title}</span><span className = {style["sep-bar"]}></span><span>{collection}</span>
+            <span className = {style["date-due"]}>{due}</span>
         </div>
     )
 }
 
 export default forwardRef(function SearchWindow(props, ref) {
+    const dispatch = useDispatch()
     const dialogRef = useRef()
+    const [stringToSearch, setStringToSearch] = useState("q")
+    const records = useSelector((state) => {
+            const records = selectAllTodoRecords(state).filter(item => item.title.includes(stringToSearch))
+            return records;
+        }
+    )
 
     useImperativeHandle(ref, () =>
         ({
@@ -26,21 +37,21 @@ export default forwardRef(function SearchWindow(props, ref) {
         })
     )
 
-    useEffect(() => {dialogRef.current.showModal()}, [])
+    useEffect(() => {
+        dispatch(todoRecordsStorageThunks.loadAll())
+        dialogRef.current.showModal()
+    }, [])
 
   return (
     <>
         <dialog ref = {dialogRef} className={style["search__dialog"]}>
-            <input className = {style["input"]} placeholder = "Search" type = "text" />
+            <input className = {style["input"]} placeholder = "Search" type = "text" value = {stringToSearch} onChange = {({target}) => setStringToSearch(target.value)} />
             <div className = {style["separation-bar"]}></div>
             <br />
             <button className = {style["cancel-X-btn"]} value = {"cancel"} onClick={() => dialogRef.current.close()}><img src = "/src/assets/icons/close-X-btn.svg"/></button>
             <div className = {style["searched-records"]}>
-                <SearchedRecord/>
-                <SearchedRecord/>
-                <SearchedRecord/>
-                <SearchedRecord/>
-                <SearchedRecord/>
+                {records.map(record => <SearchedRecord title = {record.title} collection = {"Col1"} due = {"Jan 12, 2024"} />)}
+                
             </div>
         </dialog>
 
