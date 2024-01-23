@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useId, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useId, useState } from 'react'
 import Tooltip from './Components/Tooltip';
 import Cards , {CardsRecordsCollectionByDay} from './Components/CardsRecordsList.jsx';
 
@@ -7,22 +7,14 @@ import style from "./styles/TodoRecordsList.module.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import dropdown_styles from "./styles/Dropdown.module.scss";
 import styled_buttons from "../../buttons.module.scss"
-//import "./styles/TodoRecordCard.module.scss"
-
 // </styles>
 
-import {addOneCollection} from "../../Context/Redux/todoCollectionsSlice"
-import {addOne, selectAllTodoRecords} from "../../Context/Redux/todoRecordsSlice"
-
-import { selectAllCollectionRecords } from '../../Context/Redux/todoCollectionsSlice';
-import { store } from '../../Context/Redux/store';
- 
 import CalendarView from './Components/CalendarView';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { viewModeList, viewModeCalendar, switchView, setCalendar } from './homePageViewModeSlice';
 
-export function TodoRecordsListByDay() {
+export function TodoRecordsListByDay() {  
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const switchViewMode = useCallback(() => {dispatch(setCalendar()); navigate("/")}, [])
