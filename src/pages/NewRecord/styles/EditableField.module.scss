@@ -9,12 +9,13 @@ p.editable-field {
     height: max-content;
     min-height: 20vh;
     padding: 10px 20px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 28px;
+    font-family: 'Segoe UI', 'Segoe UI Bold', 'Segoe UI Light', Arial, sans-serif;
+    //font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
     color: $color-dark;
     outline: none !important;
     cursor: text;
-    background-color: #ddd;
+    background-color: #ddd0;
     border: none;
     border-radius: 0 0 15px 15px;
 
@@ -38,6 +39,6 @@ p.placeholder {
     left: 20px;
     color: #777;
     z-index : 2;
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-family: 'Segoe UI', 'Segoe UI Bold', 'Segoe UI Light', Arial, sans-serif;
     font-size: 28px;
 }
