@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { forwardRef, useImperativeHandle, useRef, useEffect, useState } from 'react'
 
 import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
@@ -34,10 +34,15 @@ export default forwardRef(function SearchWindow(props, ref) {
         }
     )
 
+    const closeDialog = useCallback(() => {
+        setStringToSearch("")
+        dialogRef.current.close()
+    }, [dialogRef.current])
+
     useImperativeHandle(ref, () =>
         ({
             showModal : () => dialogRef.current.showModal(),
-            close : () => dialogRef.current.close(),
+            close : closeDialog,
             getDialogRef : () => dialogRef
         })
     )
@@ -53,7 +58,7 @@ export default forwardRef(function SearchWindow(props, ref) {
             <input className = {style["input"]} placeholder = "Search" type = "text" value = {stringToSearch} onChange = {({target}) => setStringToSearch(target.value)} />
             <div className = {style["separation-bar"]}></div>
             <br />
-            <button className = {style["cancel-X-btn"]} value = {"cancel"} onClick={() => dialogRef.current.close()}><img src = "/src/assets/icons/close-X-btn.svg"/></button>
+            <button className = {style["cancel-X-btn"]} value = {"cancel"} onClick={closeDialog}><img src = "/src/assets/icons/close-X-btn.svg"/></button>
             <div className = {style["searched-records"]}>
                 {records.map(
                     record => <SearchedRecord title = {record.title} collection = {record.collection} due = {"Jan 12, 2024"} />
