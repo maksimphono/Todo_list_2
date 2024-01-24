@@ -4,6 +4,7 @@ import {Outlet} from "react-router-dom"
 import Modal from './UI/Components/Modal/Modal'
 import ModalContext from './Context/modalContext'
 import Confirmation from './UI/Components/Confirmation/Confirmation'
+import SearchWindow from './UI/Components/SearchWindow/SearchWindow'
 import $ from "jquery"
 import NotificationContext from "./Context/NotificationContext"
 import Notification from './UI/Components/Modal/Notification'
@@ -17,13 +18,21 @@ export default memo(function Layout() {
   const modalRef = useRef(null);
   const confirmationRef = useRef(null);
   const notificationRef = useRef(null);
+  const searchWindowRef = useRef(null)
 
   return (
     <>
         <Notification ref = {notificationRef} />
-        <ModalContext.Provider value = {{modalRef : modalRef, confirmationRef, notificationRef}}>
+        <ModalContext.Provider value = {
+          {
+            modalRef : modalRef, 
+            confirmationRef, 
+            notificationRef,
+            searchWindowRef
+          }}>
             <Modal ref = {modalRef} />
             <Confirmation ref = {confirmationRef} />
+            <SearchWindow ref = {searchWindowRef} />
             <Navbar />
             <Outlet />
         </ModalContext.Provider>        

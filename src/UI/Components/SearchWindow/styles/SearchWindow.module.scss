@@ -10,6 +10,8 @@
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   overflow: hidden;
+  border-width: 1px;
+  box-shadow: 0 0 5px #000;
 }
 .input {
   padding-inline: 20px 40px;
@@ -118,6 +120,13 @@
       background: #3e3b3b;
       border-radius: 10px;
       height: auto;
+    }
+
+    @media screen and (max-width : $query-tablet-width) {
+      max-width: 60vw;
+    }
+    @media screen and (max-width : $query-phone-width) {
+      max-width: 95vw;
     }
 }
 

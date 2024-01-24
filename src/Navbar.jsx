@@ -1,9 +1,13 @@
 //import "../define.scss"
 import style from "./navbar.module.scss";
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from "react-router-dom";
 
+import modalContext from "./Context/modalContext";
+
 export default function Navbar() {
+  const {searchWindowRef} = useContext(modalContext)
+  
   return (
     <nav id = {style["navbar"]}>
         <div className = {style["brand"]}>
@@ -13,7 +17,7 @@ export default function Navbar() {
         <ul>
             <li><Link to="/"><span className="material-symbols-outlined">home</span> Home</Link></li>
             <li><Link to="/NewTodoRecord"><span className="material-symbols-outlined">add</span> New</Link></li>
-            <button><span className="material-symbols-outlined">search</span></button>
+            <button onClick = {() => searchWindowRef.current.showModal()}><span className="material-symbols-outlined">search</span></button>
         </ul>
     </nav>
   )

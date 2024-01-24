@@ -3,6 +3,8 @@ import { forwardRef, useImperativeHandle, useRef, useEffect, useState } from 're
 
 import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
 import { todoRecordsStorageThunks } from '../../../Context/Redux/todoRecordsSlice'
+import { collectionsRecordsThunks } from '../../../Context/Redux/todoCollectionsSlice'
+import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
 
 // <styles>
 import style from "./styles/SearchWindow.module.scss"
@@ -11,9 +13,11 @@ import { useDispatch, useSelector } from 'react-redux'
 // </styles>
 
 function SearchedRecord({title, collection, due}) {
+    const recordColectionName = useSelector(state => selectCollectionRecordsById(state, collection).name)
+
     return (
         <div className = {style["record"]}>
-            <span className = {style["name"]}>{title}</span><span className = {style["sep-bar"]}></span><span>{collection}</span>
+            <span className = {style["name"]}>{title}</span><span className = {style["sep-bar"]}></span><span>{recordColectionName}</span>
             <span className = {style["date-due"]}>{due}</span>
         </div>
     )
@@ -22,9 +26,10 @@ function SearchedRecord({title, collection, due}) {
 export default forwardRef(function SearchWindow(props, ref) {
     const dispatch = useDispatch()
     const dialogRef = useRef()
-    const [stringToSearch, setStringToSearch] = useState("q")
+    const [stringToSearch, setStringToSearch] = useState("")
+
     const records = useSelector((state) => {
-            const records = selectAllTodoRecords(state).filter(item => item.title.includes(stringToSearch))
+            const records = selectAllTodoRecords(state).filter(item => (stringToSearch)?item.title.includes(stringToSearch):false)
             return records;
         }
     )
@@ -39,7 +44,7 @@ export default forwardRef(function SearchWindow(props, ref) {
 
     useEffect(() => {
         dispatch(todoRecordsStorageThunks.loadAll())
-        dialogRef.current.showModal()
+        dispatch(collectionsRecordsThunks.loadAll())
     }, [])
 
   return (
@@ -50,8 +55,9 @@ export default forwardRef(function SearchWindow(props, ref) {
             <br />
             <button className = {style["cancel-X-btn"]} value = {"cancel"} onClick={() => dialogRef.current.close()}><img src = "/src/assets/icons/close-X-btn.svg"/></button>
             <div className = {style["searched-records"]}>
-                {records.map(record => <SearchedRecord title = {record.title} collection = {"Col1"} due = {"Jan 12, 2024"} />)}
-                
+                {records.map(
+                    record => <SearchedRecord title = {record.title} collection = {record.collection} due = {"Jan 12, 2024"} />
+                )}
             </div>
         </dialog>
 
