@@ -48,10 +48,22 @@
             align-items: center;
             width: max-content;
             padding: 0 20px;
-            height: 100%;
+            height: 36px;
             max-height: 100%;
-            
+            background-color: $color2;
+            border-radius: 20px;
             transition: .5s;
+            cursor: pointer;
+
+            a {
+                color: $color-dark;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+            }
             
             &:hover {
                 background: $color5;
@@ -77,15 +89,7 @@
             }
         }
     }
-    a {
-        color: $color2;
-        display: inline-flex;
-        align-items: end;
-        gap: 5px;
-        width: auto;
-        text-decoration: none;
-        
-    }
+    
 
     button.navbar-toggler {
         $maincolor: $color3;
