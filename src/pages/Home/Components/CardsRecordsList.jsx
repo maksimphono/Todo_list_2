@@ -58,7 +58,7 @@ import { todoRecordsStorageThunks } from '../../../Context/Redux/todoRecordsSlic
 import { collectionsRecordsThunks } from '../../../Context/Redux/todoCollectionsSlice';
 import { useParams } from 'react-router-dom';
 import useFilteredSortedRecords from '../hooks/useFilteredSortedRecords';
-
+import useFilteredSortedRecordsByDay from '../hooks/useFilteredSortedRecordsByDay';
 function setInitialState(dispatch) {
     dispatch(todoRecordsStorageThunks.loadAll())
     dispatch(collectionsRecordsThunks.loadAll())
@@ -68,29 +68,6 @@ export function CardsRecordsCollectionByDay() {
     const {date : specifiedDate} = useParams()
 
     const dispatch = useDispatch()
-    const todoRecordsFilters = useSelector(state => state.filterTodoRecords)
-    const todoRecordsSortParams = useSelector(state => state.sortTodoRecords)
-
-    const sortingFunction = useCallback((a, b) => {
-        if (todoRecordsSortParams.parameter == null) 
-            // if sorting is disabled (not set or was reset)
-            return a.id.localeCompare(b.id) // just compare ids
-
-        let [comparableA, comparableB] = [a, b]
-
-        if (todoRecordsSortParams.reversed) {
-            comparableA = b
-            comparableB = a
-        }
-        switch (todoRecordsSortParams.parameter) {
-            case "dateEnd":
-                return new Date(comparableA.dateEnd) - new Date(comparableB.dateEnd)
-            case ("collection"):
-                return comparableA.collection.localeCompare(comparableB.collection)
-            case ("title"):
-                return comparableA.title.localeCompare(comparableB.title)
-        }
-    }, [todoRecordsSortParams.parameter, todoRecordsSortParams.reversed])
 
     const todoRecordsLoadStatus = useSelector(state => state.todoRecords.loadstatus)
     const collectionsLoadStatus = useSelector(state => state.todoRecordsCollection.loadstatus)
@@ -99,30 +76,9 @@ export function CardsRecordsCollectionByDay() {
          // only for tests, actifically add some records to state, so I don't have to add it manually
         if (todoRecordsLoadStatus == "idle" && collectionsLoadStatus == "idle")
             setInitialState(dispatch)
-        //dispatch(resetFilters())
-        //dispatch(resetSortParams())
     }, [])
 
-    const TodoRecords = useSelector((state) => {
-        let resultList = null
-
-        resultList = selectAllTodoRecords(state)
-        if (specifiedDate)
-            resultList = resultList.filter(record => (new Date(record.dateEnd).toLocaleString() === new Date(specifiedDate).toLocaleString()))
-        
-        //console.dir(todoRecordsFilters.filtersEnabled)
-        if (todoRecordsFilters.filtersEnabled) {
-            resultList = resultList
-                .filter(record => [
-                    record.title.includes(todoRecordsFilters.searchFieldValue), // todo record title contains inputted string
-                    todoRecordsFilters.selectedCollectionIds[record.collection] // todo record belongs to one of selected collections
-                    ].every(v => !!v)
-                )
-                
-        }
-        return resultList.sort(sortingFunction)
-    })
-
+    const TodoRecords = useFilteredSortedRecordsByDay(specifiedDate)
 
     return (
         <>
