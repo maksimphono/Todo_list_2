@@ -20,15 +20,17 @@ export default class DataAdapter {
     remove(id) {
         return localstorageWrapper.remove(`${this._entryPrefix}__${id}`)
     }
-    clearData() {
+    async clearData() {
         const ids = this.idsList
 
         for (let id of ids) {
             this.remove(id)
         }
         localstorageWrapper.remove(this._idsListName)
+
+        return undefined
     }
-    saveMany(entries) {
+    async saveMany(entries) {
         const entriesIds = []
     
         for (let record of entries) {
@@ -36,8 +38,10 @@ export default class DataAdapter {
             entriesIds.push(record.id)
         }
         this.idsList = entriesIds
+    
+        return undefined
     }
-    saveOne(entry) {
+    async saveOne(entry) {
         const ids = this.idsList
 
         if (!ids.includes(entry.id)) {
@@ -45,8 +49,10 @@ export default class DataAdapter {
         }
         this.set(entry)
         this.idsList = ids
+
+        return undefined
     }
-    loadAll() {
+    async loadAll() {
         const ids = this.idsList
         const entries = []
 
@@ -56,7 +62,7 @@ export default class DataAdapter {
 
         return entries
     }
-    loadMany(ids) {
+    async loadMany(ids) {
         const idsList = this.idsList
         const entries = []
 
@@ -66,23 +72,26 @@ export default class DataAdapter {
         })
 
         return entries
-        
     }
-    loadOne(id) {
+    async loadOne(id) {
         return this.get(id)
     }
-    removeOne(id) {
+    async removeOne(id) {
         let ids = this.idsList
 
         ids = ids.filter(v => v != id)
         this.idsList = ids
         this.remove(id)
+
+        return undefined
     }
-    removeMany(ids) {
+    async removeMany(ids) {
         this.idsList = this.idsList.filter(id => !ids.includes(id))
 
         for (let id of ids) {
             this.remove(id)
         }
+
+        return undefined
     }
 }
