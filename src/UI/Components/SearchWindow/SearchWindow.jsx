@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { forwardRef, useImperativeHandle, useRef, useEffect, useState } from 'react'
 
-import { selectAllTodoRecords } from '../../../Context/Redux/todoRecordsSlice'
+import { selectAllTodoRecords, selectTodoRecordsById } from '../../../Context/Redux/todoRecordsSlice'
 import { todoRecordsStorageThunks } from '../../../Context/Redux/todoRecordsSlice'
 import { collectionsRecordsThunks } from '../../../Context/Redux/todoCollectionsSlice'
 import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollectionsSlice'
@@ -9,17 +9,22 @@ import { selectCollectionRecordsById } from '../../../Context/Redux/todoCollecti
 // <styles>
 import style from "./styles/SearchWindow.module.scss"
 import { useDispatch, useSelector } from 'react-redux'
+import useSerializeTodoRecord, { useSerializeTodoRecordbyId } from '../../../hooks/useSerializeTodoRecord'
 
 // </styles>
 
-function SearchedRecord({title, collection, due}) {
-    const recordColectionName = useSelector(state => selectCollectionRecordsById(state, collection).name)
+import { useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+
+function SearchedRecord(record, closeSearchWindow) {
+    const recordAsObject = useSerializeTodoRecord(record)
+    //const recordColectionName = useSelector(state => selectCollectionRecordsById(state, collection).name)
 
     return (
-        <div className = {style["record"]}>
-            <span className = {style["name"]}>{title}</span><span className = {style["sep-bar"]}></span><span>{recordColectionName}</span>
-            <span className = {style["date-due"]}>{due}</span>
-        </div>
+        <NavLink onClick = {() => closeSearchWindow()} className = {style["record"]} to = {`/CheckoutRecord/${record.id}`}>
+            <span className = {style["name"]}>{recordAsObject.title}</span><span className = {style["sep-bar"]}></span><span>{recordAsObject.collection.name}</span>
+            <span className = {style["date-due"]}>{recordAsObject.dateEnd.slice(4, 15)}</span>
+        </NavLink>
     )
 }
 
@@ -61,7 +66,7 @@ export default forwardRef(function SearchWindow(props, ref) {
             <button className = {style["cancel-X-btn"]} value = {"cancel"} onClick={closeDialog}><img src = "/src/assets/icons/close-X-btn.svg"/></button>
             <div className = {style["searched-records"]}>
                 {records.map(
-                    record => <SearchedRecord title = {record.title} collection = {record.collection} due = {"Jan 12, 2024"} />
+                    record => <SearchedRecord key = {record.id} {...record} closeSearchWindow = {closeDialog} />
                 )}
             </div>
         </dialog>

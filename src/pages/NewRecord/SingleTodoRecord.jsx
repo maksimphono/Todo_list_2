@@ -1,5 +1,5 @@
 // <components>
-import React, { useCallback, useMemo, useRef, useState, createContext, useContext } from 'react'
+import React, { useCallback, useMemo, useRef, useState, createContext, useContext, useEffect } from 'react'
 import Tooltip from './Components/Tooltip'
 import EditableField from './Components/EditableField';
 import CollectionSelect from "./Components/CollectionSelect"
@@ -63,13 +63,17 @@ function CheckoutRecord_Header() {
 
 export default function NewTodoRecord() {
   const {id : selectedTodoRecordId} = useParams()
-  const navigate = useNavigate();
+  const globalState = useSelector(state => state)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const contentRef = useRef(null);
   const {notificationRef, confirmationRef} = useContext(modalContext)
 
-  const selectedTodoRecord = useSelector((state) => selectTodoRecordsById(state, selectedTodoRecordId) || null)
-  const componentMode = useMemo(() => selectedTodoRecord?(CHECKOUT_EXISTING__MODE):(CREATE_NEW__MODE), [])
+  const selectedTodoRecord = useSelector((state) => selectTodoRecordsById(state, selectedTodoRecordId))
+
+  useEffect(() => {console.log(selectedTodoRecord)}, [])
+
+  const componentMode = useMemo(() => selectedTodoRecordId?(CHECKOUT_EXISTING__MODE):(CREATE_NEW__MODE), [])
   const formInitialValues = useMemo(() => {
       switch (componentMode) {
           case CHECKOUT_EXISTING__MODE:
